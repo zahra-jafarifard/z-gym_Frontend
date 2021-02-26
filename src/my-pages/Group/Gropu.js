@@ -18,7 +18,9 @@ import {
   CInputGroupText,
   CRow
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+import CIcon from '@coreui/icons-react';
+import { withTranslation } from "react-i18next";
+
 
 const getBadge = status => {
    
@@ -28,23 +30,7 @@ const getBadge = status => {
     default: return 'warning'
   }
 }
-const fields = [
- {
-  key: 'name',
-  label: 'نام',
-},
- {
-  key: 'status',
-  label: 'وضعیت',
-},
-{
-  key: 'show_details',
-  label: '',
-  _style: { width: '1%' },
-  sorter: false,
-  filter: false
-}
-]
+
 
 class Group extends Component {
   constructor(props){
@@ -127,6 +113,26 @@ class Group extends Component {
 
   
   render(){
+  const { t, i18n } = this.props;
+    
+  const fields = [
+    {
+     key: 'name',
+     label: t('Name'),
+   },
+    {
+     key: 'status',
+     label: t('Status'),
+   },
+   {
+     key: 'show_details',
+     label: '',
+     _style: { width: '1%' },
+     sorter: false,
+     filter: false
+   }
+   ];
+
     const toggleDetails = (index) => {
       const position = this.state.details.indexOf(index)
       let newDetails = this.state.details.slice()
@@ -136,12 +142,12 @@ class Group extends Component {
         newDetails = [...this.state.details, index]
       }
       this.setState({details:newDetails})
-    }
+    };
   return (
   <React.Fragment>
     <CLink to='/user_group/create'>
       <CButton  size="md" color="success">
-     اضافه کردن گروه جدید 
+      {t('Add New')}
       </CButton>
     </CLink>
   <CRow>
@@ -151,7 +157,7 @@ class Group extends Component {
               <CCardHeader >
               <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
                 <CIcon name="cil-search" />
-                <span style={{marginRight:'5px'}}>جستجوی گروه</span>
+                <span style={{marginRight:'5px'}}> {t('Search')} </span>
                 </CLink>
                 <div className="card-header-actions">
                   <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
@@ -167,7 +173,7 @@ class Group extends Component {
                     <CInputGroupPrepend>
                       <CInputGroupText><CIcon name="cil-user" /></CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput  name="name" placeholder="نام گروه" onChange={this.changeHandler}/>
+                    <CInput  name="name" placeholder={t('Name')} onChange={this.changeHandler}/>
                   </CInputGroup>
                 </CFormGroup>
                 <CFormGroup>
@@ -175,11 +181,11 @@ class Group extends Component {
                     <CInputGroupPrepend>
                       <CInputGroupText><CIcon name="cil-user" /></CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput  name="status" placeholder="وضعیت گروه" onChange={this.changeHandler} autoComplete="name"/>
+                    <CInput  name="status" placeholder={t('Status')} onChange={this.changeHandler} autoComplete="name"/>
                   </CInputGroup>
                 </CFormGroup>
                 <CFormGroup className="form-actions">
-                  <CButton  onClick={(e)=>this.searchHandler(e)} block size="lg"  color="success">جستجو</CButton>
+                  <CButton  onClick={(e)=>this.searchHandler(e)} block size="lg"  color="success">{t('Search')}</CButton>
                 </CFormGroup>
               </CForm>
                 </CCardBody>
@@ -193,7 +199,7 @@ class Group extends Component {
         <CCol>
           <CCard>
             <CCardHeader>
-              جدول گروه ها
+                {t('Groups')}
             </CCardHeader>
             <CCardBody>
             <CDataTable
@@ -243,12 +249,12 @@ class Group extends Component {
                   <h4>
                     {item.name}{' '}{item.lastName}
                   </h4>
-                  <p className="text-muted">حذف / ویرایش گروه :</p>
+                  <p className="text-muted"> {t('Edit')} / {t('Delete')} </p>
                   <CButton style={{marginLeft:"5px"}} size="sm" color="info" onClick={(e)=>this.editHandler(e , index , item)}>
-                    ویرایش
+                    {t('Edit')}
                   </CButton>
                   <CButton size="sm" color="danger" className="ml-1" onClick={(e)=>this.deleteHandler(e , index)}>
-                    حذف
+                  {t('Delete')}
                   </CButton>
                 </CCardBody>
               </CCollapse>
@@ -266,4 +272,4 @@ class Group extends Component {
   }
 }
 
-export default Group;
+export default (withTranslation("translations")(Group));

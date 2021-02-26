@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './scss/style.scss';
+import i18nContext from './Shared-Component/i18n-Context';
+import { withTranslation, Trans } from "react-i18next";
+
 
 const loading = (
   <div className="pt-3 text-center">
@@ -18,9 +21,26 @@ const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'));
 
 class App extends Component {
+    constructor(props){
+      super(props);
+      this.state={
+        value:'en'
+      }
+    }
 
+    handleChange = event => {
+    console.log("selected val is ", event.target.value);
+    let newlang = event.target.value;
+    this.setState(prevState => ({ value: newlang }));
+    console.log("state value is", newlang);
+    this.props.i18n.changeLanguage(newlang);
+  };
   render() {
+    const { t, i18n } = this.props;
+
     return (
+    <i18nContext.Provider value={{value:this.state.value ,
+     handleChange:(event)=>this.handleChange(event)}}>
       <BrowserRouter>
           <React.Suspense fallback={loading}>
             <Switch>
@@ -32,8 +52,9 @@ class App extends Component {
             </Switch>
           </React.Suspense>
       </BrowserRouter>
+    </i18nContext.Provider>
     );
   }
 }
 
-export default App;
+export default (withTranslation("translations")( App));

@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useContext} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CHeader,
@@ -9,9 +9,12 @@ import {
   CHeaderNavLink,
   CSubheader,
   CBreadcrumbRouter,
-  CLink
+  CLink,
+  CDropdown,
+  CSelect
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+import CIcon from '@coreui/icons-react';
+import i18nCtx from '../Shared-Component/i18n-Context';
 
 // routes config
 import routes from '../routes'
@@ -37,6 +40,7 @@ const TheHeader = () => {
     dispatch({type: 'set', sidebarShow: val})
   }
 
+  const i18nContext = useContext(i18nCtx);
   return (
     <CHeader withSubheader>
       <CToggler
@@ -49,6 +53,16 @@ const TheHeader = () => {
         className="ml-3 d-md-down-none"
         onClick={toggleSidebar}
       />
+      
+      <CSelect onChange={i18nContext.handleChange} style={{width:"65px",height:"26px",
+       marginTop:"15px",
+       paddingTop:"0",
+       }}>
+        <option value='fa' >Fa</option>
+        <option  value="en" >En</option>
+      </CSelect>
+
+            
       <CHeaderBrand className="mx-auto d-lg-none" to="/">
         <CIcon name="logo" height="48" alt="Logo"/>
       </CHeaderBrand>
@@ -57,6 +71,7 @@ const TheHeader = () => {
         <CHeaderNavItem className="px-3" >
           <CHeaderNavLink to="/dashboard">Dashboard</CHeaderNavLink>
         </CHeaderNavItem>
+        
         <CHeaderNavItem  className="px-3">
           <CHeaderNavLink to="/users">Users</CHeaderNavLink>
         </CHeaderNavItem>
@@ -91,6 +106,8 @@ const TheHeader = () => {
             <CLink className="c-subheader-nav-link" href="#">
               <CIcon name="cil-settings" alt="Settings" />&nbsp;Settings
             </CLink>
+
+
           </div>
       </CSubheader>
     </CHeader>

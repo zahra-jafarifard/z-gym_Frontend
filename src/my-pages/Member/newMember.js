@@ -19,6 +19,9 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
 
+import { withTranslation } from "react-i18next";
+
+
 class newMember extends Component {
     constructor(props){
         super(props);
@@ -41,6 +44,7 @@ class newMember extends Component {
           group:'',
         }
       }
+
     
   componentDidMount=() => {
     fetch('http://localhost:5000/user_group/list' , {
@@ -129,6 +133,8 @@ class newMember extends Component {
 
 
 render(){
+  const { t, i18n } = this.props;
+
   return (
     <React.Fragment>
         <CCol xs="12" sm="6" md="4" style={{ margin:"auto"}} >
@@ -136,11 +142,11 @@ render(){
       <CCardHeader >
         <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
           <CIcon name="cil-library-add"  />
-          <span style={{marginRight:'5px'}}>اضافه کردن عضو جدید</span>
+          <span style={{marginRight:'5px'}}> {t("Add New")} </span>
           </CLink>
           <div className="card-header-actions">
             <CLink className="card-header-action" onClick={(e) => this.goBackHandler(e) }>
-                بازگشت
+                {t('Back')}
               <CIcon name="cil-arrow-circle-left"  style={{marginRight:"3px"}} />
             </CLink>
             <CLink style={{marginRight:"13px"}} className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
@@ -160,7 +166,7 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-user" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput  name="name" placeholder="نام" onChange={this.changeHandler}/>
+              <CInput  name="name" placeholder={t('Name')} onChange={this.changeHandler}/>
             </CInputGroup>
           </CFormGroup>
           <CFormGroup>
@@ -168,7 +174,7 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-user" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput  name="lastName" placeholder="فامیلی" onChange={this.changeHandler} autoComplete="name"/>
+              <CInput  name="lastName" placeholder={t('Last Name')} onChange={this.changeHandler} autoComplete="name"/>
             </CInputGroup>
           </CFormGroup>
           <CFormGroup>
@@ -176,7 +182,7 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-mobile" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput   name="mobile" placeholder="موبایل" autoComplete="username" onChange={this.changeHandler}/>
+              <CInput   name="mobile" placeholder={t('Mobile')} autoComplete="username" onChange={this.changeHandler}/>
             </CInputGroup>
           </CFormGroup>
           <CFormGroup>
@@ -184,7 +190,7 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-lock-locked"/></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput   name="password" placeholder="رمز عبور"  onChange={this.changeHandler}/>
+              <CInput   name="password" placeholder={t('Password')}  onChange={this.changeHandler}/>
             </CInputGroup>
           </CFormGroup>
           <CFormGroup>
@@ -192,8 +198,8 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-group" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CSelect name="gender" placeholder="جنسیت" onChange={this.changeHandler}>
-              <option value="" selected disabled hidden>جنسیت</option>
+              <CSelect name="gender"  onChange={this.changeHandler}>
+              <option value="" selected disabled hidden> {t('Gender')} </option>
                 <option  value="زن"  > زن</option>
                 <option value='مرد' > مرد</option>
               </CSelect>
@@ -204,7 +210,7 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-birthday-cake" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput   name="birthDay" placeholder="تاریخ تولد" onChange={this.changeHandler} />
+              <CInput   name="birthDay" placeholder={t('BirthDay')} onChange={this.changeHandler} />
             </CInputGroup>
           </CFormGroup>
           <CFormGroup>
@@ -212,7 +218,7 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput   name="weight" placeholder="وزن" onChange={this.changeHandler} />
+              <CInput   name="weight" placeholder={t('Weight')} onChange={this.changeHandler} />
             </CInputGroup>
           </CFormGroup>
           <CFormGroup>
@@ -220,7 +226,7 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput   name="height" placeholder="قد" onChange={this.changeHandler} />
+              <CInput   name="height" placeholder={t('Height')} onChange={this.changeHandler} />
             </CInputGroup>
           </CFormGroup>
           <CFormGroup>
@@ -229,7 +235,7 @@ render(){
                 <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
               </CInputGroupPrepend>
               <CSelect name='status' type='select'  onChange={this.changeHandler} >
-              <option value="" selected disabled hidden>وضعیت</option>
+              <option value="" selected disabled hidden>{t('Status')}</option>
                 {this.state.statusArray.map(opt =>{
                         return <option key={opt.id} value={opt.id}>
                           {opt.status_name}
@@ -245,7 +251,7 @@ render(){
                 <CInputGroupText><CIcon name="cil-group" /></CInputGroupText>
               </CInputGroupPrepend>
               <CSelect name='group' type='select'   onChange={this.changeHandler} >
-              <option value="" selected disabled hidden>گروه</option>
+              <option value="" selected disabled hidden>{t('User Group')}</option>
                 {this.state.groupArray.map((opt , index) =>{
                         return <option key={opt.id} value={opt.id} >
                           {opt.group_name}
@@ -257,7 +263,7 @@ render(){
           </CFormGroup>
           <CFormGroup className="form-actions">
             <CButton block onClick={(e)=>this.newMemberHandler(e)}  size="md"  color="success">
-                اضافه کردن
+            {t('Insert')}
               </CButton>
           </CFormGroup>
         </CForm>
@@ -274,5 +280,5 @@ render(){
 }
 }
     
-export default newMember;
+export default (withTranslation("translations")(newMember));
          

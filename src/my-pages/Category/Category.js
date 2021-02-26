@@ -36,20 +36,12 @@ import {
   // CSwitch
 } from '@coreui/react'
 
-import CIcon from '@coreui/icons-react'
+import CIcon from '@coreui/icons-react';
+import { withTranslation } from "react-i18next";
 
 
-const fields = [{
-  key: 'name',
-  label: 'نام',
-},
-{
-  key: 'show_details',
-  label: '',
-  _style: { width: '1%' },
-  sorter: false,
-  filter: false
-}];
+
+
 
 class Category extends Component {
   constructor(props){
@@ -135,6 +127,19 @@ class Category extends Component {
     }
 
   render(){
+  const { t, i18n } = this.props;
+  const fields = [{
+    key: 'name',
+    label: t('Name'),
+  },
+  {
+    key: 'show_details',
+    label: '',
+    _style: { width: '1%' },
+    sorter: false,
+    filter: false
+  }];
+
     const toggleDetails = (index) => {
       const position = this.state.details.indexOf(index)
       let newDetails = this.state.details.slice()
@@ -150,7 +155,7 @@ class Category extends Component {
     
     <CLink to='/category/create'>
       <CButton  size="md" color="success">
-     اضافه کردن دسته بندی جدید 
+      {t('Add New')} 
       </CButton>
     </CLink>
   <CRow>
@@ -160,7 +165,7 @@ class Category extends Component {
               <CCardHeader >
               <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
                 <CIcon name="cil-search" />
-                <span style={{marginRight:'5px'}}>جستجوی دسته بندی</span>
+                <span style={{marginRight:'5px'}}>{t('Search')}</span>
                 </CLink>
                 <div className="card-header-actions">
                   <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
@@ -177,13 +182,13 @@ class Category extends Component {
                     <CInputGroupPrepend>
                       <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput  name="name" placeholder="نام دسته بندی " onChange={this.changeHandler}/>
+                    <CInput  name="name" placeholder={t('Name')} onChange={this.changeHandler}/>
                   </CInputGroup>
                 </CFormGroup>
                
                 
                 <CFormGroup className="form-actions">
-                  <CButton  onClick={(e)=>this.searchHandler(e)} block size="lg"  color="success">جستجو</CButton>
+                  <CButton  onClick={(e)=>this.searchHandler(e)} block size="lg"  color="success">{t('Search')}</CButton>
                 </CFormGroup>
               </CForm>
                 </CCardBody>
@@ -199,7 +204,7 @@ class Category extends Component {
         <CCol >
           <CCard style={{ width:'40%'}}>
             <CCardHeader>
-              جدول دسته بندی ها
+            {t('Categories')}
             </CCardHeader>
             <CCardBody>
             <CDataTable
@@ -241,12 +246,12 @@ class Category extends Component {
                     <h4>
                       {item.name}{' '}{item.lastName}
                     </h4>
-                    <p className="text-muted">حذف / ویرایش دسته بندی :</p>
+                    <p className="text-muted">{t('Edit')} / {t('Delete')}</p>
                     <CButton style={{marginLeft:"5px"}} size="sm" color="info" onClick={(e)=>this.editHandler(e , index , item)}>
-                      ویرایش
+                    {t('Edit')}
                     </CButton>
                     <CButton size="sm" color="danger" className="ml-1" onClick={(e)=>this.deleteHandler(e , index)}>
-                      حذف
+                      {t('Delete')}
                     </CButton>
                   </CCardBody>
                 </CCollapse>
@@ -265,4 +270,4 @@ class Category extends Component {
   }
 }
 
-export default Category;
+export default (withTranslation("translations")(Category));

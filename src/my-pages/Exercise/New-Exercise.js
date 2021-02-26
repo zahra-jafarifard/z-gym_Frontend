@@ -33,8 +33,10 @@ import {
   CSwitch
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
+import { withTranslation } from "react-i18next";
 
-class newCategory extends Component {
+
+class newExercise extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -104,6 +106,8 @@ class newCategory extends Component {
 
 
     render(){
+  const { t, i18n } = this.props;
+
         return (
             <React.Fragment>
               <CCol xs="12" sm="6" md="4" style={{ margin:"auto"}} >
@@ -111,11 +115,11 @@ class newCategory extends Component {
             <CCardHeader >
               <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
                 <CIcon name="cil-library-add"  />
-                <span style={{marginRight:'5px'}}>اضافه کردن تمرین جدید</span>
+                <span style={{marginRight:'5px'}}> {t('Add New')} </span>
                 </CLink>
                 <div className="card-header-actions">
                   <CLink className="card-header-action" onClick={(e) => this.goBackHandler(e) }>
-                     بازگشت
+                  {t('Back')}
                     <CIcon name="cil-arrow-circle-left"  style={{marginRight:"3px"}} />
                   </CLink>
                   <CLink style={{marginRight:"13px"}} className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
@@ -139,7 +143,7 @@ class newCategory extends Component {
                     <CInputGroupPrepend>
                       <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput  name="name" placeholder="نام تمرین" onChange={this.changeHandler}/>
+                    <CInput  name="name" placeholder={t('Name')} onChange={this.changeHandler}/>
                   </CInputGroup>
                 </CFormGroup>
                 <CFormGroup >
@@ -147,7 +151,7 @@ class newCategory extends Component {
                     <CInputGroupPrepend>
                       <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput  name="description" placeholder="شرح تمرین" onChange={this.changeHandler}/>
+                    <CInput  name="description" placeholder={t('Description')} onChange={this.changeHandler}/>
                   </CInputGroup>
                 </CFormGroup>
                 <CFormGroup >
@@ -155,7 +159,7 @@ class newCategory extends Component {
                     <CInputGroupPrepend>
                       <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput  name="icon" placeholder="نماد تمرین" onChange={this.changeHandler}/>
+                    <CInput  name="icon" placeholder={t('Icon')} onChange={this.changeHandler}/>
                   </CInputGroup>
                 </CFormGroup>
                 <CFormGroup >
@@ -177,7 +181,7 @@ class newCategory extends Component {
                
                 <CFormGroup className="form-actions">
                   <CButton  onClick={(e)=>this.newStatusHandler(e)} block size="md"  color="success">
-                      اضافه کردن
+                      {t('Insert')}
                     </CButton>
                 </CFormGroup>
               </CForm>
@@ -196,5 +200,5 @@ class newCategory extends Component {
 
 }
     
-export default newCategory;
+export default (withTranslation("translations")(newExercise));
          

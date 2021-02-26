@@ -33,6 +33,8 @@ import {
   CSwitch
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
+import { withTranslation } from "react-i18next";
+
 
 class newStatus extends Component {
     constructor(props){
@@ -79,6 +81,8 @@ class newStatus extends Component {
 
 
     render(){
+  const { t, i18n } = this.props;
+
         return (
             <React.Fragment>
               <CCol xs="12" sm="6" md="4" style={{ margin:"auto"}} >
@@ -86,11 +90,11 @@ class newStatus extends Component {
             <CCardHeader >
               <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
                 <CIcon name="cil-library-add"  />
-                <span style={{marginRight:'5px'}}>اضافه کردن وضعیت جدید</span>
+                <span style={{marginRight:'5px'}}>{t('Add New')}</span>
                 </CLink>
                 <div className="card-header-actions">
                   <CLink className="card-header-action" onClick={(e) => this.goBackHandler(e) }>
-                     بازگشت
+                  {t('Back')}
                     <CIcon name="cil-arrow-circle-left"  style={{marginRight:"3px"}} />
                   </CLink>
                   <CLink style={{marginRight:"13px"}} className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
@@ -114,14 +118,14 @@ class newStatus extends Component {
                     <CInputGroupPrepend>
                       <CInputGroupText><CIcon name="cil-user" /></CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput  name="name" placeholder="نام وضعیت" onChange={this.changeHandler}/>
+                    <CInput  name="name" placeholder={t('Name')} onChange={this.changeHandler}/>
                   </CInputGroup>
                 </CFormGroup>
                
                
                 <CFormGroup className="form-actions">
                   <CButton  onClick={(e)=>this.newStatusHandler(e)} block  size="md"  color="success">
-                      اضافه کردن
+                  {t('Insert')}
                     </CButton>
                 </CFormGroup>
               </CForm>
@@ -140,5 +144,5 @@ class newStatus extends Component {
 
 }
     
-export default newStatus;
+export default (withTranslation("translations")(newStatus));
          

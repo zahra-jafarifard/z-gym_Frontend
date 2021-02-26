@@ -18,6 +18,8 @@ import {
   CLink
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
+import { withTranslation } from "react-i18next";
+
 
 class updateGroup extends Component {
   constructor(props){
@@ -74,6 +76,8 @@ class updateGroup extends Component {
   })
   }
   render(){
+  const { t, i18n } = this.props;
+
     return (
       <React.Fragment>
         <CCol xs="12" sm="6" md="4" style={{ margin:"auto"}} >
@@ -81,11 +85,11 @@ class updateGroup extends Component {
       <CCardHeader >
         <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
           <CIcon name="cil-library-add"  />
-          <span style={{marginRight:'5px'}}>ویرایش  گروه</span>
+          <span style={{marginRight:'5px'}}> {t('Edit')} </span>
           </CLink>
           <div className="card-header-actions">
             <CLink className="card-header-action" onClick={(e) => this.goBackHandler(e) }>
-                بازگشت
+            {t('Back')}
               <CIcon name="cil-arrow-circle-left"  style={{marginRight:"3px"}} />
             </CLink>
             <CLink style={{marginRight:"13px"}} className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
@@ -106,7 +110,7 @@ class updateGroup extends Component {
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-user" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput  name="name" placeholder="نام" value={this.state.name}
+              <CInput  name="name"  value={this.state.name}
               onChange={this.changeHandler}/>
             </CInputGroup>
           </CFormGroup>
@@ -116,7 +120,7 @@ class updateGroup extends Component {
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-group" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CSelect name="status" placeholder="وضعیت" 
+              <CSelect name="status" 
                 onChange={this.changeHandler}>
               {this.state.status && 
               <option value={this.state.status} selected="selected" disabled hidden>{this.state.status} </option>
@@ -128,7 +132,7 @@ class updateGroup extends Component {
           </CFormGroup>
           <CFormGroup className="form-actions">
             <CButton  onClick={(e)=>this.updateHandler(e)} block size="md"  color="success">
-                ویرایش
+                {t('Update')}
               </CButton>
           </CFormGroup>
         </CForm>
@@ -146,5 +150,5 @@ class updateGroup extends Component {
 
 }
     
-export default updateGroup;
+export default  (withTranslation("translations")(updateGroup));
          

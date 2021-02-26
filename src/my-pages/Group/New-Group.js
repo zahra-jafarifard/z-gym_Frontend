@@ -3,38 +3,25 @@ import {
   CButton,
   CCard,
   CCardBody,
-  CCardFooter,
   CCardHeader,
   CCol,
   CCollapse,
-  CDropdownItem,
-  CDropdownMenu,
-  CDropdownToggle,
   CFade,
   CForm,
   CFormGroup,
-  CFormText,
-  CValidFeedback,
-  CInvalidFeedback,
-  CTextarea,
   CInput,
-  CInputFile,
-  CInputCheckbox,
-  CInputRadio,
   CInputGroup,
-  CInputGroupAppend,
   CInputGroupPrepend,
-  CDropdown,
   CInputGroupText,
-  CLabel,
   CSelect,
   CRow,
   CLink,
-  CSwitch
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
+import { withTranslation } from "react-i18next";
 
-class newMember extends Component {
+
+class newGroup extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -82,6 +69,8 @@ class newMember extends Component {
 
 
     render(){
+    const { t, i18n } = this.props;
+
         return (
             <React.Fragment>
               <CCol xs="12" sm="6" md="4" style={{ margin:"auto"}} >
@@ -89,11 +78,11 @@ class newMember extends Component {
             <CCardHeader >
               <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
                 <CIcon name="cil-library-add"  />
-                <span style={{marginRight:'5px'}}>اضافه کردن گروه جدید</span>
+                <span style={{marginRight:'5px'}}> {t('Add New')} </span>
                 </CLink>
                 <div className="card-header-actions">
                   <CLink className="card-header-action" onClick={(e) => this.goBackHandler(e) }>
-                     بازگشت
+                  {t('Back')}
                     <CIcon name="cil-arrow-circle-left"  style={{marginRight:"3px"}} />
                   </CLink>
                   <CLink style={{marginRight:"13px"}} className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
@@ -117,7 +106,7 @@ class newMember extends Component {
                     <CInputGroupPrepend>
                       <CInputGroupText><CIcon name="cil-user" /></CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput  name="name" placeholder="نام" onChange={this.changeHandler}/>
+                    <CInput  name="name" placeholder={t('Name')} onChange={this.changeHandler}/>
                   </CInputGroup>
                 </CFormGroup>
               
@@ -127,7 +116,7 @@ class newMember extends Component {
                       <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
                     </CInputGroupPrepend>
                     <CSelect name="status"  onChange={this.changeHandler}>
-                    <option value ="" selected disabled hidden>وضعیت</option>
+                    <option value ="" selected disabled hidden>{t('Status')}</option>
                       <option  value= "1" >فعال</option>
                       <option value="0" >غیرفعال</option>
                     </CSelect>
@@ -136,7 +125,7 @@ class newMember extends Component {
                
                 <CFormGroup className="form-actions">
                   <CButton  onClick={(e)=>this.newGroupHandler(e)} block size="md"  color="success">
-                      اضافه کردن
+                  {t('Insert')}
                     </CButton>
                 </CFormGroup>
               </CForm>
@@ -159,5 +148,5 @@ class newMember extends Component {
 
 }
     
-export default newMember;
+export default (withTranslation("translations")(newGroup));
          

@@ -13,10 +13,13 @@ import {
   CInputGroupPrepend,
   CInputGroupText,
   CRow,
-  CInputCheckbox
+  CSelect,
+  CInputCheckbox,
+  CCardHeader
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import ForgetPassModal from './Forget-Password';
+import { withTranslation } from "react-i18next";
+import i18nCtx from '../../Shared-Component/i18n-Context';
 
 
 
@@ -31,7 +34,7 @@ class Login extends Component{
       showModal:false
     }
   }
-
+   static contextType=i18nCtx;
   changeHandler = (event) => {
     let value = event.target.value;
     let name = event.target.name;
@@ -72,25 +75,40 @@ class Login extends Component{
   })
   }
   render(){
+  const { t, i18n } = this.props;
+
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
 
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md="8">
+           
+
+
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
+                  
+            <CSelect onChange={this.context.handleChange} style={{width:"65px",height:"26px",
+              paddingTop:"0",
+              marginTop:"-8%",
+              marginRight:"90%"
+              
+              }}>
+              <option  value="en"  >En</option>
+              <option value='fa' selected="selected">Fa</option>
+            </CSelect>
                   <CForm>
-                    <h3>ورود</h3>
-                    <p className="text-muted">ورود به حساب کاربری</p>
+                    <h3> {t('Login')} </h3>
+                    <p className="text-muted">{t('Login')}</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupPrepend>
                         <CInputGroupText>
                           <CIcon name="cil-Mobile" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="text" placeholder="موبایل" name="mobile" onChange={this.changeHandler}  />
+                      <CInput type="text" placeholder={t('Mobile')} name="mobile" onChange={this.changeHandler}  />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupPrepend>
@@ -98,12 +116,12 @@ class Login extends Component{
                           <CIcon name="cil-lock-locked" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="password" placeholder="رمز عبور" name="password" onChange={this.changeHandler} />
+                      <CInput type="password" placeholder={t('Password')} name="password" onChange={this.changeHandler} />
                     </CInputGroup>
 
                     <CInputGroup className="mb-4">
                         <input type="checkbox" id="check" name="rememberMe" onChange={this.changeHandler} style={{margin:'0 4px'}} />
-                        <label htmlFor="check"> مرا به خاطر بسپار</label><br></br>
+                        <label htmlFor="check"> {t('Remember Me')} </label><br></br>
                     </CInputGroup>
                         
                     
@@ -111,13 +129,13 @@ class Login extends Component{
                     <CRow>
                       <CCol xs="6">
                         <CButton color="primary" className="px-4" onClick={(e) => this.loginHandler(e)} >
-                          ورود
+                          {t('Login')}
                         </CButton>
                       </CCol>
                       <CCol xs="6" className="text-right">
                       
                       <CButton color="primary" onClick={(e)=>this.forgetHandler(e)}  className="px-0">
-                      فراموشی رمز عبور؟
+                      {t('Forget Password')}
                         </CButton>
                       
 
@@ -130,13 +148,13 @@ class Login extends Component{
               <CCard className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
                 <CCardBody className="text-center">
                   <div>
-                    <h2>ثبت نام</h2>
+                    <h2> {t('Register')} </h2>
                     <p>
-                    دوست عزیز، در صورتی که تاکنون ثبت‌نام نکرده‌اید، جهت ثبت نام پروفایل گزینه تاکنون ثبت نام نکرده‌اید؟ را انتخاب کنید.
-
+                      {t('Dear friend, if you have not registered yet, Choose not registered yet?')}
                     </p>
                     <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>تاکنون ثبت نام نکرده‌اید؟</CButton>
+                      <CButton color="primary" className="mt-3" style={{textDecoration:"underLine"}}
+                       active tabIndex={-1}> {t('not registered yet?')} </CButton>
                     </Link>
                   </div>
                 </CCardBody>
@@ -151,4 +169,4 @@ class Login extends Component{
   }
 }
 
-export default Login
+export default (withTranslation("translations")(Login));

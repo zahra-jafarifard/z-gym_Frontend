@@ -18,7 +18,9 @@ import {
   CInputGroupText,
   CRow
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+import CIcon from '@coreui/icons-react';
+import { withTranslation } from "react-i18next";
+
 
 const getBadge = status => {
   switch (status) {
@@ -29,17 +31,7 @@ const getBadge = status => {
     default: return 'primary'
   }
 }
-const fields = [{
-  key: 'name',
-  label: 'نام',
-},
-{
-  key: 'show_details',
-  label: '',
-  _style: { width: '1%' },
-  sorter: false,
-  filter: false
-}];
+
 
 class Status extends Component {
   constructor(props){
@@ -117,6 +109,19 @@ searchHandler = (e)=>{
   }
 
 render(){
+
+  const { t, i18n } = this.props;
+  const fields = [{
+    key: 'name',
+    label: t('Name'),
+  },
+  {
+    key: 'show_details',
+    label: '',
+    _style: { width: '1%' },
+    sorter: false,
+    filter: false
+  }];
   const toggleDetails = (index) => {
     const position = this.state.details.indexOf(index)
     let newDetails = this.state.details.slice()
@@ -131,7 +136,7 @@ return (
 <React.Fragment>
   <CLink to='/user_status/create'>
     <CButton  size="md" color="success">
-    اضافه کردن وضعیت جدید 
+    {t('Add New')}
     </CButton>
   </CLink>
 <CRow>
@@ -141,7 +146,7 @@ return (
             <CCardHeader >
             <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
               <CIcon name="cil-search" />
-              <span style={{marginRight:'5px'}}>جستجوی وضعیت</span>
+              <span style={{marginRight:'5px'}}> {t('Search')} </span>
               </CLink>
               <div className="card-header-actions">
                 <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
@@ -157,12 +162,12 @@ return (
                   <CInputGroupPrepend>
                     <CInputGroupText><CIcon name="cil-user" /></CInputGroupText>
                   </CInputGroupPrepend>
-                  <CInput  name="name" placeholder="نام وضعیت " onChange={this.changeHandler}/>
+                  <CInput  name="name" placeholder={t('Name')} onChange={this.changeHandler}/>
                 </CInputGroup>
               </CFormGroup>
               
               <CFormGroup className="form-actions">
-                <CButton  onClick={(e)=>this.searchHandler(e)} block size="lg"  color="success">جستجو</CButton>
+                <CButton  onClick={(e)=>this.searchHandler(e)} block size="lg"  color="success">{t('Search')}</CButton>
               </CFormGroup>
             </CForm>
               </CCardBody>
@@ -176,7 +181,7 @@ return (
       <CCol>
         <CCard>
           <CCardHeader>
-            جدول وضعیت ها
+          {t('Statuses')}
           </CCardHeader>
           <CCardBody>
           <CDataTable
@@ -226,12 +231,12 @@ return (
                   <h4>
                     {item.name}{' '}{item.lastName}
                   </h4>
-                  <p className="text-muted">حذف / ویرایش وضعیت :</p>
+                  <p className="text-muted">{t('Edit')} / {t('Delete')}</p>
                   <CButton style={{marginLeft:"5px"}} size="sm" color="info" onClick={(e)=>this.editHandler(e , index , item)}>
-                    ویرایش
+                  {t('Edit')}
                   </CButton>
                   <CButton size="sm" color="danger" className="ml-1" onClick={(e)=>this.deleteHandler(e , index)}>
-                    حذف
+                  {t('Delete')}
                   </CButton>
                 </CCardBody>
               </CCollapse>
@@ -248,4 +253,4 @@ return (
 }
 }
 
-export default Status;
+export default (withTranslation("translations")(Status));

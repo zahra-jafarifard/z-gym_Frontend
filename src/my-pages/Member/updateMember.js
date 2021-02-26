@@ -18,6 +18,8 @@ import {
   CLink
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
+import { withTranslation } from "react-i18next";
+
 
 class updateMember extends Component {
     constructor(props){
@@ -137,6 +139,8 @@ class updateMember extends Component {
   }
 
 render(){
+  const { t, i18n } = this.props;
+
   return (
     <React.Fragment>
         <CCol xs="12" sm="6" md="4" style={{ margin:"auto"}} >
@@ -144,11 +148,11 @@ render(){
       <CCardHeader >
         <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
           <CIcon name="cil-library-add"  />
-          <span style={{marginRight:'5px'}}>ویرایش اعضا</span>
+          <span style={{marginRight:'5px'}}> {t('Edit')} </span>
           </CLink>
           <div className="card-header-actions">
             <CLink className="card-header-action" onClick={(e) => this.goBackHandler(e) }>
-                بازگشت
+                {t('Back')}
               <CIcon name="cil-arrow-circle-left"  style={{marginRight:"3px"}} />
             </CLink>
             <CLink style={{marginRight:"13px"}} className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
@@ -170,7 +174,7 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-user" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput  name="name" placeholder="نام" value={this.state.name}
+              <CInput  name="name"  value={this.state.name}
               onChange={this.changeHandler}/>
             </CInputGroup>
           </CFormGroup>
@@ -179,7 +183,7 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-user" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput  name="lastName" placeholder="فامیلی" value={this.state.lastName}
+              <CInput  name="lastName"  value={this.state.lastName}
                 onChange={this.changeHandler} autoComplete="name"/>
             </CInputGroup>
           </CFormGroup>
@@ -188,7 +192,7 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-mobile" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput   name="mobile" placeholder="موبایل" value={this.state.mobile}
+              <CInput   name="mobile"  value={this.state.mobile}
                 autoComplete="username" onChange={this.changeHandler}/>
             </CInputGroup>
           </CFormGroup>
@@ -197,7 +201,7 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-lock-locked"/></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput   name="password" placeholder="رمز عبور" 
+              <CInput   name="password" 
                 onChange={this.changeHandler}/>
             </CInputGroup>
           </CFormGroup>
@@ -206,7 +210,7 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-group" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CSelect name="gender" placeholder="جنسیت" 
+              <CSelect name="gender" 
                 onChange={this.changeHandler}>
               {this.state.gender && 
               <option value={this.state.gender} selected="selected" disabled hidden>{this.state.gender} </option>
@@ -221,7 +225,7 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-birthday-cake" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput   name="birthDay" placeholder="تاریخ تولد" value={this.state.birthDay}
+              <CInput   name="birthDay"  value={this.state.birthDay}
               onChange={this.changeHandler} />
             </CInputGroup>
           </CFormGroup>
@@ -230,7 +234,7 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput   name="weight" placeholder="وزن" value={this.state.weight}
+              <CInput   name="weight"  value={this.state.weight}
               onChange={this.changeHandler} />
             </CInputGroup>
           </CFormGroup>
@@ -239,7 +243,7 @@ render(){
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput   name="height" placeholder="قد" value={this.state.height}
+              <CInput   name="height"  value={this.state.height}
                 onChange={this.changeHandler} />
             </CInputGroup>
           </CFormGroup>
@@ -249,7 +253,7 @@ render(){
                 <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
               </CInputGroupPrepend>
               <CSelect name='status' type='select'  onChange={this.changeHandler} >
-              <option value="" selected disabled hidden>وضعیت</option>
+              {/* <option value="" selected disabled hidden>وضعیت</option> */}
               {this.state.status && 
               <option  selected="selected" disabled hidden>{this.state.status}</option>
               }
@@ -283,7 +287,7 @@ render(){
           </CFormGroup>
           <CFormGroup className="form-actions">
             <CButton  onClick={(e)=>this.updateHandler(e)} block  size="md"  color="success">
-                ویرایش
+                {t('Update')}
               </CButton>
           </CFormGroup>
         </CForm>
@@ -306,5 +310,5 @@ render(){
 
 }
     
-export default updateMember;
+export default (withTranslation("translations")(updateMember));
          

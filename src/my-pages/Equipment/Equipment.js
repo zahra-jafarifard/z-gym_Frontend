@@ -16,20 +16,11 @@ import {
   CInputGroupPrepend,
   CInputGroupText,
   CRow,
-} from '@coreui/react'
-
+} from '@coreui/react';
+import { withTranslation } from "react-i18next";
 import CIcon from '@coreui/icons-react';
-const fields = [{
-  key: 'name',
-  label: 'نام',
-},
-{
-  key: 'show_details',
-  label: '',
-  _style: { width: '1%' },
-  sorter: false,
-  filter: false
-}];
+
+
 
 class Equipment extends Component {
   constructor(props){
@@ -109,6 +100,18 @@ class Equipment extends Component {
     
     }
   render(){
+  const { t, i18n } = this.props;
+  const fields = [{
+    key: 'name',
+    label: t('Name'),
+  },
+  {
+    key: 'show_details',
+    label: '',
+    _style: { width: '1%' },
+    sorter: false,
+    filter: false
+  }];
     const toggleDetails = (index) => {
       const position = this.state.details.indexOf(index)
       let newDetails = this.state.details.slice()
@@ -123,7 +126,7 @@ class Equipment extends Component {
   <React.Fragment>
     <CLink to='/equipment/create'>
       <CButton  size="md" color="success">
-        اضافه کردن تجهیزات جدید 
+        {t('Add New')}
       </CButton>
     </CLink>
   <CRow>
@@ -133,7 +136,7 @@ class Equipment extends Component {
               <CCardHeader >
               <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
                 <CIcon name="cil-search" />
-                <span style={{marginRight:'5px'}}>جستجوی تجهیزات</span>
+                <span style={{marginRight:'5px'}}> {t('Search')} </span>
                 </CLink>
                 <div className="card-header-actions">
                   <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
@@ -149,13 +152,14 @@ class Equipment extends Component {
                     <CInputGroupPrepend>
                       <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput  name="name" placeholder="نام دستگاه " onChange={this.changeHandler}/>
+                    <CInput  name="name" placeholder={t('Name')} onChange={this.changeHandler}/>
                   </CInputGroup>
                 </CFormGroup>
                
                 
                 <CFormGroup className="form-actions">
-                  <CButton  onClick={(e)=>this.searchHandler(e)}  block size="lg"  color="success">جستجو</CButton>
+                  <CButton  onClick={(e)=>this.searchHandler(e)}  block size="lg" 
+                   color="success">{t('Search')}</CButton>
                 </CFormGroup>
               </CForm>
                 </CCardBody>
@@ -171,7 +175,7 @@ class Equipment extends Component {
         <CCol >
           <CCard style={{ width:'40%'}}>
             <CCardHeader>
-              جدول تجهیزات
+            {t('Equipment')}
             </CCardHeader>
             <CCardBody>
             <CDataTable
@@ -213,12 +217,12 @@ class Equipment extends Component {
                   <h4>
                     {item.name}{' '}{item.lastName}
                   </h4>
-                  <p className="text-muted">حذف / ویرایش وسیله :</p>
+                  <p className="text-muted">{t('Edit')} / {t('Delete')}</p>
                   <CButton style={{marginLeft:"5px"}} size="sm" color="info" onClick={(e)=>this.editHandler(e , index , item)}>
-                    ویرایش
+                  {t('Edit')}
                   </CButton>
                   <CButton size="sm" color="danger" className="ml-1" onClick={(e)=>this.deleteHandler(e , index)}>
-                    حذف
+                    {t('Delete')}
                   </CButton>
                 </CCardBody>
               </CCollapse>
@@ -236,4 +240,4 @@ class Equipment extends Component {
   }
 }
 
-export default Equipment;
+export default (withTranslation("translations")(Equipment));

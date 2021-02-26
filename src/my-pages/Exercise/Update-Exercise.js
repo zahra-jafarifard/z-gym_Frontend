@@ -20,6 +20,9 @@ import {
   CLink
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
+import { withTranslation } from "react-i18next";
+
+
 class updateExercise extends Component {
   constructor(props){
     super(props);
@@ -101,6 +104,8 @@ class updateExercise extends Component {
 
   }
   render(){
+  const { t, i18n } = this.props;
+
     return (
       <React.Fragment>
         <CCol xs="12" sm="6" md="4" style={{ margin:"auto"}} >
@@ -108,11 +113,11 @@ class updateExercise extends Component {
       <CCardHeader >
         <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
           <CIcon name="cil-library-add"  />
-          <span style={{marginRight:'5px'}}>ویرایش تمرین</span>
+          <span style={{marginRight:'5px'}}> {t('Edit')} </span>
           </CLink>
           <div className="card-header-actions">
             <CLink className="card-header-action" onClick={(e) => this.goBackHandler(e) }>
-                بازگشت
+            {t('Back')}
               <CIcon name="cil-arrow-circle-left"  style={{marginRight:"3px"}} />
             </CLink>
             <CLink style={{marginRight:"13px"}} className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
@@ -135,7 +140,7 @@ class updateExercise extends Component {
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput  name="name" placeholder="نام" value={this.state.name}
+              <CInput  name="name"  value={this.state.name}
               onChange={this.changeHandler}/>
             </CInputGroup>
           </CFormGroup>
@@ -152,7 +157,7 @@ class updateExercise extends Component {
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
               </CInputGroupPrepend>
-              <CInput   name="icon" placeholder="نماد" value={this.state.icon}
+              <CInput   name="icon"  value={this.state.icon}
                 autoComplete="username" onChange={this.changeHandler}/>
             </CInputGroup>
           </CFormGroup>
@@ -163,7 +168,7 @@ class updateExercise extends Component {
                 <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
               </CInputGroupPrepend>
               <CSelect name='category' type='select'   onChange={this.changeHandler} >
-              <option value="" selected disabled hidden>گروه</option>
+              {/* <option value="" selected disabled hidden>گروه</option> */}
               {this.state.category && 
               <option  selected="selected" disabled hidden>{this.state.category}</option>
               }
@@ -178,7 +183,7 @@ class updateExercise extends Component {
           </CFormGroup>
           <CFormGroup className="form-actions">
             <CButton  onClick={(e)=>this.updateHandler(e)} block  size="md"  color="success">
-                ویرایش
+            {t('Update')}
               </CButton>
           </CFormGroup>
         </CForm>
@@ -201,5 +206,5 @@ class updateExercise extends Component {
 
 }
     
-export default updateExercise;
+export default (withTranslation("translations")(updateExercise));
          

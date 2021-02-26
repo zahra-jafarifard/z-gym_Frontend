@@ -1,6 +1,5 @@
 import React , {Component} from 'react';
 import {
-  CBadge,
   CCard,
   CCardBody,
   CCardHeader,
@@ -18,33 +17,10 @@ import {
   CInputGroupText,
   CRow
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+import CIcon from '@coreui/icons-react';
+import { withTranslation } from "react-i18next";
 
-const fields = [
-{
-  key: 'name',
-  label: 'نام',
-},
- {
-  key: 'description',
-  label: 'توضیحات',
-},
- {
-  key: 'icon',
-  label: 'نماد',
-},
- {
-  key: 'category',
-  label: 'دسته بندی',
-},
-{
-  key: 'show_details',
-  label: '',
-  _style: { width: '1%' },
-  sorter: false,
-  filter: false
-}
-];
+
 
 class Exercise extends Component {
   constructor(props){
@@ -126,6 +102,34 @@ searchHandler = (e)=>{
   
 }
 render(){
+  const { t, i18n } = this.props;
+  const fields = [
+    {
+      key: 'name',
+      label: t('Name'),
+    },
+     {
+      key: 'description',
+      label: t('Description'),
+    },
+     {
+      key: 'icon',
+      label: t('Icon'),
+    },
+     {
+      key: 'category',
+      label: t('Category'),
+    },
+    {
+      key: 'show_details',
+      label: '',
+      _style: { width: '1%' },
+      sorter: false,
+      filter: false
+    }
+    ];
+    
+
   const toggleDetails = (index) => {
     const position = this.state.details.indexOf(index)
     let newDetails = this.state.details.slice()
@@ -141,7 +145,7 @@ return (
   
   <CLink to='/exercise/create'>
     <CButton  size="md" color="success">
-    اضافه کردن تمرین جدید 
+   {t('Add New')}
     </CButton>
   </CLink>
 <CRow>
@@ -151,7 +155,7 @@ return (
             <CCardHeader >
             <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
               <CIcon name="cil-search" />
-              <span style={{marginRight:'5px'}}>جستجوی تمرین</span>
+              <span style={{marginRight:'5px'}}> {t('Search')} </span>
               </CLink>
               <div className="card-header-actions">
                 <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
@@ -168,7 +172,7 @@ return (
                   <CInputGroupPrepend>
                     <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
                   </CInputGroupPrepend>
-                  <CInput  name="name" placeholder="نام تمرین " onChange={this.changeHandler}/>
+                  <CInput  name="name" placeholder={t('Name')} onChange={this.changeHandler}/>
                 </CInputGroup>
               </CFormGroup>
               <CFormGroup >
@@ -176,12 +180,12 @@ return (
                   <CInputGroupPrepend>
                     <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
                   </CInputGroupPrepend>
-                  <CInput  name="description" placeholder="شرح تمرین " onChange={this.changeHandler}/>
+                  <CInput  name="description" placeholder={t('Description')} onChange={this.changeHandler}/>
                 </CInputGroup>
               </CFormGroup>
               
               <CFormGroup className="form-actions">
-                <CButton  onClick={(e)=>this.searchHandler(e)} block size="lg"  color="success">جستجو</CButton>
+                <CButton  onClick={(e)=>this.searchHandler(e)} block size="lg"  color="success"> {t('Search')} </CButton>
               </CFormGroup>
             </CForm>
               </CCardBody>
@@ -195,7 +199,7 @@ return (
       <CCol >
         <CCard >
           <CCardHeader>
-            جدول تمرین ها
+            {t('Exercises')}
           </CCardHeader>
           <CCardBody>
           <CDataTable
@@ -239,12 +243,12 @@ return (
                 <h4>
                   {item.name}{' '}{item.lastName}
                 </h4>
-                <p className="text-muted">حذف / ویرایش تمرین :</p>
+                <p className="text-muted"> {t('Edit/Delete')} </p>
                 <CButton style={{marginLeft:"5px"}} size="sm" color="info" onClick={(e)=>this.editHandler(e , index , item)}>
-                  ویرایش
+                {t('Edit')}
                 </CButton>
                 <CButton size="sm" color="danger" className="ml-1" onClick={(e)=>this.deleteHandler(e , index)}>
-                  حذف
+                {t('Delete')}
                 </CButton>
               </CCardBody>
             </CCollapse>
@@ -261,4 +265,4 @@ return (
 )}
 }
 
-export default Exercise;
+export default (withTranslation("translations")(Exercise));
