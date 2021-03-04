@@ -61,8 +61,13 @@ class Register extends Component{
         gender:this.state.gender,
     })
   })
-  .then(res => {
-    return res.json();
+  .then(response => {
+    if(!response.ok){
+      return console.log(response.statusText , response.status);
+    }
+    else{
+      return response.json()
+    }  
   })
   .then(result => {
     console.log('new member created...',result.user)

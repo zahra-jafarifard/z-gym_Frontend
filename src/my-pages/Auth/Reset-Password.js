@@ -38,10 +38,13 @@ class resetPassword extends Component {
             })
         }).then(response =>{
             if (!response.ok){
-                return new Error('res not ok ...');
+                return new Error(response.statusText , response.status );
+              // return console.log(response.statusText , response.status);
+
             }
             this.props.history.replace('/login');
             return response.json();
+
         }).then(result => {
             console.log(result.message);
         })

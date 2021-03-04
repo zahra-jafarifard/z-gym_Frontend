@@ -27,11 +27,11 @@ class Login extends Component{
   constructor(props){
     super(props);
     this.state={
+      
       rememberMe:false,
       mobile:'',
       password:'',
 
-      showModal:false
     }
   }
    static contextType=i18nCtx;
@@ -42,12 +42,12 @@ class Login extends Component{
   }
 
   // componentDidMount=() => {
-  //   console.log('showModal' , this.state.showModal)
   // }
   forgetHandler = (e) => {
     e.preventDefault();
     this.props.history.push('/forget-password')
   }
+
   loginHandler = (e) => {
     e.preventDefault();
     console.log('loooogin');
@@ -62,12 +62,17 @@ class Login extends Component{
         rememberMe:this.state.rememberMe,
     })
   })
-  .then(res => {
-    return res.json();
+  .then(response => {
+    if(!response.ok){
+      return console.log(response.statusText , response.status);
+    }
+    else{
+      return response.json()
+    }
   })
   .then(result => {
-    console.log('user logedIn',result.user , result.token);
-    this.props.history.replace('/members/list');
+    console.log('user mobile',result.userMobile ,'token', result.token);
+    this.props.history.replace('/profile');
     
   })
   .catch(e => {

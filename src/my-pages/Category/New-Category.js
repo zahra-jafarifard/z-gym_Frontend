@@ -67,8 +67,13 @@ class newCategory extends Component {
             categoryName:this.state.name
       })
     })
-    .then(res => {
-      return res.json();
+    .then(response => {
+      if (!response.ok){
+        return new Error(response.statusText , response.status );
+      // return console.log(response.statusText , response.status);
+
+    }
+    return response.json();
     })
     .then(result => {
       console.log('frontend:::',result.message)

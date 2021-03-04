@@ -58,8 +58,8 @@ const TheHeader = () => {
        marginTop:"15px",
        paddingTop:"0",
        }}>
-        <option value='fa' >Fa</option>
         <option  value="en" >En</option>
+        <option value='fa' >Fa</option>
       </CSelect>
 
             

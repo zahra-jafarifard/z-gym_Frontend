@@ -34,8 +34,13 @@ class ForgetPasswordModal extends Component {
           mobile:this.state.mobile 
       })
     })
-    .then(res => {
-      return res.json();
+    .then(response => {
+      if(!response.ok){
+        return console.log(response.statusText , response.status);
+      }
+      else{
+        return response.json()
+      }
     })
     .then(result => {
       console.log('rndnum',result.rndNumber ,'rest token', result.resetToken);

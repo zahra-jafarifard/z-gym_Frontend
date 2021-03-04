@@ -53,9 +53,14 @@ class newMember extends Component {
             'Content-Type': 'application/json'
         }
     })
-    .then(res =>{
-        return res.json();
-    })
+    .then(response =>{
+      if (!response.ok){
+        return new Error(response.statusText , response.status );
+      // return console.log(response.statusText , response.status);
+
+    }
+    return response.json()
+      })
     .then(result => {
         this.setState({groupArray: result.groups }, 
         ()=>{console.log(this.state.groupArray )})
@@ -72,9 +77,14 @@ class newMember extends Component {
           'Content-Type': 'application/json'
       }
     })
-    .then(res => {
-      return res.json()
-    })
+    .then(response => {
+      if (!response.ok){
+        return new Error(response.statusText , response.status );
+      // return console.log(response.statusText , response.status);
+
+    }
+    return response.json()
+      })
     .then(result => {
       console.log('reeeeees' , result.statuses)
       this.setState({
@@ -119,8 +129,13 @@ class newMember extends Component {
       group:this.state.group,
   })
 })
-.then(res => {
-  return res.json();
+.then(response => {
+  if (!response.ok){
+    return new Error(response.statusText , response.status );
+  // return console.log(response.statusText , response.status);
+
+}
+return response.json()
 })
 .then(result => {
   console.log('new member created...',result.user)

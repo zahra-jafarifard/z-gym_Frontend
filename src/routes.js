@@ -35,6 +35,9 @@ const newExercise = React.lazy(() => import('./my-pages/Exercise/New-Exercise'))
 const updateExercise = React.lazy(() => import('./my-pages/Exercise/Update-Exercise'));
 
 
+const Profile = React.lazy(() => import('./userSide-Components/Profile'));
+
+
 
 
 
@@ -111,13 +114,16 @@ const routes = [
   { path: '/exercise/list', name: 'Exercise', component: Exercise },
   { path: '/exercise/create', name: 'newExercise', component: newExercise },
   { path: '/exercise/update', name: 'updateExercise', component: updateExercise },
+  
+  
+  { path: '/profile', name: 'profile', component: Profile },
 
 
 
 
 
 
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/dashboard', name: 'Dashboard', component: Dashboard  },
   { path: '/theme', name: 'Theme', component: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', component: Colors },
   { path: '/theme/typography', name: 'Typography', component: Typography },

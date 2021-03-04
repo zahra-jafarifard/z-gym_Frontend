@@ -43,9 +43,13 @@ class Muscle extends Component {
             'Content-Type': 'application/json'
         }
     })
-    .then(res => {
-      return res.json()
-    })
+    .then(response => {
+      if (!response.ok){
+        return new Error(response.statusText , response.status );
+      // return console.log(response.statusText , response.status);
+
+    }
+    return response.json()    })
     .then(result => {
       console.log('reeeeees' , result.muscles)
       this.setState({
@@ -77,9 +81,13 @@ class Muscle extends Component {
             muscleName:this.state.name
       })
     })
-    .then(res => {
-      return res.json();
-    })
+    .then(response => {
+      if (!response.ok){
+        return new Error(response.statusText , response.status );
+      // return console.log(response.statusText , response.status);
+
+    }
+    return response.json()    })
     .then(result => {
       this.setState({muscleState:result.muscle  ,
       collapsed:false

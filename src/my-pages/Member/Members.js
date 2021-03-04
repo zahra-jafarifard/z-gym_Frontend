@@ -64,18 +64,21 @@ class Members extends Component {
 
 
   componentDidMount = ()=>{
-    // console.log('prooops',this.props)
     fetch('http://localhost:5000/members/list' , {
       method:'POST',
         headers:{
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            // 'Authorization': 'Bearer ' + token 
         }
-    })
-    .then(res => {
-      return res.json()
+    }).then(response =>{
+      if(!response.ok){
+        return console.log(response.statusText , response.status);
+      }
+      else{
+        return response.json()
+      }
     })
     .then(result => {
-      // console.log('reeeeees' , result.members)
       this.setState({
         membersState:result.members,
       } , ()=>{
@@ -84,7 +87,7 @@ class Members extends Component {
 
     })
     .catch(e => {
-      console.log(e);
+      console.log('catch',e.message );
     })
   }
   
