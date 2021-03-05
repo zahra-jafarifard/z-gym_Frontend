@@ -37,7 +37,7 @@ class Equipment extends Component {
 
   componentDidMount = ()=>{
     console.log('prooops',this.props)
-    fetch('http://localhost:5000/equipment/list' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/equipment/list' , {
       method:'POST',
         headers:{
             'Content-Type': 'application/json'
@@ -67,7 +67,7 @@ class Equipment extends Component {
 
   searchHandler = (e)=>{
     e.preventDefault();
-    fetch('http://localhost:5000/equipment/search' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/equipment/search' , {
       method:'POST',
         headers:{
             'Content-Type': 'application/json'

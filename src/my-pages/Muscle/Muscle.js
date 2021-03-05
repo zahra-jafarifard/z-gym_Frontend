@@ -37,7 +37,7 @@ class Muscle extends Component {
   }
 
   componentDidMount = ()=>{
-    fetch('http://localhost:5000/muscle/list' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/muscle/list' , {
       method:'POST',
         headers:{
             'Content-Type': 'application/json'
@@ -72,7 +72,7 @@ class Muscle extends Component {
 
   searchHandler = (e)=>{
     e.preventDefault();
-    fetch('http://localhost:5000/muscle/search' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/muscle/search' , {
       method:'POST',
         headers:{
             'Content-Type': 'application/json'

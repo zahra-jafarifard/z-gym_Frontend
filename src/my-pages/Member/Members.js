@@ -1,5 +1,4 @@
 import React , {Component} from 'react';
-import {Link} from 'react-router-dom'
 import {
   CBadge,
   CCard,
@@ -18,7 +17,7 @@ import {
   CInputGroupPrepend,
   CInputGroupText,
   CRow,
-  CInputRadio,
+  CSelect,
   
 } from '@coreui/react'
 
@@ -56,7 +55,7 @@ class Members extends Component {
       gender:'',
       birthDay:'',
       weight:'',
-      height:'',
+      height:''
 
     }
   }
@@ -64,7 +63,7 @@ class Members extends Component {
 
 
   componentDidMount = ()=>{
-    fetch('http://localhost:5000/members/list' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/members/list' , {
       method:'POST',
         headers:{
             'Content-Type': 'application/json',
@@ -112,7 +111,7 @@ class Members extends Component {
 
   searchHandler = (e)=>{
     e.preventDefault();
-    fetch('http://localhost:5000/members/search' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/members/search' , {
       method:'POST',
         headers:{
             'Content-Type': 'application/json'
@@ -259,7 +258,11 @@ class Members extends Component {
                     <CInputGroupPrepend>
                       <CInputGroupText><CIcon name="cil-group" /></CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput   name="gender" placeholder={t("Gender")} onChange={this.changeHandler} />
+                    <CSelect name="gender"  onChange={this.changeHandler}>
+                      <option value="" selected disabled hidden> {t('Gender')} </option>
+                      <option  value="زن"  > زن</option>
+                      <option value='مرد' > مرد</option>
+                  </CSelect>
                   </CInputGroup>
                 </CFormGroup>
                   </CRow>

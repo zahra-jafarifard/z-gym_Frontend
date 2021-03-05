@@ -48,7 +48,7 @@ class updateExercise extends Component {
         category:this.props.location.state.item.category,
     })
 
-    fetch('http://localhost:5000/category/list' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/category/list' , {
         method:'POST',
         headers:{
             'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ class updateExercise extends Component {
   
   updateHandler =(e) => {
       e.preventDefault();
-      fetch('http://localhost:5000/exercise/update' , {
+      fetch(process.env.REACT_APP_API_ADDRESS + '/exercise/update' , {
       method:'POST',
       headers:{
           'Content-Type': 'application/json'

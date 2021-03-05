@@ -52,7 +52,7 @@ class newExercise extends Component {
       }
     
     componentDidMount=() => {
-        fetch('http://localhost:5000/category/list' , {
+        fetch(process.env.REACT_APP_API_ADDRESS + '/category/list' , {
             method:'POST',
             headers:{
                 'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ class newExercise extends Component {
     }
     newStatusHandler =(e) => {
         e.preventDefault();
-        fetch('http://localhost:5000/exercise/create' , {
+        fetch(process.env.REACT_APP_API_ADDRESS + '/exercise/create' , {
         method:'POST',
         headers:{
             'Content-Type': 'application/json'

@@ -25,7 +25,7 @@ class ForgetPasswordModal extends Component {
     
     resetPassHandler = (e) =>{
 
-      fetch('http://localhost:5000/resetPassword' , {
+      fetch(process.env.REACT_APP_API_ADDRESS + '/resetPassword' , {
         method:'POST',
         headers:{
             'Content-Type': 'application/json'

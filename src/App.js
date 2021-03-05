@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './scss/style.scss';
 import i18nContext from './Shared-Component/i18n-Context';
 import { withTranslation, Trans } from "react-i18next";
-
+require('dotenv').config();
 
 const loading = (
   <div className="pt-3 text-center">

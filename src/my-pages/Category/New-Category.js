@@ -58,7 +58,7 @@ class newCategory extends Component {
     }
     newStatusHandler =(e) => {
         e.preventDefault();
-        fetch('http://localhost:5000/category/create' , {
+        fetch(process.env.REACT_APP_API_ADDRESS + '/category/create' , {
         method:'POST',
         headers:{
             'Content-Type': 'application/json'

@@ -51,7 +51,7 @@ class Login extends Component{
   loginHandler = (e) => {
     e.preventDefault();
     console.log('loooogin');
-    fetch('http://localhost:5000/login' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/login' , {
       method:'POST',
       headers:{
           'Content-Type': 'application/json'

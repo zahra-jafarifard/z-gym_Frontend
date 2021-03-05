@@ -38,7 +38,7 @@ class Exercise extends Component {
   }
 
 componentDidMount = ()=>{
-  fetch('http://localhost:5000/exercise/list' , {
+  fetch(process.env.REACT_APP_API_ADDRESS + '/exercise/list' , {
     method:'POST',
       headers:{
           'Content-Type': 'application/json'
@@ -75,7 +75,7 @@ editHandler =(event , index , item )=>{
 }
 searchHandler = (e)=>{
   e.preventDefault();
-  fetch('http://localhost:5000/exercise/search' , {
+  fetch(process.env.REACT_APP_API_ADDRESS + '/exercise/search' , {
     method:'POST',
       headers:{
           'Content-Type': 'application/json'

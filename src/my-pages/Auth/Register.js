@@ -44,7 +44,7 @@ class Register extends Component{
   }
   newAccountHandler=(e)=>{
     e.preventDefault();
-    fetch('http://localhost:5000/register' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/register' , {
       method:'POST',
       headers:{
           'Content-Type': 'application/json'

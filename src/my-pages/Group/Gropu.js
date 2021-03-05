@@ -48,7 +48,7 @@ class Group extends Component {
   }
 
   componentDidMount = ()=>{
-    fetch('http://localhost:5000/user_group/list' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/user_group/list' , {
       method:'POST',
         headers:{
             'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ class Group extends Component {
 
   searchHandler = (e)=>{
     e.preventDefault();
-    fetch('http://localhost:5000/user_group/search' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/user_group/search' , {
       method:'POST',
         headers:{
             'Content-Type': 'application/json'

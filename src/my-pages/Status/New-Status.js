@@ -58,7 +58,7 @@ class newStatus extends Component {
     }
     newStatusHandler =(e) => {
         e.preventDefault();
-        fetch('http://localhost:5000/user_status/create' , {
+        fetch(process.env.REACT_APP_API_ADDRESS + '/user_status/create' , {
         method:'POST',
         headers:{
             'Content-Type': 'application/json'

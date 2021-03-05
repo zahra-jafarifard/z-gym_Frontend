@@ -27,7 +27,7 @@ class resetPassword extends Component {
     setNewPassHandler = (e) =>{
 
         e.preventDefault();
-        fetch('http://localhost:5000/setNewPassword/:resetToken' , {
+        fetch(process.env.REACT_APP_API_ADDRESS +'/setNewPassword/:resetToken' , {
             method:'POST',
             headers:{
                 'Content-Type': 'application/json'

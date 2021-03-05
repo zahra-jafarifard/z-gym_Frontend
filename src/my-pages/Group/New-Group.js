@@ -45,7 +45,7 @@ class newGroup extends Component {
     }
     newGroupHandler =(e) => {
         e.preventDefault();
-        fetch('http://localhost:5000/user_group/create' , {
+        fetch(process.env.REACT_APP_API_ADDRESS + '/user_group/create' , {
         method:'POST',
         headers:{
             'Content-Type': 'application/json'

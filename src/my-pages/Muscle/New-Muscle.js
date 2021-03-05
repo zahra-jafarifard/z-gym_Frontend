@@ -57,7 +57,7 @@ class newMuscle extends Component {
     }
     newStatusHandler =(e) => {
         e.preventDefault();
-        fetch('http://localhost:5000/muscle/create' , {
+        fetch(process.env.REACT_APP_API_ADDRESS + '/muscle/create' , {
         method:'POST',
         headers:{
             'Content-Type': 'application/json'

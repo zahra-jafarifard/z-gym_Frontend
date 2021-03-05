@@ -58,7 +58,7 @@ class Category extends Component {
 
   componentDidMount = ()=>{
     console.log('prooops',this.props)
-    fetch('http://localhost:5000/category/list' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/category/list' , {
       method:'POST',
         headers:{
             'Content-Type': 'application/json'
@@ -94,7 +94,7 @@ class Category extends Component {
 
   searchHandler = (e)=>{
     e.preventDefault();
-    fetch('http://localhost:5000/category/search' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/category/search' , {
       method:'POST',
         headers:{
             'Content-Type': 'application/json'

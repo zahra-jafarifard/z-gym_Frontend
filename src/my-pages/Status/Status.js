@@ -47,7 +47,7 @@ class Status extends Component {
   }
 
 componentDidMount = ()=>{
-  fetch('http://localhost:5000/user_status/list' , {
+  fetch(process.env.REACT_APP_API_ADDRESS + '/user_status/list' , {
     method:'POST',
       headers:{
           'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ changeHandler = (event) => {
 
 searchHandler = (e)=>{
   e.preventDefault();
-  fetch('http://localhost:5000/user_status/search' , {
+  fetch(process.env.REACT_APP_API_ADDRESS + '/user_status/search' , {
     method:'POST',
       headers:{
           'Content-Type': 'application/json'

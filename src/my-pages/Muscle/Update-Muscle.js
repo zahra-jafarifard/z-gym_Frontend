@@ -68,7 +68,7 @@ class updateMuscle extends Component {
     }
     updateHandler =(e) => {
         e.preventDefault();
-        fetch('http://localhost:5000/muscle/update' , {
+        fetch(process.env.REACT_APP_API_ADDRESS + '/muscle/update' , {
         method:'POST',
         headers:{
             'Content-Type': 'application/json'

@@ -76,7 +76,7 @@ class updateStatus extends Component {
     }
     updateHandler =(e) => {
         e.preventDefault();
-        fetch('http://localhost:5000/user_status/update' , {
+        fetch(process.env.REACT_APP_API_ADDRESS + '/user_status/update' , {
         method:'POST',
         headers:{
             'Content-Type': 'application/json'

@@ -57,7 +57,7 @@ class updateMember extends Component {
         status:this.props.location.state.item.status,
         group:this.props.location.state.item.group,
     })
-    fetch('http://localhost:5000/user_group/list' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/user_group/list' , {
         method:'POST',
         headers:{
             'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ class updateMember extends Component {
 
 //--------------------------
 
-    fetch('http://localhost:5000/user_status/list' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/user_status/list' , {
   method:'POST',
     headers:{
         'Content-Type': 'application/json'
@@ -118,7 +118,7 @@ class updateMember extends Component {
   }
   updateHandler =(e) => {
   e.preventDefault();
-  fetch('http://localhost:5000/members/update' , {
+  fetch(process.env.REACT_APP_API_ADDRESS + '/members/update' , {
   method:'POST',
   headers:{
       'Content-Type': 'application/json'

@@ -76,7 +76,7 @@ class updateCategory extends Component {
     }
     updateHandler =(e) => {
         e.preventDefault();
-        fetch('http://localhost:5000/category/update' , {
+        fetch(process.env.REACT_APP_API_ADDRESS + '/category/update' , {
         method:'POST',
         headers:{
             'Content-Type': 'application/json'

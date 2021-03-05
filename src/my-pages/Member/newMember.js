@@ -47,7 +47,7 @@ class newMember extends Component {
 
     
   componentDidMount=() => {
-    fetch('http://localhost:5000/user_group/list' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/user_group/list' , {
         method:'POST',
         headers:{
             'Content-Type': 'application/json'
@@ -71,7 +71,7 @@ class newMember extends Component {
 
 //--------------------------
 
-    fetch('http://localhost:5000/user_status/list' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/user_status/list' , {
       method:'POST',
       headers:{
           'Content-Type': 'application/json'
@@ -111,7 +111,7 @@ class newMember extends Component {
 
   newMemberHandler =(e) => {
     e.preventDefault();
-    fetch('http://localhost:5000/members/create' , {
+    fetch(process.env.REACT_APP_API_ADDRESS + '/members/create' , {
     method:'POST',
     headers:{
         'Content-Type': 'application/json'
