@@ -33,6 +33,7 @@ class Exercise extends Component {
 
       name:'',
       description:'',
+      preview:''
       // category:'',
     }
   }
@@ -44,8 +45,13 @@ componentDidMount = ()=>{
           'Content-Type': 'application/json'
       }
   })
-  .then(res => {
-    return res.json()
+  .then(response => {
+    if(!response.ok){
+      return new Error(response.statusText , response.status);
+    }
+    else{
+      return response.json()
+    }
   })
   .then(result => {
     this.setState({
@@ -86,8 +92,13 @@ searchHandler = (e)=>{
       // category:this.state.category
     })
   })
-  .then(res => {
-    return res.json();
+  .then(response => {
+    if(!response.ok){
+      return new Error(response.statusText , response.status);
+    }
+    else{
+      return response.json()
+    }
   })
   .then(result => {
     this.setState({exerciseState:result.exercises  ,
@@ -113,8 +124,9 @@ render(){
       label: t('Description'),
     },
      {
-      key: 'icon',
+      key: 'show-icon',
       label: t('Icon'),
+      
     },
      {
       key: 'category',
@@ -207,7 +219,7 @@ return (
                 return{
                     "name":exr.name,
                     "description":exr.description,
-                    "icon":exr.icon,
+                    "icon":exr.icon ,
                     "category":exr.category.category_name
                 }
             })}
@@ -244,7 +256,8 @@ return (
                   {item.name}{' '}{item.lastName}
                 </h4>
                 <p className="text-muted"> {t('Edit/Delete')} </p>
-                <CButton style={{marginLeft:"5px"}} size="sm" color="info" onClick={(e)=>this.editHandler(e , index , item)}>
+                <CButton style={{marginLeft:"5px"}} size="sm" color="info" 
+                onClick={(e)=>this.editHandler(e , index , item)}>
                 {t('Edit')}
                 </CButton>
                 <CButton size="sm" color="danger" className="ml-1" onClick={(e)=>this.deleteHandler(e , index)}>
@@ -253,7 +266,17 @@ return (
               </CCardBody>
             </CCollapse>
           )
-        }
+        },
+      'show-icon':
+          (item, index)=>{
+            return (
+              <CCardBody>
+                      <img style={{width:"50px" , height:"40px"}} 
+                    src={`http://localhost:5000/${item.icon}`} alt='preview'/> 
+                
+              </CCardBody>
+          )
+        },
             }}
             
           />

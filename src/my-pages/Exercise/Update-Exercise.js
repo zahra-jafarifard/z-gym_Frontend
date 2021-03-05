@@ -14,7 +14,6 @@ import {
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText,
-  CLabel,
   CSelect,
   CRow,
   CLink
@@ -34,7 +33,8 @@ class updateExercise extends Component {
       id:'',
       name:'',
       description:'',
-      icon:'',
+      image:null,
+      preview:null,
       category:'',
     }
     }
@@ -44,9 +44,9 @@ class updateExercise extends Component {
         id:this.props.location.state.id,
         name:this.props.location.state.item.name,
         description:this.props.location.state.item.description,
-        icon:this.props.location.state.item.icon,
+        preview:this.props.location.state.item.icon,
         category:this.props.location.state.item.category,
-    })
+    });
 
     fetch(process.env.REACT_APP_API_ADDRESS + '/category/list' , {
         method:'POST',
@@ -54,9 +54,13 @@ class updateExercise extends Component {
             'Content-Type': 'application/json'
         }
     })
-    .then(res =>{
-        return res.json();
-    })
+    .then(response => {
+      if(!response.ok){
+        return new Error(response.statusText , response.status);
+      }
+      else{
+        return response.json()
+      }    })
     .then(result => {
         this.setState({categoryArray: result.categories }, 
         ()=>{console.log(this.state.categoryArray )})
@@ -65,7 +69,17 @@ class updateExercise extends Component {
       console.log(e);
     })
   }
-
+  fileHandler = (e)=>{
+    let file = e.target.files[0];
+    let fileReader = new FileReader();
+    fileReader.onload = ()=>{
+        this.setState({image:file , preview:fileReader.result}
+            , ()=>{
+            console.log('state file front',this.state.image)
+        })
+    }
+    fileReader.readAsDataURL(file);
+  }
   changeHandler = (event) => {
     let value = event.target.value;
     let name = event.target.name;
@@ -79,24 +93,25 @@ class updateExercise extends Component {
   
   updateHandler =(e) => {
       e.preventDefault();
+      const formData = new FormData();
+      formData.append('id' ,this.props.location.state.id );
+      formData.append('name' ,this.state.name );
+      formData.append('description' ,this.state.description );
+      formData.append('image' ,this.state.image);
+      formData.append('category' ,this.state.category );
       fetch(process.env.REACT_APP_API_ADDRESS + '/exercise/update' , {
       method:'POST',
-      headers:{
-          'Content-Type': 'application/json'
-      },
-      body:JSON.stringify({
-        id:this.props.location.state.id,
-        name:this.state.name,
-        description:this.state.description,
-        icon:this.state.icon,
-        category:this.state.category,
-    })
+      body:formData
   })
-  .then(res => {
-    return res.json();
-  })
+  .then(response => {
+    if(!response.ok){
+      return new Error(response.statusText , response.status);
+    }
+    else{
+      return response.json()
+    }    })
   .then(result => {
-    console.log(' member updated...',result.message)
+    console.log(result.message);
   })
   .catch(e => {
     console.log(e)
@@ -152,13 +167,24 @@ class updateExercise extends Component {
             </CInputGroup>
                 </CInputGroupPrepend>
           </CFormGroup>
+
           <CFormGroup>
             <CInputGroup>
-              <CInputGroupPrepend>
-                <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
-              </CInputGroupPrepend>
-              <CInput   name="icon"  value={this.state.icon}
-                autoComplete="username" onChange={this.changeHandler}/>
+              {this.state.preview ?
+              <img name="preview" src={'http://localhost:5000/'+this.state.preview} 
+              style={{width:'130px', marginRight:"4rem", border:'solid silver 1px',
+                     height:'130px'}}
+                     alt='preview'/> 
+              :
+              <img name="preview" src={'http://localhost:5000/'+this.state.image} 
+              style={{width:'130px', marginRight:"4rem"
+              , border:'solid silver 1px',height:'130px'}}
+                     alt='image'/>
+               }    
+            </CInputGroup>
+                     <CInputGroup>
+          <input type="file"   name="image"  onChange={this.fileHandler}/>
+              
             </CInputGroup>
           </CFormGroup>
           

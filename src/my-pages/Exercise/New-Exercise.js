@@ -45,8 +45,8 @@ class newExercise extends Component {
             categoryArray:[],
           name:'',
           description:'',
-          icon:'',
-
+          image:null,
+          preview:null,
           category:''
         }
       }
@@ -58,8 +58,13 @@ class newExercise extends Component {
                 'Content-Type': 'application/json'
             }
         })
-        .then(res =>{
-            return res.json();
+        .then(response =>{
+          if(!response.ok){
+            return new Error(response.statusText , response.status);
+          }
+          else{
+            return response.json()
+          }
         })
         .then(result => {
             console.log('response cat' , result.categories );
@@ -69,6 +74,17 @@ class newExercise extends Component {
 
     }
 
+    fileHandler = (e)=>{
+      let file = e.target.files[0];
+      let fileReader = new FileReader();
+      fileReader.onload = ()=>{
+          this.setState({image:file , preview:fileReader.result}
+              , ()=>{
+              console.log('state file front',this.state.image)
+          })
+      }
+      fileReader.readAsDataURL(file);
+    }
     changeHandler = (event) => {
       let value = event.target.value;
       let name = event.target.name;
@@ -78,23 +94,24 @@ class newExercise extends Component {
       e.preventDefault();
       this.props.history.push('/exercise/list')
     }
-    newStatusHandler =(e) => {
+    newExerciseHandler =(e) => {
         e.preventDefault();
+        const formData = new FormData();
+        formData.append('name' ,this.state.name );
+        formData.append('description' ,this.state.description );
+        formData.append('category' ,this.state.category );
+        formData.append('image' ,this.state.image );
         fetch(process.env.REACT_APP_API_ADDRESS + '/exercise/create' , {
         method:'POST',
-        headers:{
-            'Content-Type': 'application/json'
-        },
-        body:JSON.stringify({
-            name:this.state.name,
-            description:this.state.description,
-            icon:this.state.icon,
-            category:this.state.category,
-      })
+        body:formData
     })
-    .then(res => {
-      return res.json();
-    })
+    .then(response => {
+      if(!response.ok){
+        return new Error(response.statusText , response.status);
+      }
+      else{
+        return response.json()
+      }    })
     .then(result => {
       console.log('frontend:::',result.message)
     })
@@ -156,12 +173,19 @@ class newExercise extends Component {
                 </CFormGroup>
                 <CFormGroup >
                   <CInputGroup>
-                    <CInputGroupPrepend>
-                      <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
-                    </CInputGroupPrepend>
-                    <CInput  name="icon" placeholder={t('Icon')} onChange={this.changeHandler}/>
+                    <img src={this.state.preview} style={{width:'130px', marginRight:"4rem"
+                     , border:'solid silver 1px',
+                     height:'130px'}}
+                    alt='preview'/> 
                   </CInputGroup>
                 </CFormGroup>
+                <CFormGroup >
+                  <CInputGroup>
+                    <input type="file"   name="image"  onChange={this.fileHandler}/>
+                  </CInputGroup>
+                </CFormGroup>
+
+                
                 <CFormGroup >
                   <CInputGroup>
                     <CInputGroupPrepend>
@@ -180,7 +204,7 @@ class newExercise extends Component {
                   
                
                 <CFormGroup className="form-actions">
-                  <CButton  onClick={(e)=>this.newStatusHandler(e)} block size="md"  color="success">
+                  <CButton  onClick={(e)=>this.newExerciseHandler(e)} block size="md"  color="success">
                       {t('Insert')}
                     </CButton>
                 </CFormGroup>
