@@ -19,6 +19,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
 import { withTranslation } from "react-i18next";
+import {deleteHandler} from '../../Shared-Component/deleteHandler';
 
 
 
@@ -79,6 +80,10 @@ editHandler =(event , index , item )=>{
     state: { item: item , id:index }
   })
 }
+delHandler =(event , item)=>{
+  event.preventDefault();
+  deleteHandler(item , 'exercise');
+}
 searchHandler = (e)=>{
   e.preventDefault();
   fetch(process.env.REACT_APP_API_ADDRESS + '/exercise/search' , {
@@ -115,6 +120,10 @@ searchHandler = (e)=>{
 render(){
   const { t, i18n } = this.props;
   const fields = [
+    {
+      key: 'id',
+      label: t('Id'),
+    },
     {
       key: 'name',
       label: t('Name'),
@@ -217,6 +226,7 @@ return (
           <CDataTable
             items={this.state.exerciseState.map(exr => {
                 return{
+                    "id":exr.id,
                     "name":exr.name,
                     "description":exr.description,
                     "icon":exr.icon ,
@@ -260,7 +270,8 @@ return (
                 onClick={(e)=>this.editHandler(e , index , item)}>
                 {t('Edit')}
                 </CButton>
-                <CButton size="sm" color="danger" className="ml-1" onClick={(e)=>this.deleteHandler(e , index)}>
+                <CButton size="sm" color="danger" className="ml-1" 
+                onClick={(e)=>this.delHandler(e , item)}>
                 {t('Delete')}
                 </CButton>
               </CCardBody>

@@ -116,7 +116,7 @@ class newGroup extends Component {
                       <CInputGroupText><CIcon name="cil-chevron-double-left" /></CInputGroupText>
                     </CInputGroupPrepend>
                     <CSelect name="status"  onChange={this.changeHandler}>
-                    <option value ="" selected disabled hidden>{t('Status')}</option>
+                    <option value ="" selected="selected" disabled hidden>{t('Status')}</option>
                       <option  value= "1" >فعال</option>
                       <option value="0" >غیرفعال</option>
                     </CSelect>

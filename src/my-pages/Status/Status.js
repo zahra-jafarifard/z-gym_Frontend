@@ -20,6 +20,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
 import { withTranslation } from "react-i18next";
+import {deleteHandler} from '../../Shared-Component/deleteHandler';
 
 
 const getBadge = status => {
@@ -115,11 +116,20 @@ searchHandler = (e)=>{
       state: { item: item , id:index }
     })
   }
-
+  
+  delHandler =(event , item)=>{
+    event.preventDefault();
+    deleteHandler(item , 'user_status');
+  }
 render(){
 
   const { t, i18n } = this.props;
-  const fields = [{
+  const fields = [
+    {
+    key: 'id',
+    label: t('Id'),
+  },
+    {
     key: 'name',
     label: t('Name'),
   },
@@ -195,6 +205,7 @@ return (
           <CDataTable
             items={this.state.statusState.map(st => {
                 return{
+                    "id":st.id,
                     "name":st.status_name,
                 }
             })}
@@ -243,7 +254,8 @@ return (
                   <CButton style={{marginLeft:"5px"}} size="sm" color="info" onClick={(e)=>this.editHandler(e , index , item)}>
                   {t('Edit')}
                   </CButton>
-                  <CButton size="sm" color="danger" className="ml-1" onClick={(e)=>this.deleteHandler(e , index)}>
+                  <CButton size="sm" color="danger" className="ml-1" 
+                  onClick={(e)=>this.delHandler(e , item)}>
                   {t('Delete')}
                   </CButton>
                 </CCardBody>

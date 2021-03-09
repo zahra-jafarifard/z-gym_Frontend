@@ -19,7 +19,7 @@ import {
 } from '@coreui/react';
 import { withTranslation } from "react-i18next";
 import CIcon from '@coreui/icons-react';
-
+import {deleteHandler} from '../../Shared-Component/deleteHandler'
 
 
 class Equipment extends Component {
@@ -64,7 +64,10 @@ class Equipment extends Component {
     let name = event.target.name;
     this.setState({ [name] : value });
   }
-
+  delHandler =(event , item)=>{
+    event.preventDefault();
+    deleteHandler(item , 'equipment');
+  }
   searchHandler = (e)=>{
     e.preventDefault();
     fetch(process.env.REACT_APP_API_ADDRESS + '/equipment/search' , {
@@ -101,7 +104,12 @@ class Equipment extends Component {
     }
   render(){
   const { t, i18n } = this.props;
-  const fields = [{
+  const fields = [
+    {
+    key: 'id',
+    label: t('Id'),
+  },
+    {
     key: 'name',
     label: t('Name'),
   },
@@ -181,6 +189,7 @@ class Equipment extends Component {
             <CDataTable
               items={this.state.equipmentState.map(eqp => {
                   return{
+                      "id":eqp.id,
                       "name":eqp.equipment_name,
                   }
               })}
@@ -221,7 +230,8 @@ class Equipment extends Component {
                   <CButton style={{marginLeft:"5px"}} size="sm" color="info" onClick={(e)=>this.editHandler(e , index , item)}>
                   {t('Edit')}
                   </CButton>
-                  <CButton size="sm" color="danger" className="ml-1" onClick={(e)=>this.deleteHandler(e , index)}>
+                  <CButton size="sm" color="danger" className="ml-1" 
+                  onClick={(e)=>this.delHandler(e , item)}>
                     {t('Delete')}
                   </CButton>
                 </CCardBody>

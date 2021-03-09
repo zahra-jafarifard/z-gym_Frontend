@@ -25,7 +25,7 @@ import CIcon  from '@coreui/icons-react';
 
 import { withTranslation } from "react-i18next";
 import i18nContext from '../../Shared-Component/i18n-Context';
-
+import {deleteHandler} from '../../Shared-Component/deleteHandler'
 
 const getBadge = status => {
   switch (status) {
@@ -44,11 +44,11 @@ class Members extends Component {
     super(props);
     this.state = {
       membersState:[],
-      memberState:[],
       collapsed:false,
       showCard:true,
       details:[],
 
+      id:'',
       name:'',
       lastName:'',
       mobile:'',
@@ -71,7 +71,7 @@ class Members extends Component {
         }
     }).then(response =>{
       if(!response.ok){
-        return console.log(response.statusText , response.status);
+        return new Error(response.statusText , response.status);
       }
       else{
         return response.json()
@@ -83,7 +83,6 @@ class Members extends Component {
       } , ()=>{
         console.log(this.state.membersState);
     })
-
     })
     .catch(e => {
       console.log('catch',e.message );
@@ -97,16 +96,17 @@ class Members extends Component {
     this.setState({ [name] : value });
   }
 
-  editHandler =(event , index , item )=>{
+  editHandler =(event , item )=>{
     event.preventDefault();
     this.props.history.push({
       pathname:'/members/update',
       state: { item: item }
     });
   }
-  deleteHandler =(event)=>{
+  
+  delHandler =(event , item)=>{
     event.preventDefault();
-    console.log('deleeeete')
+    deleteHandler(item , 'members');
   }
 
   searchHandler = (e)=>{
@@ -144,6 +144,11 @@ class Members extends Component {
   render(){
     const { t, i18n } = this.props;
     const fields = [
+      {
+      key: 'id',
+      label: t('Id'),
+      _style: { width: '1%'},
+    },
       {
       key: 'name',
       label: t('Name'),
@@ -259,7 +264,8 @@ class Members extends Component {
                       <CInputGroupText><CIcon name="cil-group" /></CInputGroupText>
                     </CInputGroupPrepend>
                     <CSelect name="gender"  onChange={this.changeHandler}>
-                      <option value="" selected disabled hidden> {t('Gender')} </option>
+                      <option value=""  disabled hidden> {t('Gender')} </option>
+                      {/* <option value="" selected disabled hidden> {t('Gender')} </option> */}
                       <option  value="زن"  > زن</option>
                       <option value='مرد' > مرد</option>
                   </CSelect>
@@ -315,7 +321,9 @@ class Members extends Component {
             <CCardBody>
             <CDataTable
               items={ this.state.membersState.map(member => {
+                <input type='hidden' name='id' value={member.id}></input>
                 return {
+                  "id":member.id,
                  "name" : member.name,
                  "lastName" :member.lastName ,
                  "mobile":member.mobile,
@@ -368,10 +376,12 @@ class Members extends Component {
                     {item.name}{' '}{item.lastName}
                   </h4>
                   <p className="text-muted"> {t('Edit')} / {t('Delete')} </p>
-                  <CButton style={{marginLeft:"5px"}} size="sm" color="info" onClick={(e)=>this.editHandler(e , index , item)}>
+                  <CButton style={{marginLeft:"5px"}} size="sm" color="info" 
+                  onClick={(e)=>this.editHandler(e , item)}>
                   {t("Edit")}
                   </CButton>
-                  <CButton size="sm" color="danger" className="ml-1" onClick={(e)=>this.deleteHandler(e , index)}>
+                  <CButton size="sm" color="danger" className="ml-1" 
+                  onClick={(e)=>this.delHandler(e , item)}>
                   {t("Delete")}
                   </CButton>
                 </CCardBody>

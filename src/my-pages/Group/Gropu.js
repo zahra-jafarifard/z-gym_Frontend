@@ -20,6 +20,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
 import { withTranslation } from "react-i18next";
+import {deleteHandler} from '../../Shared-Component/deleteHandler';
 
 
 const getBadge = status => {
@@ -74,7 +75,10 @@ class Group extends Component {
     let name = event.target.name;
     this.setState({ [name] : value });
   }
-
+  delHandler =(event , item)=>{
+    event.preventDefault();
+    deleteHandler(item , 'user_group');
+  }
   searchHandler = (e)=>{
     e.preventDefault();
     fetch(process.env.REACT_APP_API_ADDRESS + '/user_group/search' , {
@@ -116,6 +120,10 @@ class Group extends Component {
   const { t, i18n } = this.props;
     
   const fields = [
+    {
+     key: 'id',
+     label: t('Id'),
+   },
     {
      key: 'name',
      label: t('Name'),
@@ -205,6 +213,7 @@ class Group extends Component {
             <CDataTable
               items={this.state.groupState.map(grp => {
                   return{
+                      "id":grp.id,
                       "name":grp.group_name,
                       "status":(grp.group_status === true ? "فعال" : "غیرفعال")
                   }
@@ -253,7 +262,8 @@ class Group extends Component {
                   <CButton style={{marginLeft:"5px"}} size="sm" color="info" onClick={(e)=>this.editHandler(e , index , item)}>
                     {t('Edit')}
                   </CButton>
-                  <CButton size="sm" color="danger" className="ml-1" onClick={(e)=>this.deleteHandler(e , index)}>
+                  <CButton size="sm" color="danger" className="ml-1" 
+                  onClick={(e)=>this.delHandler(e , item)}>
                   {t('Delete')}
                   </CButton>
                 </CCardBody>

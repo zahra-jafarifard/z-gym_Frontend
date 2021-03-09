@@ -1,5 +1,4 @@
 import React , {Component} from 'react';
-import {Link} from 'react-router-dom';
 import {
   CBadge,
   CCard,
@@ -10,36 +9,20 @@ import {
   CCollapse,
   CLink,
   CButton,
-  // CCardFooter,
-  // CDropdownItem,
-  // CDropdownMenu,
-  // CDropdownToggle,
   CFade,
   CForm,
   CFormGroup,
-  // CFormText,
-  // CValidFeedback,
-  // CInvalidFeedback,
-  // CTextarea,
   CInput,
-  // CInputFile,
-  // CInputCheckbox,
-  // CInputRadio,
   CInputGroup,
-  // CInputGroupAppend,
   CInputGroupPrepend,
-  // CDropdown,
   CInputGroupText,
-  // CLabel,
-  // CSelect,
   CRow,
-  // CSwitch
 } from '@coreui/react'
 
 import CIcon from '@coreui/icons-react';
 import { withTranslation } from "react-i18next";
 
-
+import {deleteHandler} from '../../Shared-Component/deleteHandler';
 
 
 
@@ -136,9 +119,21 @@ class Category extends Component {
     
     }
 
+
+  delHandler =(event , item)=>{
+    event.preventDefault();
+    deleteHandler(item , 'category');
+  }
+
+
   render(){
   const { t, i18n } = this.props;
-  const fields = [{
+  const fields = [
+    {
+    key: 'id',
+    label: t('Id'),
+  },
+    {
     key: 'name',
     label: t('Name'),
   },
@@ -220,6 +215,7 @@ class Category extends Component {
             <CDataTable
               items={this.state.categoryState.map(cat => {
                   return{
+                      "id":cat.id,
                       "name":cat.category_name,
                   }
               })}
@@ -257,10 +253,12 @@ class Category extends Component {
                       {item.name}{' '}{item.lastName}
                     </h4>
                     <p className="text-muted">{t('Edit')} / {t('Delete')}</p>
-                    <CButton style={{marginLeft:"5px"}} size="sm" color="info" onClick={(e)=>this.editHandler(e , index , item)}>
+                    <CButton style={{marginLeft:"5px"}} size="sm" 
+                    color="info" onClick={(e)=>this.editHandler(e , index , item)}>
                     {t('Edit')}
                     </CButton>
-                    <CButton size="sm" color="danger" className="ml-1" onClick={(e)=>this.deleteHandler(e , index)}>
+                    <CButton size="sm" color="danger" className="ml-1" 
+                    onClick={(e)=>this.delHandler(e , item)}>
                       {t('Delete')}
                     </CButton>
                   </CCardBody>

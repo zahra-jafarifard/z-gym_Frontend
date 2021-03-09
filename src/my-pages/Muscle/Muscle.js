@@ -20,6 +20,7 @@ import {
 
 import CIcon from '@coreui/icons-react';
 import { withTranslation } from "react-i18next";
+import {deleteHandler} from '../../Shared-Component/deleteHandler';
 
 
 
@@ -110,10 +111,21 @@ class Muscle extends Component {
       state: { item: item , id:index }
     })
     
-    }
+  }
+  
+  delHandler =(event , item)=>{
+    event.preventDefault();
+    deleteHandler(item , 'muscle');
+  }
+
   render(){
   const { t, i18n } = this.props;
-  const fields = [{
+  const fields = [
+    {
+    key: 'id',
+    label: t('Id'),
+  },
+    {
     key: 'name',
     label: t('Name'),
   },
@@ -193,6 +205,7 @@ class Muscle extends Component {
             <CDataTable
               items={this.state.muscleState.map(msl => {
                   return{
+                      "id":msl.id,
                       "name":msl.muscle_name,
                   }
               })}
@@ -233,7 +246,8 @@ class Muscle extends Component {
                   <CButton style={{marginLeft:"5px"}} size="sm" color="info" onClick={(e)=>this.editHandler(e , index , item)}>
                   {t('Edit')}
                   </CButton>
-                  <CButton size="sm" color="danger" className="ml-1" onClick={(e)=>this.deleteHandler(e , index)}>
+                  <CButton size="sm" color="danger" className="ml-1" 
+                  onClick={(e)=>this.delHandler(e , item)}>
                   {t('Delete')}
                   </CButton>
                 </CCardBody>
