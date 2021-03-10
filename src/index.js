@@ -16,22 +16,22 @@ import { Provider } from 'react-redux';
 
 import {createStore ,applyMiddleware  , compose} from 'redux';
 import thunk from 'redux-thunk';
-import userReducer from './store/reducers/userReducer';
+import displayReducer from './store/reducers/displayReducer';
 
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(userReducer, composeEnhancers(
+const store = createStore(displayReducer, composeEnhancers(
   applyMiddleware(thunk)
   ));
   
   React.icons = icons;
 
 const app = (
-  <I18nextProvider i18n={i18n} >
   <Provider store={store}>
+  <I18nextProvider i18n={i18n} >
   <App />
-  </Provider>
     </I18nextProvider>
+  </Provider>
 );
 
 ReactDOM.render( app ,document.getElementById('root'));

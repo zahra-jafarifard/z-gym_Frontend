@@ -21,18 +21,16 @@ import {
 
 import CIcon from '@coreui/icons-react';
 import { withTranslation } from "react-i18next";
+import {connect} from 'react-redux';
 
 import {deleteHandler} from '../../Shared-Component/deleteHandler';
-
-
+import * as displayAction from '../../store/actions/index';
 
 class Category extends Component {
   constructor(props){
     super(props);
     this.state = {
       categoryState:[],
-      collapsed:false,
-      showCard:true,
       details:[],
 
       name:''
@@ -40,7 +38,7 @@ class Category extends Component {
   }
 
   componentDidMount = ()=>{
-    console.log('prooops',this.props)
+    // console.log('prooops',this.props)
     fetch(process.env.REACT_APP_API_ADDRESS + '/category/list' , {
       method:'POST',
         headers:{
@@ -95,12 +93,12 @@ class Category extends Component {
     return response.json();
     })
     .then(result => {
-      console.log('reeeeees' ,result.categories );
+      // console.log('reeeeees' ,result.categories );
       this.setState({categoryState:result.categories  ,
-      collapsed:false
-      }, ()=> {
-        console.log(this.state.categoryState  , 'okkkkk');
-    });
+      // collapsed:false
+      });
+      this.props.onCollapsedFalse();
+      /////////
     })
     .catch(e => {
       console.log(e);
@@ -120,9 +118,10 @@ class Category extends Component {
     }
 
 
-  delHandler =(event , item)=>{
+  delHandler =(event , item , index)=>{
     event.preventDefault();
     deleteHandler(item , 'category');
+    document.getElementById(index).style.display='none';
   }
 
 
@@ -165,20 +164,26 @@ class Category extends Component {
     </CLink>
   <CRow>
     <CCol xs="12" sm="6" md="4" >
-          <CFade in={this.state.showCard} >
+          <CFade in={this.props.showCard} >
             <CCard  style={{ width:"80%", marginRight:"0%", marginTop:"8%"}}>
               <CCardHeader >
-              <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
+              <CLink className="card-header-action"  
+              onClick={() =>this.props.onCollapsedToggle()}
+              // onClick={() => this.setState({collapsed:!this.state.collapsed}) }
+              >
                 <CIcon name="cil-search" />
                 <span style={{marginRight:'5px'}}>{t('Search')}</span>
                 </CLink>
                 <div className="card-header-actions">
-                  <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
-                    <CIcon name={this.state.collapsed ? 'cil-chevron-bottom':'cil-chevron-top'} />
+                  <CLink className="card-header-action"
+                  onClick={() =>this.props.onCollapsedToggle()}
+                  //  onClick={() => this.setState({collapsed:!this.state.collapsed}) }
+                   >
+                    <CIcon name={this.props.collapsed ? 'cil-chevron-bottom':'cil-chevron-top'} />
                   </CLink>
                 </div>
               </CCardHeader>
-              <CCollapse show={this.state.collapsed}>
+              <CCollapse show={this.props.collapsed}>
                 <CCardBody>
                   
               <CForm  >
@@ -258,7 +263,7 @@ class Category extends Component {
                     {t('Edit')}
                     </CButton>
                     <CButton size="sm" color="danger" className="ml-1" 
-                    onClick={(e)=>this.delHandler(e , item)}>
+                    onClick={(e)=>this.delHandler(e , item , index)}>
                       {t('Delete')}
                     </CButton>
                   </CCardBody>
@@ -278,4 +283,17 @@ class Category extends Component {
   }
 }
 
-export default (withTranslation("translations")(Category));
+const mapStateToProps = (state)=>{
+  console.log('main map state' , state);
+  return{
+      showCard:state.showCard,
+      collapsed:state.collapsed
+  };
+}
+const mapDispatchToProps = dispatch => {
+  return{
+      onCollapsedToggle : ()=> {dispatch(displayAction.collapsedToggle())},
+      onCollapsedFalse : ()=> {dispatch(displayAction.collapsedFalse())}
+  };
+}
+export default (connect(mapStateToProps,mapDispatchToProps)(withTranslation("translations")(Category)));

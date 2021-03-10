@@ -1,8 +1,8 @@
 
-export const LOGIN_FAILED = 'LOGIN_FAILED';
-export const LOGIN = 'LOGIN';
+export const COLLAPSED_TOGGLE = 'COLLAPSED_TOGGLE';
+export const COLLAPSED_FALSE = 'COLLAPSED_FALSE';
 
-export const LOG_OUT = 'LOG_OUT';
-export const LOG_OUT_FAILED = 'LOG_OUT_FAILED';
+export const SHOW_CARD = 'SHOW_CARD';
+
 
 

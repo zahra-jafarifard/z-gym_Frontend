@@ -1,4 +1,4 @@
 export {
-    asyncLogin,
-    asyncLogout
-} from './user';
+    collapsedToggle,
+    collapsedFalse
+} from './displayActions';

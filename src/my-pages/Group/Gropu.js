@@ -75,7 +75,7 @@ class Group extends Component {
     let name = event.target.name;
     this.setState({ [name] : value });
   }
-  delHandler =(event , item)=>{
+  delHandler =(event , item )=>{
     event.preventDefault();
     deleteHandler(item , 'user_group');
   }
@@ -259,11 +259,12 @@ class Group extends Component {
                     {item.name}{' '}{item.lastName}
                   </h4>
                   <p className="text-muted"> {t('Edit')} / {t('Delete')} </p>
-                  <CButton style={{marginLeft:"5px"}} size="sm" color="info" onClick={(e)=>this.editHandler(e , index , item)}>
+                  <CButton style={{marginLeft:"5px"}} size="sm" color="info" 
+                  onClick={(e)=>this.editHandler(e , index , item)}>
                     {t('Edit')}
                   </CButton>
                   <CButton size="sm" color="danger" className="ml-1" 
-                  onClick={(e)=>this.delHandler(e , item)}>
+                  onClick={(e)=>this.delHandler(e , item )}>
                   {t('Delete')}
                   </CButton>
                 </CCardBody>

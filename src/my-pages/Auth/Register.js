@@ -22,8 +22,8 @@ class Register extends Component{
   constructor(props){
     super(props);
     this.state = {
-      collapsed:false,
-      showCard:true,
+      // collapsed:false,
+      // showCard:true,
 
       name:'',
       lastName:'',
