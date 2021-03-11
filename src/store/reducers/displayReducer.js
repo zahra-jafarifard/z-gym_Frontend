@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    collapsed:true,
+    collapsed:false,
     showCard:true
 }
 

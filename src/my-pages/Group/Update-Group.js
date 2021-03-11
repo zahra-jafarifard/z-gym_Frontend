@@ -19,15 +19,13 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react';
 import { withTranslation } from "react-i18next";
-
+import {connect} from 'react-redux';
+import * as displayAction  from '../../store/actions/index'
 
 class updateGroup extends Component {
   constructor(props){
     super(props);
     this.state = {
-      collapsed:true,
-      showCard:true,
-
       id:'',
       name:'',
       status:'',
@@ -83,17 +81,12 @@ class updateGroup extends Component {
         <CCol xs="12" sm="6" md="4" style={{ margin:"auto"}} >
     <CCard borderColor="info" style={{width:'130%'}}>
       <CCardHeader >
-        <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
           <CIcon name="cil-library-add"  />
           <span style={{marginRight:'5px'}}> {t('Edit')} </span>
-          </CLink>
           <div className="card-header-actions">
             <CLink className="card-header-action" onClick={(e) => this.goBackHandler(e) }>
             {t('Back')}
               <CIcon name="cil-arrow-circle-left"  style={{marginRight:"3px"}} />
-            </CLink>
-            <CLink style={{marginRight:"13px"}} className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
-              <CIcon name={this.state.collapsed ? 'cil-chevron-bottom':'cil-chevron-top'} />
             </CLink>
           </div>
         </CCardHeader>
@@ -101,8 +94,8 @@ class updateGroup extends Component {
         
       <CRow >
   <CCol xs="12" sm="6" md="4"  style={{textAlign:"center"}} >
-    <CFade in={this.state.showCard} >
-        <CCollapse show={this.state.collapsed}>
+    <CFade in={this.props.showCard} >
+        <CCollapse show={this.props.showCard}>
           <CCardBody style={{width:'240%' , marginRight:"40%"}}>
         <CForm  >
         <CFormGroup >
@@ -150,5 +143,12 @@ class updateGroup extends Component {
 
 }
     
-export default  (withTranslation("translations")(updateGroup));
+const mapStateToProps = (state)=>{
+  console.log('main map state' , state);
+  return{
+      showCard:state.showCard
+  };
+}
+
+export default (connect(mapStateToProps)(withTranslation("translations")(updateGroup)));
          

@@ -23,6 +23,8 @@ import {
 
 import CIcon  from '@coreui/icons-react';
 
+import {connect} from'react-redux';
+import * as displayAction from '../../store/actions/index';
 import { withTranslation } from "react-i18next";
 import i18nContext from '../../Shared-Component/i18n-Context';
 import {deleteHandler} from '../../Shared-Component/deleteHandler'
@@ -37,15 +39,13 @@ const getBadge = status => {
   }
 }
 
-
-
 class Members extends Component {
   constructor(props){
     super(props);
     this.state = {
       membersState:[],
-      collapsed:false,
-      showCard:true,
+      // collapsed:false,
+      // showCard:true,
       details:[],
 
       id:'',
@@ -130,11 +130,9 @@ class Members extends Component {
       return res.json();
     })
     .then(result => {
-      this.setState({membersState:result.members  ,
-      collapsed:false
-      }, ()=> {
-        console.log(this.state.membersState);
-    });
+      this.setState({membersState:result.members });
+      this.props.onCollapsedFalse();
+
     })
     .catch(e => {
       console.log(e);
@@ -215,20 +213,26 @@ class Members extends Component {
     
     <CRow style={{ width:"150%", marginTop:"3%"}}>
     <CCol xs="12" sm="6" md="4" >
-          <CFade in={this.state.showCard} >
+          <CFade in={this.props.showCard} >
             <CCard>
               <CCardHeader >
-              <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
+              <CLink className="card-header-action" 
+              onClick={() =>this.props.onCollapsedToggle()}
+              // onClick={() => this.setState({collapsed:!this.state.collapsed}) }
+              >
                 <CIcon name="cil-search" />
                 <span style={{marginRight:'5px'}}> {t('Search')} </span>
                 </CLink>
                 <div className="card-header-actions">
-                  <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
-                    <CIcon name={this.state.collapsed ? 'cil-chevron-bottom':'cil-chevron-top'} />
+                  <CLink className="card-header-action" 
+                  onClick={() =>this.props.onCollapsedToggle()}
+                  // onClick={() => this.setState({collapsed:!this.state.collapsed}) }
+                  >
+                    <CIcon name={this.props.collapsed ? 'cil-chevron-bottom':'cil-chevron-top'} />
                   </CLink>
                 </div>
               </CCardHeader>
-              <CCollapse show={this.state.collapsed}>
+              <CCollapse show={this.props.collapsed}>
               <CCardBody>
               <CForm  >
                 <CRow >
@@ -399,4 +403,17 @@ class Members extends Component {
   }
 }
 
-export default (withTranslation("translations")(Members));
+const mapStateToProps = (state)=>{
+  console.log('main map state' , state);
+  return{
+      showCard:state.showCard,
+      collapsed:state.collapsed
+  };
+}
+const mapDispatchToProps = dispatch => {
+  return{
+      onCollapsedToggle : ()=> {dispatch(displayAction.collapsedToggle())},
+      onCollapsedFalse : ()=> {dispatch(displayAction.collapsedFalse())}
+  };
+}
+export default (connect(mapStateToProps,mapDispatchToProps)(withTranslation("translations")(Members)));

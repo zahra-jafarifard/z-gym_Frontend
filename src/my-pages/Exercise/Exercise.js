@@ -20,16 +20,16 @@ import {
 import CIcon from '@coreui/icons-react';
 import { withTranslation } from "react-i18next";
 import {deleteHandler} from '../../Shared-Component/deleteHandler';
-
-
+import {connect} from 'react-redux';
+import * as displayAction from '../../store/actions/index'
 
 class Exercise extends Component {
   constructor(props){
     super(props);
     this.state = {
       exerciseState:[],
-      collapsed:false,
-      showCard:true,
+      // collapsed:false,
+      // showCard:true,
       details:[],
 
       name:'',
@@ -106,11 +106,9 @@ searchHandler = (e)=>{
     }
   })
   .then(result => {
-    this.setState({exerciseState:result.exercises  ,
-    collapsed:false
-    }, ()=> {
-      console.log(this.state.exerciseState);
-  });
+    this.setState({exerciseState:result.exercises});
+    this.props.onCollapsedFalse();
+
   })
   .catch(e => {
     console.log(e);
@@ -171,20 +169,24 @@ return (
   </CLink>
 <CRow>
   <CCol xs="12" sm="6" md="4" >
-        <CFade in={this.state.showCard} >
+        <CFade in={this.props.showCard} >
           <CCard  style={{  marginRight:"0%", marginTop:"8%"}}>
             <CCardHeader >
-            <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
+            <CLink className="card-header-action" 
+              onClick={() =>this.props.onCollapsedToggle()}
+            >
               <CIcon name="cil-search" />
               <span style={{marginRight:'5px'}}> {t('Search')} </span>
               </CLink>
               <div className="card-header-actions">
-                <CLink className="card-header-action" onClick={() => this.setState({collapsed:!this.state.collapsed}) }>
-                  <CIcon name={this.state.collapsed ? 'cil-chevron-bottom':'cil-chevron-top'} />
+                <CLink className="card-header-action" 
+                  onClick={() =>this.props.onCollapsedToggle()}
+                  >
+                  <CIcon name={this.props.collapsed ? 'cil-chevron-bottom':'cil-chevron-top'} />
                 </CLink>
               </div>
             </CCardHeader>
-            <CCollapse show={this.state.collapsed}>
+            <CCollapse show={this.props.collapsed}>
               <CCardBody>
                 
             <CForm  >
@@ -299,4 +301,17 @@ return (
 )}
 }
 
-export default (withTranslation("translations")(Exercise));
+const mapStateToProps = (state)=>{
+  console.log('main map state' , state);
+  return{
+      showCard:state.showCard,
+      collapsed:state.collapsed
+  };
+}
+const mapDispatchToProps = dispatch => {
+  return{
+      onCollapsedToggle : ()=> {dispatch(displayAction.collapsedToggle())},
+      onCollapsedFalse : ()=> {dispatch(displayAction.collapsedFalse())}
+  };
+}
+export default (connect(mapStateToProps,mapDispatchToProps)(withTranslation("translations")(Exercise)));

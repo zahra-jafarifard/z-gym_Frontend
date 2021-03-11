@@ -94,11 +94,8 @@ class Category extends Component {
     })
     .then(result => {
       // console.log('reeeeees' ,result.categories );
-      this.setState({categoryState:result.categories  ,
-      // collapsed:false
-      });
+      this.setState({categoryState:result.categories});
       this.props.onCollapsedFalse();
-      /////////
     })
     .catch(e => {
       console.log(e);
@@ -169,7 +166,6 @@ class Category extends Component {
               <CCardHeader >
               <CLink className="card-header-action"  
               onClick={() =>this.props.onCollapsedToggle()}
-              // onClick={() => this.setState({collapsed:!this.state.collapsed}) }
               >
                 <CIcon name="cil-search" />
                 <span style={{marginRight:'5px'}}>{t('Search')}</span>
@@ -177,7 +173,6 @@ class Category extends Component {
                 <div className="card-header-actions">
                   <CLink className="card-header-action"
                   onClick={() =>this.props.onCollapsedToggle()}
-                  //  onClick={() => this.setState({collapsed:!this.state.collapsed}) }
                    >
                     <CIcon name={this.props.collapsed ? 'cil-chevron-bottom':'cil-chevron-top'} />
                   </CLink>
