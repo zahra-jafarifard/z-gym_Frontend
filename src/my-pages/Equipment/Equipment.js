@@ -42,6 +42,7 @@ class Equipment extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
     })
       .then((response) => {
@@ -73,7 +74,7 @@ class Equipment extends Component {
   };
   delHandler = (event, item) => {
     event.preventDefault();
-    deleteHandler(item, "equipment");
+    deleteHandler(this.props.token, item, "equipment");
   };
   searchHandler = (e) => {
     e.preventDefault();
@@ -81,6 +82,7 @@ class Equipment extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
       body: JSON.stringify({
         equipmentName: this.state.name,
@@ -290,8 +292,9 @@ class Equipment extends Component {
 export const mapStateToProps = (state) => {
   console.log("main map state", state);
   return {
-    showCard: state.showCard,
-    collapsed: state.collapsed,
+    token: state.authReducer.token,
+    showCard: state.displayReducer.showCard,
+    collapsed: state.displayReducer.collapsed,
   };
 };
 

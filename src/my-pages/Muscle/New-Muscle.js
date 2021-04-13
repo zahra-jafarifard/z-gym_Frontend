@@ -60,6 +60,7 @@ class newMuscle extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
       body: JSON.stringify({
         muscleName: this.state.name,
@@ -152,7 +153,8 @@ class newMuscle extends Component {
 const mapStateToProps = (state) => {
   console.log("main map state", state);
   return {
-    showCard: state.showCard,
+    showCard: state.displayReducer.showCard,
+    token: state.authReducer.token,
   };
 };
 

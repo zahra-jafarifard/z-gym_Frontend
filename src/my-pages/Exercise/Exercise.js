@@ -44,6 +44,7 @@ class Exercise extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
     })
       .then((response) => {
@@ -84,7 +85,7 @@ class Exercise extends Component {
 
   delHandler = (event, item) => {
     event.preventDefault();
-    deleteHandler(item, "exercise");
+    deleteHandler(this.props.token,item, "exercise");
   };
   searchHandler = (e) => {
     e.preventDefault();
@@ -92,6 +93,7 @@ class Exercise extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
       body: JSON.stringify({
         name: this.state.name,
@@ -337,8 +339,9 @@ class Exercise extends Component {
 const mapStateToProps = (state) => {
   console.log("main map state", state);
   return {
-    showCard: state.showCard,
-    collapsed: state.collapsed,
+    token: state.authReducer.token,
+    showCard: state.displayReducer.showCard,
+    collapsed: state.displayReducer.collapsed,
   };
 };
 const mapDispatchToProps = (dispatch) => {

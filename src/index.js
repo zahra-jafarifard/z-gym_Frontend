@@ -14,13 +14,17 @@ import { Provider } from 'react-redux';
 // import store from './store';
 
 
-import {createStore ,applyMiddleware  , compose} from 'redux';
+import {createStore ,applyMiddleware  , compose , combineReducers} from 'redux';
 import thunk from 'redux-thunk';
 import displayReducer from './store/reducers/displayReducer';
+import authReducer from './store/reducers/authReducer';
 
-
+const rootReducer = combineReducers({
+  displayReducer:displayReducer,
+  authReducer:authReducer
+})
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(displayReducer, composeEnhancers(
+const store = createStore(rootReducer, composeEnhancers(
   applyMiddleware(thunk)
   ));
   

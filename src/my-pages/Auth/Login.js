@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import * as authActions from "../../store/actions/index";
 import {
   CButton,
   CCard,
@@ -37,8 +39,6 @@ class Login extends Component {
     this.setState({ [name]: value });
   };
 
-  // componentDidMount=() => {
-  // }
   forgetHandler = (e) => {
     e.preventDefault();
     this.props.history.push("/forget-password");
@@ -46,32 +46,14 @@ class Login extends Component {
 
   loginHandler = (e) => {
     e.preventDefault();
-    console.log("loooogin");
-    fetch(process.env.REACT_APP_API_ADDRESS + "/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        mobile: this.state.mobile,
-        password: this.state.password,
-        rememberMe: this.state.rememberMe,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return new Error(response.statusText, response.status);
-        } else {
-          return response.json();
-        }
-      })
-      .then((result) => {
-        console.log("user mobile", result.userMobile, "token", result.token);
-        this.props.history.replace("/profile");
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    // console.log("loooogin");
+    this.props.onLogin(
+      this.state.mobile,
+      this.state.password,
+      this.state.rememberMe
+    );
+
+    this.props.history.replace("/members/list");
   };
   render() {
     const { t, i18n } = this.props;
@@ -200,4 +182,25 @@ class Login extends Component {
   }
 }
 
-export default withTranslation("translations")(Login);
+const mapStateToProps = (state) => {
+  console.log('map state', state);
+  return {
+    mobile: state.authReducer.mobile,
+    isLoggedIn: state.authReducer.isLoggedIn,
+    token: state.authReducer.token,
+    error: state.authReducer.error,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLogin: (mobile, password, rememberMe) => {
+      dispatch(authActions.asyncLogin(mobile, password, rememberMe));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withTranslation("translations")(Login));

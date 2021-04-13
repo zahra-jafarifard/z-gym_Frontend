@@ -54,6 +54,7 @@ class Group extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
     })
       .then((response) => {
@@ -85,7 +86,7 @@ class Group extends Component {
   };
   delHandler = (event, item) => {
     event.preventDefault();
-    deleteHandler(item, "user_group");
+    deleteHandler(this.props.token, item, "user_group");
   };
   searchHandler = (e) => {
     e.preventDefault();
@@ -93,6 +94,7 @@ class Group extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
       body: JSON.stringify({
         name: this.state.name,
@@ -337,10 +339,11 @@ class Group extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("main map state", state);
+  // console.log("main map state", state);
   return {
-    showCard: state.showCard,
-    collapsed: state.collapsed,
+    token: state.authReducer.token,
+    showCard: state.displayReducer.showCard,
+    collapsed: state.displayReducer.collapsed,
   };
 };
 const mapDispatchToProps = (dispatch) => {

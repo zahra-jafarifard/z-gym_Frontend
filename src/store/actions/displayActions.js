@@ -8,7 +8,7 @@ export const collapsedToggle= ()=>{
 
 export const collapsedFalse= ()=>{
     return{
-        type:actionTypes.COLLAPSED_FALSE,
+        type:actionTypes.COLLAPSED_FALSE
         
     }
 };
@@ -16,15 +16,11 @@ export const collapsedFalse= ()=>{
 
 export const showCard = ()=>{
     return {
-        type:actionTypes.SHOW_CARD,
+        type:actionTypes.SHOW_CARD
     }
 
 }
-// export const asyncCollapsed = ()=>{
-//     return (dispatch) =>{
 
-//     }
-// }
 
 
 

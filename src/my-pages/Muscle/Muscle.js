@@ -42,6 +42,7 @@ class Muscle extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
     })
       .then((response) => {
@@ -78,6 +79,7 @@ class Muscle extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
       body: JSON.stringify({
         muscleName: this.state.name,
@@ -110,7 +112,7 @@ class Muscle extends Component {
 
   delHandler = (event, item) => {
     event.preventDefault();
-    deleteHandler(item, "muscle");
+    deleteHandler(this.props.token, item, "muscle");
   };
 
   render() {
@@ -296,10 +298,11 @@ class Muscle extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("main map state", state);
+  // console.log("main map state", state);
   return {
-    showCard: state.showCard,
-    collapsed: state.collapsed,
+    showCard: state.displayReducer.showCard,
+    collapsed: state.displayReducer.collapsed,
+    token: state.authReducer.token,
   };
 };
 const mapDispatchToProps = (dispatch) => {

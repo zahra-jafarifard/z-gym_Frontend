@@ -45,6 +45,7 @@ class newGroup extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
       body: JSON.stringify({
         groupName: this.state.name,
@@ -162,9 +163,10 @@ class newGroup extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("main map state", state);
+  // console.log("main map state", state);
   return {
-    showCard: state.showCard,
+    showCard: state.displayReducer.showCard,
+    token: state.authReducer.token,
   };
 };
 

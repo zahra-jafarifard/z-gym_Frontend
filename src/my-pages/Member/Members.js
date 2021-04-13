@@ -48,8 +48,6 @@ class Members extends Component {
     super(props);
     this.state = {
       membersState: [],
-      // collapsed:false,
-      // showCard:true,
       details: [],
 
       id: "",
@@ -69,7 +67,7 @@ class Members extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // 'Authorization': 'Bearer ' + token
+        Authorization: "Bearer " + this.props.token,
       },
     })
       .then((response) => {
@@ -85,7 +83,7 @@ class Members extends Component {
             membersState: result.members,
           },
           () => {
-            console.log(this.state.membersState);
+            console.log('membersState',this.state.membersState);
           }
         );
       })
@@ -110,7 +108,7 @@ class Members extends Component {
 
   delHandler = (event, item) => {
     event.preventDefault();
-    deleteHandler(item, "members");
+    deleteHandler(this.props.token, item, "members");
   };
 
   searchHandler = (e) => {
@@ -119,6 +117,7 @@ class Members extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
       body: JSON.stringify({
         name: this.state.name,
@@ -482,8 +481,11 @@ class Members extends Component {
 const mapStateToProps = (state) => {
   console.log("main map state", state);
   return {
-    showCard: state.showCard,
-    collapsed: state.collapsed,
+    // mobile: state.authReducer.mobile,
+    // isLoggedIn: state.authReducer.isLoggedIn,
+    token: state.authReducer.token,
+    showCard: state.displayReducer.showCard,
+    collapsed: state.displayReducer.collapsed,
   };
 };
 const mapDispatchToProps = (dispatch) => {

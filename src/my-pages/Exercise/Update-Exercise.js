@@ -49,6 +49,7 @@ class updateExercise extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
     })
       .then((response) => {
@@ -266,9 +267,10 @@ class updateExercise extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("main map state", state);
+  // console.log("main map state", state);
   return {
-    showCard: state.showCard,
+    token: state.authReducer.token,
+    showCard: state.displayReducer.showCard,
   };
 };
 

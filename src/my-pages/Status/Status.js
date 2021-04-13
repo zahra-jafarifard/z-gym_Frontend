@@ -57,6 +57,7 @@ class Status extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
     })
       .then((response) => {
@@ -121,7 +122,7 @@ class Status extends Component {
 
   delHandler = (event, item) => {
     event.preventDefault();
-    deleteHandler(item, "user_status");
+    deleteHandler(this.props.token, item, "user_status");
   };
   render() {
     const { t, i18n } = this.props;
@@ -316,10 +317,11 @@ class Status extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("main map state", state);
+  // console.log("main map state", state);
   return {
-    showCard: state.showCard,
-    collapsed: state.collapsed,
+    showCard: state.displayReducer.showCard,
+    collapsed: state.displayReducer.collapsed,
+    token: state.authReducer.token,
   };
 };
 const mapDispatchToProps = (dispatch) => {

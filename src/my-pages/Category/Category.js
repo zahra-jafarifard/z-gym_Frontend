@@ -43,6 +43,7 @@ class Category extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
     })
       .then((response) => {
@@ -79,6 +80,7 @@ class Category extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
       body: JSON.stringify({
         name: this.state.name,
@@ -112,8 +114,7 @@ class Category extends Component {
 
   delHandler = (event, item, index) => {
     event.preventDefault();
-    deleteHandler(item, "category");
-    document.getElementById(index).style.display = "none";
+    deleteHandler(this.props.token, item, "category");
   };
 
   render() {
@@ -299,10 +300,11 @@ class Category extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("main map state", state);
+  // console.log("main map state", state);
   return {
-    showCard: state.showCard,
-    collapsed: state.collapsed,
+    token: state.authReducer.token,
+    showCard: state.displayReducer.showCard,
+    collapsed: state.displayReducer.collapsed,
   };
 };
 const mapDispatchToProps = (dispatch) => {

@@ -52,6 +52,7 @@ class updateCategory extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
       body: JSON.stringify({
         id: this.props.location.state.id,
@@ -145,7 +146,9 @@ class updateCategory extends Component {
 const mapStateToProps = (state) => {
   console.log("main map state", state);
   return {
-    showCard: state.showCard,
+    token: state.authReducer.token,
+    showCard: state.displayReducer.showCard,
+    token: state.authReducer.token,
   };
 };
 

@@ -1,41 +1,61 @@
-import React from 'react'
-import { CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+import React from "react";
+import { useState, useEffect } from "react";
 
-import usersData from './UsersData'
+import { CCard, CCardBody, CCardHeader,CDataTable, CCol, CRow } from "@coreui/react";
+import CIcon from "@coreui/icons-react";
 
-const User = ({match}) => {
-  const user = usersData.find( user => user.id.toString() === match.params.id)
-  const userDetails = user ? Object.entries(user) : 
-    [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
+const User = ({ match }) => {
+  const [membersState, setMembersState] = useState([]);
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    fetch(process.env.REACT_APP_API_ADDRESS + "/members/" + match.params.id, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: "Bearer " + this.props.token,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return new Error(response.statusText, response.status);
+        } else {
+          return response.json();
+        }
+      })
+      .then((result) => {
+        console.log('user' , result.user)
+      setUser(result.user)
+      })
+      .catch((e) => {
+        console.log("catch", e.message);
+      });
+  }, []);
+
 
   return (
     <CRow>
       <CCol lg={6}>
         <CCard>
-          <CCardHeader>
-            User id: {match.params.id}
-          </CCardHeader>
+          <CCardHeader>User id: {match.params.id}</CCardHeader>
           <CCardBody>
-              <table className="table table-striped table-hover">
-                <tbody>
-                  {
-                    userDetails.map(([key, value], index) => {
-                      return (
-                        <tr key={index.toString()}>
-                          <td>{`${key}:`}</td>
-                          <td><strong>{value}</strong></td>
-                        </tr>
-                      )
-                    })
-                  }
-                </tbody>
-              </table>
+          <table>
+            <tbody>
+
+                  <tr>
+                    <td>{user.id}</td> 
+                    <td>{user.name}</td>
+                    <td>{user.lastName}</td>
+                    <td>{user.mobile}</td>
+                  </tr>
+            </tbody>
+                </table>
+          
           </CCardBody>
         </CCard>
       </CCol>
     </CRow>
-  )
-}
+  );
+};
 
-export default User
+export default User;

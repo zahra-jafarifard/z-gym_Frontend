@@ -69,6 +69,7 @@ class updateStatus extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
       body: JSON.stringify({
         id: this.props.location.state.id,
@@ -162,7 +163,8 @@ class updateStatus extends Component {
 const mapStateToProps = (state) => {
   console.log("main map state", state);
   return {
-    showCard: state.showCard,
+    showCard: state.displayReducer.showCard,
+    token: state.authReducer.token,
   };
 };
 

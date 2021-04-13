@@ -1,4 +1,9 @@
 export {
     collapsedToggle,
-    collapsedFalse
+    collapsedFalse,
 } from './displayActions';
+
+export {
+    asyncLogin,
+    asyncLogout
+} from './authActions';

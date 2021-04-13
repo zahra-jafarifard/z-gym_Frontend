@@ -1,9 +1,9 @@
-export const deleteHandler = (item , name) => {
+export const deleteHandler = (token , item , name) => {
     fetch(process.env.REACT_APP_API_ADDRESS + `/${name}/delete` , {
         method:'POST',
           headers:{
               'Content-Type': 'application/json',
-              // 'Authorization': 'Bearer ' + token 
+              Authorization: 'Bearer ' + token 
           },
           body:JSON.stringify({
             id:item.id

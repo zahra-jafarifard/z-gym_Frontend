@@ -54,6 +54,7 @@ class newExercise extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
       },
     })
       .then((response) => {
@@ -99,6 +100,9 @@ class newExercise extends Component {
     formData.append("image", this.state.image);
     fetch(process.env.REACT_APP_API_ADDRESS + "/exercise/create", {
       method: "POST",
+      headers: {
+        Authorization: "Bearer " + this.props.token,
+      },
       body: formData,
     })
       .then((response) => {
@@ -211,6 +215,7 @@ class newExercise extends Component {
                                 type="select"
                                 onChange={this.changeHandler}
                               >
+                                <option>Category</option>
                                 {this.state.categoryArray.map((opt) => {
                                   return (
                                     <option key={opt.id} value={opt.id}>
@@ -247,9 +252,10 @@ class newExercise extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("main map state", state);
+  // console.log("main map state", state);
   return {
-    showCard: state.showCard,
+    token: state.authReducer.token,
+    showCard: state.displayReducer.showCard,
   };
 };
 
