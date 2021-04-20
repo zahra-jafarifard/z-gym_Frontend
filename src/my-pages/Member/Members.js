@@ -27,7 +27,8 @@ import * as displayAction from "../../store/actions/index";
 import { withTranslation } from "react-i18next";
 import i18nContext from "../../Shared-Component/i18n-Context";
 import { deleteHandler } from "../../Shared-Component/deleteHandler";
-import usersData from "src/views/users/UsersData";
+import Modal from '.././UI Components/Modal';
+
 
 const getBadge = (status) => {
   switch (status) {
@@ -112,9 +113,10 @@ class Members extends Component {
     });
   };
 
-  delHandler = (event, item) => {
+  delHandler = (event , id) => {
     event.preventDefault();
-    deleteHandler(this.props.token, item, "members");
+    this.setState({id:id})
+    this.props.onDeleteModal(true);
   };
 
   searchHandler = (e) => {
@@ -150,11 +152,6 @@ class Members extends Component {
   render() {
     const { t, i18n } = this.props;
     const fields = [
-      {
-        key: "id",
-        label: t("Id"),
-        _style: { width: "1%" },
-      },
       {
         key: "name",
         label: t("Name"),
@@ -213,6 +210,12 @@ class Members extends Component {
 
     return (
       <React.Fragment>
+        {
+        this.props.deleteModal &&
+         <Modal  token={this.props.token} 
+         item={document.getElementById('hiddenId_' + this.state.id).value} 
+         name="members" />
+         }
         <CLink to="/members/create">
           <CButton size="md" color="success">
             {t("Add New")}
@@ -456,6 +459,8 @@ class Members extends Component {
                               {" "}
                               {t("Edit")} / {t("Delete")}{" "}
                             </p>
+                            <input type='hidden' id={`hiddenId_${item.id}`} 
+                            value={item.id} />
                             <CButton
                               style={{ marginLeft: "5px" }}
                               size="sm"
@@ -468,7 +473,7 @@ class Members extends Component {
                               size="sm"
                               color="danger"
                               className="ml-1"
-                              onClick={(e) => this.delHandler(e, item)}
+                              onClick={(e) => this.delHandler(e, item.id)}
                             >
                               {t("Delete")}
                             </CButton>
@@ -495,6 +500,7 @@ const mapStateToProps = (state) => {
     token: state.authReducer.token,
     showCard: state.displayReducer.showCard,
     collapsed: state.displayReducer.collapsed,
+    deleteModal:state.displayReducer.deleteModal
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -504,6 +510,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onCollapsedFalse: () => {
       dispatch(displayAction.collapsedFalse());
+    },
+onDeleteModal: (val) => {
+      dispatch(displayAction.deleteModal(val));
     },
   };
 };

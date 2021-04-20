@@ -22,6 +22,7 @@ import CIcon from "@coreui/icons-react";
 import { withTranslation } from "react-i18next";
 import { deleteHandler } from "../../Shared-Component/deleteHandler";
 import { connect } from "react-redux";
+import Modal from '.././UI Components/Modal';
 import * as displayAction from "../../store/actions/index";
 
 const getBadge = (status) => {
@@ -44,6 +45,7 @@ class Group extends Component {
       // showCard:true,
       details: [],
 
+      id:'',
       name: "",
       status: "",
     };
@@ -84,10 +86,13 @@ class Group extends Component {
     let name = event.target.name;
     this.setState({ [name]: value });
   };
-  delHandler = (event, item) => {
+
+  delHandler = (event , id) => {
     event.preventDefault();
-    deleteHandler(this.props.token, item, "user_group");
+    this.setState({id:id})
+    this.props.onDeleteModal(true);
   };
+
   searchHandler = (e) => {
     e.preventDefault();
     fetch(process.env.REACT_APP_API_ADDRESS + "/user_group/search", {
@@ -130,10 +135,6 @@ class Group extends Component {
 
     const fields = [
       {
-        key: "id",
-        label: t("Id"),
-      },
-      {
         key: "name",
         label: t("Name"),
       },
@@ -162,6 +163,12 @@ class Group extends Component {
     };
     return (
       <React.Fragment>
+        {
+        this.props.deleteModal &&
+         <Modal  token={this.props.token} 
+         item={document.getElementById('hiddenId_' + this.state.id).value} 
+         name="user_group" />
+         }
         <CLink to="/user_group/create">
           <CButton size="md" color="success">
             {t("Add New")}
@@ -307,6 +314,8 @@ class Group extends Component {
                               {" "}
                               {t("Edit")} / {t("Delete")}{" "}
                             </p>
+                            <input type='hidden' id={`hiddenId_${item.id}`} 
+                            value={item.id} />
                             <CButton
                               style={{ marginLeft: "5px" }}
                               size="sm"
@@ -319,7 +328,7 @@ class Group extends Component {
                               size="sm"
                               color="danger"
                               className="ml-1"
-                              onClick={(e) => this.delHandler(e, item)}
+                              onClick={(e) => this.delHandler(e, item.id)}
                             >
                               {t("Delete")}
                             </CButton>
@@ -344,6 +353,7 @@ const mapStateToProps = (state) => {
     token: state.authReducer.token,
     showCard: state.displayReducer.showCard,
     collapsed: state.displayReducer.collapsed,
+    deleteModal:state.displayReducer.deleteModal
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -353,6 +363,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onCollapsedFalse: () => {
       dispatch(displayAction.collapsedFalse());
+    },
+onDeleteModal: (val) => {
+      dispatch(displayAction.deleteModal(val));
     },
   };
 };

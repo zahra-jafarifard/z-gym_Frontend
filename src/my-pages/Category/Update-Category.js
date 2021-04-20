@@ -97,6 +97,7 @@ class updateCategory extends Component {
       })
       .then((result) => {
         console.log(" category updated...", result.message);
+        this.props.history.push("/category/list");
       })
       .catch((e) => {
         console.log(e);

@@ -21,6 +21,7 @@ import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import CIcon from "@coreui/icons-react";
 import { deleteHandler } from "../../Shared-Component/deleteHandler";
+import Modal from '.././UI Components/Modal';
 import * as displayAction from "../../store/actions/index";
 
 class Equipment extends Component {
@@ -32,6 +33,7 @@ class Equipment extends Component {
       showCard: true,
       details: [],
 
+      id:'',
       name: "",
     };
   }
@@ -72,10 +74,13 @@ class Equipment extends Component {
     let name = event.target.name;
     this.setState({ [name]: value });
   };
-  delHandler = (event, item) => {
+
+  delHandler = (event , id) => {
     event.preventDefault();
-    deleteHandler(this.props.token, item, "equipment");
+    this.setState({id:id})
+    this.props.onDeleteModal(true);
   };
+
   searchHandler = (e) => {
     e.preventDefault();
     fetch(process.env.REACT_APP_API_ADDRESS + "/equipment/search", {
@@ -114,10 +119,6 @@ class Equipment extends Component {
     const { t, i18n } = this.props;
     const fields = [
       {
-        key: "id",
-        label: t("Id"),
-      },
-      {
         key: "name",
         label: t("Name"),
       },
@@ -141,6 +142,12 @@ class Equipment extends Component {
     };
     return (
       <React.Fragment>
+        {
+        this.props.deleteModal &&
+         <Modal  token={this.props.token} 
+         item={document.getElementById('hiddenId_' + this.state.id).value} 
+         name="equipment" />
+         }
         <CLink to="/equipment/create">
           <CButton size="md" color="success">
             {t("Add New")}
@@ -258,6 +265,8 @@ class Equipment extends Component {
                             <p className="text-muted">
                               {t("Edit")} / {t("Delete")}
                             </p>
+                            <input type='hidden' id={`hiddenId_${item.id}`} 
+                            value={item.id} />
                             <CButton
                               style={{ marginLeft: "5px" }}
                               size="sm"
@@ -270,7 +279,7 @@ class Equipment extends Component {
                               size="sm"
                               color="danger"
                               className="ml-1"
-                              onClick={(e) => this.delHandler(e, item)}
+                              onClick={(e) => this.delHandler(e, item.id)}
                             >
                               {t("Delete")}
                             </CButton>
@@ -295,6 +304,7 @@ export const mapStateToProps = (state) => {
     token: state.authReducer.token,
     showCard: state.displayReducer.showCard,
     collapsed: state.displayReducer.collapsed,
+    deleteModal:state.displayReducer.deleteModal
   };
 };
 
@@ -306,6 +316,9 @@ export const mapDispatchToProps = (dispatch) => {
     onCollapsedFalse: () => {
       dispatch(displayAction.collapsedFalse());
     },
+    onDeleteModal: (val) => {
+          dispatch(displayAction.deleteModal(val));
+        },
   };
 };
 export default connect(

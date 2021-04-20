@@ -20,7 +20,7 @@ import {
 import CIcon from "@coreui/icons-react";
 import { withTranslation } from "react-i18next";
 import { deleteHandler } from "../../Shared-Component/deleteHandler";
-import { fetchForUpdate } from "../../Shared-Component/fetchForUpdate";
+import Modal from '.././UI Components/Modal';
 import { connect } from "react-redux";
 import * as displayAction from "../../store/actions/index";
 
@@ -33,6 +33,7 @@ class Exercise extends Component {
       // showCard:true,
       details: [],
 
+      id:'',
       name: "",
       description: "",
       preview: "",
@@ -84,9 +85,10 @@ class Exercise extends Component {
     });
   };
 
-  delHandler = (event, item) => {
+  delHandler = (event , id) => {
     event.preventDefault();
-    deleteHandler(this.props.token, item, "exercise");
+    this.setState({id:id})
+    this.props.onDeleteModal(true);
   };
   searchHandler = (e) => {
     e.preventDefault();
@@ -120,10 +122,6 @@ class Exercise extends Component {
   render() {
     const { t, i18n } = this.props;
     const fields = [
-      {
-        key: "id",
-        label: t("Id"),
-      },
       {
         key: "name",
         label: t("Name"),
@@ -162,6 +160,12 @@ class Exercise extends Component {
 
     return (
       <React.Fragment>
+        {
+        this.props.deleteModal &&
+         <Modal  token={this.props.token} 
+         item={document.getElementById('hiddenId_' + this.state.id).value} 
+         name="exercise" />
+         }
         <CLink to="/exercise/create">
           <CButton size="md" color="success">
             {t("Add New")}
@@ -292,9 +296,12 @@ class Exercise extends Component {
                         <CCollapse show={this.state.details.includes(index)}>
                           <CCardBody>
                             <h4>
-                              {item.name} {item.lastName}
+                              {item.name} 
                             </h4>
+                            {console.log('iteeem',item)}
                             <p className="text-muted">{t("Edit/Delete")}</p>
+                            <input type='hidden' id={`hiddenId_${item.id}`} 
+                            value={item.id} />
                             <CButton
                               style={{ marginLeft: "5px" }}
                               size="sm"
@@ -307,7 +314,7 @@ class Exercise extends Component {
                               size="sm"
                               color="danger"
                               className="ml-1"
-                              onClick={(e) => this.delHandler(e, item)}
+                              onClick={(e) => this.delHandler(e, item.id)}
                             >
                               {t("Delete")}
                             </CButton>
@@ -338,11 +345,12 @@ class Exercise extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("main map state", state);
+  console.log("exer state", state);
   return {
     token: state.authReducer.token,
     showCard: state.displayReducer.showCard,
     collapsed: state.displayReducer.collapsed,
+    deleteModal:state.displayReducer.deleteModal
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -352,6 +360,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onCollapsedFalse: () => {
       dispatch(displayAction.collapsedFalse());
+    },
+onDeleteModal: (val) => {
+      dispatch(displayAction.deleteModal(val));
     },
   };
 };

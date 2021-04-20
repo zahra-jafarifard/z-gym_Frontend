@@ -23,22 +23,27 @@ import CIcon from "@coreui/icons-react";
 import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
 
-import { deleteHandler } from "../../Shared-Component/deleteHandler";
 import * as displayAction from "../../store/actions/index";
+import Modal from '.././UI Components/Modal'
+
 
 class Category extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       categoryState: [],
       details: [],
 
+      // deleteModal:false,
+      id:'',
       name: "",
     };
   }
-
+ 
   componentDidMount = () => {
     // console.log('prooops',this.props)
+   
     fetch(process.env.REACT_APP_API_ADDRESS + "/category/list", {
       method: "POST",
       headers: {
@@ -53,13 +58,13 @@ class Category extends Component {
         return response.json();
       })
       .then((result) => {
-        console.log("reeeeees", result.categories);
+        // console.log("reeeeees", result.categories);
         this.setState(
           {
             categoryState: result.categories,
           },
           () => {
-            console.log(this.state.categoryState);
+            // console.log(this.state.categoryState);
           }
         );
       })
@@ -102,7 +107,7 @@ class Category extends Component {
       });
   };
 
-  editHandler = (event, index, item) => {
+  editHandler = (event, item) => {
     event.preventDefault();
     this.props.history.push({
       pathname: "/category/update",
@@ -110,18 +115,16 @@ class Category extends Component {
     });
   };
 
-  delHandler = (event, item, index) => {
+  delHandler = (event , id) => {
     event.preventDefault();
-    deleteHandler(this.props.token, item, "category");
+       this.setState({id:id})
+    this.props.onDeleteModal(true);
   };
 
+  
   render() {
     const { t, i18n } = this.props;
     const fields = [
-      {
-        key: "id",
-        label: t("Id"),
-      },
       {
         key: "name",
         label: t("Name"),
@@ -148,6 +151,14 @@ class Category extends Component {
     return (
       
       <React.Fragment>
+
+      {
+        this.props.deleteModal &&
+         <Modal  token={this.props.token} 
+         item={document.getElementById('hiddenId_' + this.state.id).value} 
+         name="category" />
+         }
+
         <CLink to="/category/create">
           <CButton size="md" color="success">
             {t("Add New")}
@@ -262,16 +273,18 @@ class Category extends Component {
                         <CCollapse show={this.state.details.includes(index)}>
                           <CCardBody>
                             <h4>
-                              {item.name} {item.lastName}
+                              {item.name} 
                             </h4>
                             <p className="text-muted">
                               {t("Edit")} / {t("Delete")}
                             </p>
+                            <input type='hidden' id={`hiddenId_${item.id}`} 
+                            value={item.id} />
                             <CButton
                               style={{ marginLeft: "5px" }}
                               size="sm"
                               color="info"
-                              onClick={(e) => this.editHandler(e, index, item)}
+                              onClick={(e) => this.editHandler(e, item)}
                             >
                               {t("Edit")}
                             </CButton>
@@ -279,7 +292,7 @@ class Category extends Component {
                               size="sm"
                               color="danger"
                               className="ml-1"
-                              onClick={(e) => this.delHandler(e, item, index)}
+                              onClick={(e) => this.delHandler(e , item.id)}
                             >
                               {t("Delete")}
                             </CButton>
@@ -300,11 +313,12 @@ class Category extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("category map state", state);
+  // console.log("category map state", state);
   return {
     token: state.authReducer.token,
     showCard: state.displayReducer.showCard,
     collapsed: state.displayReducer.collapsed,
+    deleteModal:state.displayReducer.deleteModal
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -314,6 +328,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onCollapsedFalse: () => {
       dispatch(displayAction.collapsedFalse());
+    },
+    onDeleteModal: (val) => {
+      dispatch(displayAction.deleteModal(val));
     },
   };
 };

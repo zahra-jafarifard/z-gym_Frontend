@@ -61,6 +61,8 @@ class newGroup extends Component {
       })
       .then((result) => {
         console.log("frontend:::", result.message);
+        this.props.history.push("/user_group/list");
+
       })
       .catch((e) => {
         console.log(e);

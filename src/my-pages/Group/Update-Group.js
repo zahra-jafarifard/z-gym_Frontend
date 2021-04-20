@@ -103,6 +103,8 @@ class updateGroup extends Component {
       })
       .then((result) => {
         console.log(" group updated...", result.message);
+        this.props.history.push("/user_group/list");
+
       })
       .catch((e) => {
         console.log(e);

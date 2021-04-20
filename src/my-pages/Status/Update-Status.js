@@ -108,7 +108,7 @@ class updateStatus extends Component {
     })
       .then((response) => {
         if (!response.ok) {
-          // this.props.history.push("/user_status/list");
+          this.props.history.push("/user_status/list");
           throw new Error(response.statusText, response.status);
         }
         return response.json();

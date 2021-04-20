@@ -68,12 +68,14 @@ class newStatus extends Component {
     })
       .then((response) => {
         if (!response.ok) {
-          return new Error(response.statusText, response.status);
+          throw new Error(response.statusText, response.status);
         }
         return response.json();
       })
       .then((result) => {
         console.log("frontend:::", result.message);
+        this.props.history.push("/user_status/list");
+
       })
       .catch((e) => {
         console.log(e);

@@ -2,7 +2,8 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     collapsed:false,
-    showCard:true
+    showCard:true,
+    deleteModal:false
 }
 
 const reducer = (state= initialState , action)=>{
@@ -22,6 +23,11 @@ const reducer = (state= initialState , action)=>{
             return{
                 ...state,
                 // showCard:true
+            };
+        case actionTypes.DELETE_MODAL:
+            return{
+                ...state,
+                deleteModal:action.value
             };
         default :
         return state;

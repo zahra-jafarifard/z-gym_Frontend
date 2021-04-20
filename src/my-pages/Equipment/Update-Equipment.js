@@ -99,6 +99,8 @@ class updateCategory extends Component {
       })
       .then((result) => {
         console.log(result.message);
+        this.props.history.push("/equipment/list");
+
       })
       .catch((e) => {
         console.log(e);

@@ -137,6 +137,8 @@ class newMember extends Component {
       })
       .then((result) => {
         console.log(result);
+        this.props.history.push("/members/list");
+        
       })
       .catch((e) => {
         console.log(e);

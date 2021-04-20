@@ -114,6 +114,8 @@ class newExercise extends Component {
       })
       .then((result) => {
         console.log("frontend:::", result.message);
+        this.props.history.push("/exercise/list");
+
       })
       .catch((e) => {
         console.log(e);

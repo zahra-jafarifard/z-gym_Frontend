@@ -180,6 +180,8 @@ class updateMember extends Component {
       })
       .then((result) => {
         console.log(" member updated...", result.updatedMember);
+        this.props.history.push("/members/list");
+
       })
       .catch((e) => {
         console.log(e);

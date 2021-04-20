@@ -22,5 +22,14 @@ export const showCard = ()=>{
 }
 
 
+export const deleteModal = (value)=>{
+    return {
+        type:actionTypes.DELETE_MODAL,
+        value:value
+    }
+
+}
+
+
 
 

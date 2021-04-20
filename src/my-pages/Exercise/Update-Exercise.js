@@ -150,6 +150,8 @@ class updateExercise extends Component {
       })
       .then((result) => {
         console.log("reeeees update", result.message);
+        this.props.history.push("/exercise/list");
+
       })
       .catch((e) => {
         console.log(e);

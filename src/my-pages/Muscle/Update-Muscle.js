@@ -116,6 +116,8 @@ class updateMuscle extends Component {
       })
       .then((result) => {
         console.log(result.message);
+        this.props.history.push("/muscle/list");
+
       })
       .catch((e) => {
         console.log(e);
