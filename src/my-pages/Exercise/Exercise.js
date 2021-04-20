@@ -20,6 +20,7 @@ import {
 import CIcon from "@coreui/icons-react";
 import { withTranslation } from "react-i18next";
 import { deleteHandler } from "../../Shared-Component/deleteHandler";
+import { fetchForUpdate } from "../../Shared-Component/fetchForUpdate";
 import { connect } from "react-redux";
 import * as displayAction from "../../store/actions/index";
 
@@ -79,13 +80,13 @@ class Exercise extends Component {
     event.preventDefault();
     this.props.history.push({
       pathname: "/exercise/update",
-      state: { item: item, id: item.id },
+      state: { idItem: item.id },
     });
   };
 
   delHandler = (event, item) => {
     event.preventDefault();
-    deleteHandler(this.props.token,item, "exercise");
+    deleteHandler(this.props.token, item, "exercise");
   };
   searchHandler = (e) => {
     e.preventDefault();
@@ -293,7 +294,7 @@ class Exercise extends Component {
                             <h4>
                               {item.name} {item.lastName}
                             </h4>
-                            <p className="text-muted"> {t("Edit/Delete")} </p>
+                            <p className="text-muted">{t("Edit/Delete")}</p>
                             <CButton
                               style={{ marginLeft: "5px" }}
                               size="sm"

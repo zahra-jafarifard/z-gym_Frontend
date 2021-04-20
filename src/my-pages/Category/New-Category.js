@@ -133,7 +133,7 @@ class newCategory extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("main map state", state);
+  console.log("cat map state", state);
   return {
     token: state.authReducer.token,
     showCard: state.displayReducer.showCard,

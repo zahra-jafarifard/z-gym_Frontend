@@ -28,15 +28,33 @@ export const asyncLogin = (mobile, password, rememberMe) => {
       }),
     })
       .then((response) => {
+        console.log("response ", response);
+        if (response.status === 422){
+          return response.json()
+          .then(res=>{
+            console.log('reees redux' , res.error)
+            return dispatch(loginFailed(res.error[0].msg || res.error));
+          })
+        } 
         if (!response.ok) {
-          return dispatch(loginFailed("respone is not ok"));
+          return response.json()
+          .then(res=>{
+            // console.log('reees redux' , res )
+            return dispatch(loginFailed(res.error));
+            // return dispatch(loginFailed("respone is not ok"));
+          })
         } else {
-          return response.json();
+          return response.json()
         }
       })
       .then((res) => {
         console.log("user mobile redux", res.userMobile, "token redux", res.token);
+        // localStorage.setItem('userData' , JSON.stringify({
+        // mobile:res.userMobile , token : res.token
+        // }));
+        
         return dispatch(login(res.userMobile, res.token));
+
       })
       .catch((e) => {
         console.log(e);

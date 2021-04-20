@@ -152,7 +152,7 @@ class Register extends Component {
                         </CInputGroupText>
                       </CInputGroupPrepend>
                       <CInput
-                        type="text"
+                        type="date"
                         name="birthDay"
                         placeholder={t("BirthDay")}
                         onChange={this.changeHandler}

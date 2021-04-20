@@ -33,11 +33,42 @@ class updateGroup extends Component {
   }
 
   componentDidMount = () => {
-    this.setState({
-      id: this.props.location.state.id,
-      name: this.props.location.state.item.name,
-      status: this.props.location.state.item.status,
-    });
+    const idItem = this.props.location.state.idItem;
+
+    // console.log('iddd' , idItem)
+    fetch(process.env.REACT_APP_API_ADDRESS + "/user_group/fetchForUpdate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
+      },
+      body: JSON.stringify({
+        id: idItem,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return new Error(response.statusText, response.status);
+        } else {
+          return response.json();
+        }
+      })
+      .then((result) => {
+        console.log("frontend", result.data);
+        this.setState(
+          {
+            id: result.data.id,
+            name: result.data.group_name,
+            status: result.data.group_status,
+          },
+          () => {
+            // console.log("cat state", this.state);
+          }
+        );
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   changeHandler = (event) => {
@@ -58,7 +89,7 @@ class updateGroup extends Component {
         Authorization: "Bearer " + this.props.token,
       },
       body: JSON.stringify({
-        id: this.props.location.state.id,
+        id: this.state.id,
         name: this.state.name,
         status: this.state.status,
       }),
@@ -133,16 +164,7 @@ class updateGroup extends Component {
                                 name="status"
                                 onChange={this.changeHandler}
                               >
-                                {this.state.status && (
-                                  <option
-                                    value={this.state.status}
-                                    selected="selected"
-                                    disabled
-                                    hidden
-                                  >
-                                    {this.state.status}{" "}
-                                  </option>
-                                )}
+                                <option>Group</option>
                                 <option value="1"> فعال</option>
                                 <option value="0"> غیرفعال</option>
                               </CSelect>

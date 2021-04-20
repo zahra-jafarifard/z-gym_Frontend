@@ -136,7 +136,7 @@ class newMember extends Component {
         return response.json();
       })
       .then((result) => {
-        console.log("new member created...", result.user);
+        console.log(result);
       })
       .catch((e) => {
         console.log(e);
@@ -259,6 +259,7 @@ class newMember extends Component {
                                 </CInputGroupText>
                               </CInputGroupPrepend>
                               <CInput
+                              type="date"
                                 name="birthDay"
                                 placeholder={t("BirthDay")}
                                 onChange={this.changeHandler}

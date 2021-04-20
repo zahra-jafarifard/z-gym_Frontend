@@ -37,7 +37,7 @@ class Equipment extends Component {
   }
 
   componentDidMount = () => {
-    console.log("prooops", this.props);
+    // console.log("prooops", this.props);
     fetch(process.env.REACT_APP_API_ADDRESS + "/equipment/list", {
       method: "POST",
       headers: {
@@ -103,11 +103,11 @@ class Equipment extends Component {
         console.log(e);
       });
   };
-  editHandler = (event, index, item) => {
+  editHandler = (event, item) => {
     event.preventDefault();
     this.props.history.push({
       pathname: "/equipment/update",
-      state: { item: item, id: index },
+      state: { idItem: item.id },
     });
   };
   render() {
@@ -262,7 +262,7 @@ class Equipment extends Component {
                               style={{ marginLeft: "5px" }}
                               size="sm"
                               color="info"
-                              onClick={(e) => this.editHandler(e, index, item)}
+                              onClick={(e) => this.editHandler(e, item)}
                             >
                               {t("Edit")}
                             </CButton>

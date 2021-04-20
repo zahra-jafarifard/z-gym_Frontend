@@ -12,7 +12,7 @@ const AuthReducer = (state = initialState, action) => {
     case actionTypes.LOGIN:
       return {
         ...state,
-        isLoggedIn: true,
+        isLoggedIn: !(!action.token),
         error: null,
         token:action.token,
         mobile:action.mobile

@@ -27,6 +27,7 @@ import * as displayAction from "../../store/actions/index";
 import { withTranslation } from "react-i18next";
 import i18nContext from "../../Shared-Component/i18n-Context";
 import { deleteHandler } from "../../Shared-Component/deleteHandler";
+import usersData from "src/views/users/UsersData";
 
 const getBadge = (status) => {
   switch (status) {
@@ -63,14 +64,19 @@ class Members extends Component {
   static contextType = i18nContext;
 
   componentDidMount = () => {
-    fetch(process.env.REACT_APP_API_ADDRESS + "/members/list", {
+    console.log("commponent did member");
+
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    fetch("http://localhost:5000/members/list", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        // Authorization: "Bearer " + userData.token,
         Authorization: "Bearer " + this.props.token,
       },
     })
       .then((response) => {
+        
         if (!response.ok) {
           return new Error(response.statusText, response.status);
         } else {
@@ -83,7 +89,7 @@ class Members extends Component {
             membersState: result.members,
           },
           () => {
-            console.log('membersState',this.state.membersState);
+            // console.log("membersState", this.state.membersState);
           }
         );
       })
@@ -102,7 +108,7 @@ class Members extends Component {
     event.preventDefault();
     this.props.history.push({
       pathname: "/members/update",
-      state: { item: item },
+      state: { idItem: item.id },
     });
   };
 
@@ -112,6 +118,7 @@ class Members extends Component {
   };
 
   searchHandler = (e) => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
     e.preventDefault();
     fetch(process.env.REACT_APP_API_ADDRESS + "/members/search", {
       method: "POST",
@@ -203,6 +210,7 @@ class Members extends Component {
       }
       this.setState({ details: newDetails });
     };
+
     return (
       <React.Fragment>
         <CLink to="/members/create">
@@ -352,6 +360,7 @@ class Members extends Component {
                               </CInputGroupText>
                             </CInputGroupPrepend>
                             <CInput
+                            type='date'
                               name="birthDay"
                               placeholder={t("BirthDay")}
                               onChange={this.changeHandler}
@@ -479,10 +488,10 @@ class Members extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("main map state", state);
+  console.log('member state' , state)
   return {
-    // mobile: state.authReducer.mobile,
-    // isLoggedIn: state.authReducer.isLoggedIn,
+    mobile: state.authReducer.mobile,
+    isLoggedIn: state.authReducer.isLoggedIn,
     token: state.authReducer.token,
     showCard: state.displayReducer.showCard,
     collapsed: state.displayReducer.collapsed,
@@ -498,6 +507,7 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps

@@ -27,6 +27,8 @@ class updateExercise extends Component {
     super(props);
     this.state = {
       categoryArray: [],
+      // exerUpdateState: "",
+
       id: "",
       name: "",
       description: "",
@@ -37,14 +39,6 @@ class updateExercise extends Component {
   }
 
   componentDidMount = () => {
-    this.setState({
-      id: this.props.location.state.id,
-      name: this.props.location.state.item.name,
-      description: this.props.location.state.item.description,
-      preview: this.props.location.state.item.icon,
-      category: this.props.location.state.item.category,
-    });
-
     fetch(process.env.REACT_APP_API_ADDRESS + "/category/list", {
       method: "POST",
       headers: {
@@ -61,8 +55,47 @@ class updateExercise extends Component {
       })
       .then((result) => {
         this.setState({ categoryArray: result.categories }, () => {
-          console.log(this.state.categoryArray);
+          // console.log(this.state.categoryArray);
         });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    //---------------------------------------
+    const idItem = this.props.location.state.idItem;
+    fetch(process.env.REACT_APP_API_ADDRESS + "/exercise/fetchForUpdate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
+      },
+      body: JSON.stringify({
+        id: idItem,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return new Error(response.statusText, response.status);
+        } else {
+          return response.json();
+        }
+      })
+      .then((result) => {
+        // console.log("frontend", result.data);
+        this.setState(
+          {
+            id: result.data.id,
+            name: result.data.name,
+            description: result.data.description,
+            image: "http://localhost:5000/" + result.data.icon,
+            preview: "http://localhost:5000/" + result.data.icon,
+            category: result.data.categoryId,
+          },
+          () => {
+            console.log("exerUpdateState", this.state);
+          }
+        );
       })
       .catch((e) => {
         console.log(e);
@@ -91,17 +124,24 @@ class updateExercise extends Component {
 
   updateHandler = (e) => {
     e.preventDefault();
+
     const formData = new FormData();
-    formData.append("id", this.props.location.state.id);
+    formData.append("id", this.state.id);
     formData.append("name", this.state.name);
     formData.append("description", this.state.description);
     formData.append("image", this.state.image);
     formData.append("category", this.state.category);
+
     fetch(process.env.REACT_APP_API_ADDRESS + "/exercise/update", {
       method: "POST",
+      headers: {
+        Authorization: "Bearer " + this.props.token,
+      },
       body: formData,
     })
       .then((response) => {
+        console.log("reeeees update", response);
+
         if (!response.ok) {
           return new Error(response.statusText, response.status);
         } else {
@@ -109,7 +149,7 @@ class updateExercise extends Component {
         }
       })
       .then((result) => {
-        console.log(result.message);
+        console.log("reeeees update", result.message);
       })
       .catch((e) => {
         console.log(e);
@@ -174,13 +214,10 @@ class updateExercise extends Component {
 
                           <CFormGroup>
                             <CInputGroup>
-                              {this.state.preview ? (
+                              {this.state.preview && (
                                 <img
                                   name="preview"
-                                  src={
-                                    "http://localhost:5000/" +
-                                    this.state.preview
-                                  }
+                                  src={this.state.preview}
                                   style={{
                                     width: "130px",
                                     marginRight: "4rem",
@@ -188,20 +225,6 @@ class updateExercise extends Component {
                                     height: "130px",
                                   }}
                                   alt="preview"
-                                />
-                              ) : (
-                                <img
-                                  name="preview"
-                                  src={
-                                    "http://localhost:5000/" + this.state.image
-                                  }
-                                  style={{
-                                    width: "130px",
-                                    marginRight: "4rem",
-                                    border: "solid silver 1px",
-                                    height: "130px",
-                                  }}
-                                  alt="image"
                                 />
                               )}
                             </CInputGroup>
@@ -227,11 +250,11 @@ class updateExercise extends Component {
                                 onChange={this.changeHandler}
                               >
                                 {/* <option value="" selected disabled hidden>گروه</option> */}
-                                {this.state.category && (
+                                {/* {this.state.category && (
                                   <option selected="selected" disabled hidden>
                                     {this.state.category}
                                   </option>
-                                )}
+                                )} */}
                                 {this.state.categoryArray.map((opt) => {
                                   return (
                                     <option key={opt.id} value={opt.id}>
@@ -267,7 +290,7 @@ class updateExercise extends Component {
 }
 
 const mapStateToProps = (state) => {
-  // console.log("main map state", state);
+  // console.log("update exercise state", state);
   return {
     token: state.authReducer.token,
     showCard: state.displayReducer.showCard,

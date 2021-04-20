@@ -29,6 +29,7 @@ class updateMember extends Component {
       statusArray: [],
       groupArray: [],
 
+      id: "",
       name: "",
       lastName: "",
       mobile: "",
@@ -43,17 +44,52 @@ class updateMember extends Component {
   }
 
   componentDidMount = () => {
-    this.setState({
-      name: this.props.location.state.item.name,
-      lastName: this.props.location.state.item.lastName,
-      mobile: this.props.location.state.item.mobile,
-      height: this.props.location.state.item.height,
-      weight: this.props.location.state.item.weight,
-      gender: this.props.location.state.item.gender,
-      birthDay: this.props.location.state.item.birthDay,
-      status: this.props.location.state.item.status,
-      group: this.props.location.state.item.group,
-    });
+    const idItem = this.props.location.state.idItem;
+
+    console.log("idddddd", idItem);
+    
+    fetch(process.env.REACT_APP_API_ADDRESS + "/members/fetchForUpdate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
+      },
+      body: JSON.stringify({
+        id: idItem,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return new Error(response.statusText, response.status);
+        } else {
+          return response.json();
+        }
+      })
+      .then((result) => {
+        console.log("frontend", result.data);
+        this.setState(
+          {
+            id: result.data.id,
+            name: result.data.name,
+            lastName: result.data.lastName,
+            mobile: result.data.mobile,
+            height: result.data.height,
+            weight: result.data.weight,
+            password: result.data.password,
+            gender: result.data.gender,
+            birthDay: result.data.birthDay,
+            // status: result.data.status,
+            // group: result.data.group,
+          },
+          () => {
+            // console.log("meeeeembers   state::", this.state);
+          }
+        );
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    //---------------------------------------
     fetch(process.env.REACT_APP_API_ADDRESS + "/user_group/list", {
       method: "POST",
       headers: {
@@ -69,7 +105,7 @@ class updateMember extends Component {
       })
       .then((result) => {
         this.setState({ groupArray: result.groups }, () => {
-          console.log(this.state.groupArray);
+          console.log('groupArray',this.state.groupArray);
         });
       })
       .catch((e) => {
@@ -97,7 +133,7 @@ class updateMember extends Component {
             statusArray: result.statuses,
           },
           () => {
-            console.log(this.state.statusArray);
+            console.log("statusArray", this.state.statusArray);
           }
         );
       })
@@ -233,7 +269,9 @@ class updateMember extends Component {
                                 </CInputGroupText>
                               </CInputGroupPrepend>
                               <CInput
+                                type="password"
                                 name="password"
+                                value={this.state.password}
                                 onChange={this.changeHandler}
                               />
                             </CInputGroup>
@@ -272,6 +310,7 @@ class updateMember extends Component {
                                 </CInputGroupText>
                               </CInputGroupPrepend>
                               <CInput
+                                type="date"
                                 name="birthDay"
                                 value={this.state.birthDay}
                                 onChange={this.changeHandler}
@@ -319,11 +358,14 @@ class updateMember extends Component {
                                 onChange={this.changeHandler}
                               >
                                 {/* <option value="" selected disabled hidden>وضعیت</option> */}
-                                {this.state.status && (
+                                {/* {this.state.status && (
                                   <option selected="selected" disabled hidden>
                                     {this.state.status}
                                   </option>
-                                )}
+                                )} */}
+                                <option value="" selected disabled hidden>
+                                  وضعیت
+                                </option>
                                 {this.state.statusArray.map((opt) => {
                                   return (
                                     <option
@@ -355,11 +397,11 @@ class updateMember extends Component {
                                 <option value="" selected disabled hidden>
                                   گروه
                                 </option>
-                                {this.state.group && (
+                                {/* {this.state.group && (
                                   <option selected="selected" disabled hidden>
                                     {this.state.group}
                                   </option>
-                                )}
+                                )} */}
                                 {this.state.groupArray.map((opt) => {
                                   return (
                                     <option key={opt.id} value={opt.id}>

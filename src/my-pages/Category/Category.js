@@ -104,11 +104,9 @@ class Category extends Component {
 
   editHandler = (event, index, item) => {
     event.preventDefault();
-    // console.log('idddd' , index , item )
-
     this.props.history.push({
       pathname: "/category/update",
-      state: { item: item, id: index },
+      state: { idItem: item.id },
     });
   };
 
@@ -148,6 +146,7 @@ class Category extends Component {
       this.setState({ details: newDetails });
     };
     return (
+      
       <React.Fragment>
         <CLink to="/category/create">
           <CButton size="md" color="success">
@@ -295,12 +294,13 @@ class Category extends Component {
           </CCol>
         </CRow>
       </React.Fragment>
+    
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  // console.log("main map state", state);
+  console.log("category map state", state);
   return {
     token: state.authReducer.token,
     showCard: state.displayReducer.showCard,

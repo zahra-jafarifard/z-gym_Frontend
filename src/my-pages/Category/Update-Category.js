@@ -30,11 +30,41 @@ class updateCategory extends Component {
   }
 
   componentDidMount = () => {
-    console.log("iteeeemmmm", this.props.location.state);
-    this.setState({
-      id: this.props.location.state.id,
-      name: this.props.location.state.item.name,
-    });
+    const idItem = this.props.location.state.idItem;
+
+    // console.log('iddd' , idItem)
+    fetch(process.env.REACT_APP_API_ADDRESS + "/category/fetchForUpdate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
+      },
+      body: JSON.stringify({
+        id: idItem,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return new Error(response.statusText, response.status);
+        } else {
+          return response.json();
+        }
+      })
+      .then((result) => {
+        console.log("frontend", result.data);
+        this.setState(
+          {
+            id: result.data.id,
+            name: result.data.category_name,
+          },
+          () => {
+            // console.log("cat state", this.state);
+          }
+        );
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   changeHandler = (event) => {
@@ -55,7 +85,7 @@ class updateCategory extends Component {
         Authorization: "Bearer " + this.props.token,
       },
       body: JSON.stringify({
-        id: this.props.location.state.id,
+        id: this.state.id,
         name: this.state.name,
       }),
     })

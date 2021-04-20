@@ -18,11 +18,12 @@ class ForgetPasswordModal extends Component {
     super(props);
     this.state = {
       mobile: "",
+      resetPasswordToken:''
     };
   }
 
   resetPassHandler = (e) => {
-    fetch(process.env.REACT_APP_API_ADDRESS + "/resetPassword", {
+    fetch(process.env.REACT_APP_API_ADDRESS + "/forgetPassword", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,13 +40,18 @@ class ForgetPasswordModal extends Component {
         }
       })
       .then((result) => {
+        // this.setState({resetPasswordToken:result.resetToken})
         console.log(
           "rndnum",
           result.rndNumber,
           "rest token",
           result.resetToken
         );
-        this.props.history.push("/reset-password");
+        // this.props.history.push( + this.state.resetPasswordToken);
+        this.props.history.push({
+          pathname: "/reset-password/",
+          state: { resetPasswordToken:result.resetToken }
+        })
       })
       .catch((e) => {
         console.log(e);

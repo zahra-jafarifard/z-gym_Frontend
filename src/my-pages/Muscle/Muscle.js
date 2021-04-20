@@ -102,11 +102,9 @@ class Muscle extends Component {
 
   editHandler = (event, index, item) => {
     event.preventDefault();
-    // console.log('idddd' , index , item )
-
     this.props.history.push({
       pathname: "/muscle/update",
-      state: { item: item, id: index },
+      state: { idItem: item.id },
     });
   };
 

@@ -19,21 +19,29 @@ class resetPassword extends Component {
     this.state = {
       newPassword: "",
       repeatNewPassword: "",
+      sms: "",
     };
   }
 
   setNewPassHandler = (e) => {
+    console.log("pppppppppp", this.props.location.state.resetPasswordToken);
     e.preventDefault();
-    fetch(process.env.REACT_APP_API_ADDRESS + "/setNewPassword/:resetToken", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        newPassword: this.state.newPassword,
-        repeatNewPassword: this.state.repeatNewPassword,
-      }),
-    })
+    fetch(
+      process.env.REACT_APP_API_ADDRESS +
+        "/setNewPassword/" +
+        this.props.location.state.resetPasswordToken,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          newPassword: this.state.newPassword,
+          repeatNewPassword: this.state.repeatNewPassword,
+          randomNumber: this.state.sms,
+        }),
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           return new Error(response.statusText, response.status);
@@ -83,6 +91,19 @@ class resetPassword extends Component {
                 onChange={(e) =>
                   this.setState({ repeatNewPassword: e.target.value })
                 }
+              />
+            </CInputGroup>
+            <CInputGroup className="mb-4">
+              <CInputGroupPrepend>
+                <CInputGroupText>
+                  <CIcon name="cil-lock-locked" />
+                </CInputGroupText>
+              </CInputGroupPrepend>
+              <CInput
+                type="text"
+                placeholder={t("SMS")}
+                name="sms"
+                onChange={(e) => this.setState({ sms: e.target.value })}
               />
             </CInputGroup>
             <CButton color="primary" onClick={(e) => this.setNewPassHandler(e)}>

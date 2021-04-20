@@ -117,11 +117,11 @@ class Group extends Component {
       });
   };
 
-  editHandler = (event, index, item) => {
+  editHandler = (event,  item) => {
     event.preventDefault();
     this.props.history.push({
       pathname: "/user_group/update",
-      state: { item: item, id: index },
+      state: { idItem: item.id },
     });
   };
 
@@ -311,7 +311,7 @@ class Group extends Component {
                               style={{ marginLeft: "5px" }}
                               size="sm"
                               color="info"
-                              onClick={(e) => this.editHandler(e, index, item)}
+                              onClick={(e) => this.editHandler(e,  item)}
                             >
                               {t("Edit")}
                             </CButton>

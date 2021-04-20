@@ -51,7 +51,8 @@
   },
   "devDependencies": {
     "auto-changelog": "~2.2.1",
-    "react-scripts": "^4.0.1"
+    "react-scripts": "^4.0.1",
+    "redux-devtools-extension": "^2.13.9"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -116,7 +116,7 @@ class Status extends Component {
     event.preventDefault();
     this.props.history.push({
       pathname: "/user_status/update",
-      state: { item: item, id: index },
+      state: { idItem: item.id },
     });
   };
 
