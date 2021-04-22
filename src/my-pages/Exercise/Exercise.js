@@ -62,7 +62,7 @@ class Exercise extends Component {
             exerciseState: result.exercises,
           },
           () => {
-            console.log(this.state.exerciseState);
+            // console.log(this.state.exerciseState);
           }
         );
       })
@@ -289,6 +289,7 @@ class Exercise extends Component {
                               : "Show"}
                           </CButton>
                         </td>
+
                       );
                     },
                     details: (item, index) => {
@@ -298,7 +299,6 @@ class Exercise extends Component {
                             <h4>
                               {item.name} 
                             </h4>
-                            {console.log('iteeem',item)}
                             <p className="text-muted">{t("Edit/Delete")}</p>
                             <input type='hidden' id={`hiddenId_${item.id}`} 
                             value={item.id} />
@@ -345,7 +345,7 @@ class Exercise extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("exer state", state);
+  // console.log("exer state", state);
   return {
     token: state.authReducer.token,
     showCard: state.displayReducer.showCard,

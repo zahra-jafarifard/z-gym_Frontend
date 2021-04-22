@@ -35,7 +35,7 @@ import {
 import CIcon from "@coreui/icons-react";
 import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
-import * as displayAction from "../../store/actions/index";
+// import * as displayAction from "../../store/actions/index";
 
 class newStatus extends Component {
   constructor(props) {

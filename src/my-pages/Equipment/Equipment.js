@@ -60,7 +60,7 @@ class Equipment extends Component {
             equipmentState: result.equipment,
           },
           () => {
-            console.log(this.state.equipmentState);
+            // console.log(this.state.equipmentState);
           }
         );
       })
@@ -299,7 +299,7 @@ class Equipment extends Component {
 }
 
 export const mapStateToProps = (state) => {
-  console.log("main map state", state);
+  // console.log("main map state", state);
   return {
     token: state.authReducer.token,
     showCard: state.displayReducer.showCard,

@@ -22,7 +22,7 @@ import {
 import CIcon from "@coreui/icons-react";
 import { withTranslation } from "react-i18next";
 import i18nCtx from "../../Shared-Component/i18n-Context";
-import usersData from "src/views/users/UsersData";
+import AuthContext from "../../Shared-Component/Auth-Context";
 
 class Login extends Component {
   constructor(props) {
@@ -35,6 +35,7 @@ class Login extends Component {
     };
   }
   static contextType = i18nCtx;
+  static contextType = AuthContext;
 
   changeHandler = (event) => {
     let value = event.target.value;
@@ -49,16 +50,11 @@ class Login extends Component {
 
   loginHandler = (e) => {
     e.preventDefault();
-    this.props.onLogin(
+    this.context.login(
       this.state.mobile,
       this.state.password,
       this.state.rememberMe
     );
-
-    // localStorage.setItem('userData' , JSON.stringify({
-    //   mobile:'this.props.mobile' , token : this.props.token
-    //   })
-    //   )
 
   };
   render() {
@@ -66,8 +62,9 @@ class Login extends Component {
 
     return (
       <React.Fragment>
-       
-        {this.props.isLoggedIn && this.props.token && this.props.history.replace("/members/list")}
+        {this.props.isLoggedIn &&
+          this.props.token &&
+          this.props.history.replace("/members/list")}
         {this.props.error && alert(this.props.error)}
 
         <div className="c-app c-default-layout flex-row align-items-center">
@@ -193,7 +190,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("map state", state);
+  // console.log("login state", state);
   return {
     mobile: state.authReducer.mobile,
     isLoggedIn: state.authReducer.isLoggedIn,
@@ -202,15 +199,15 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onLogin: (mobile, password, rememberMe) => {
-      dispatch(authActions.asyncLogin(mobile, password, rememberMe));
-    },
-  };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     onLogin: (mobile, password, rememberMe) => {
+//       dispatch(authActions.asyncLogin(mobile, password, rememberMe));
+//     },
+//   };
+// };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(withTranslation("translations")(Login));

@@ -72,7 +72,7 @@ class Group extends Component {
             groupState: result.groups,
           },
           () => {
-            console.log(this.state.groupState);
+            // console.log(this.state.groupState);
           }
         );
       })

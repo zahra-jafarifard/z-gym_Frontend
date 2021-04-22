@@ -54,13 +54,13 @@ class Muscle extends Component {
         return response.json();
       })
       .then((result) => {
-        console.log("reeeeees", result.muscles);
+        // console.log("reeeeees", result.muscles);
         this.setState(
           {
             muscleState: result.muscles,
           },
           () => {
-            console.log(this.state.muscleState);
+            // console.log(this.state.muscleState);
           }
         );
       })

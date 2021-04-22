@@ -5,6 +5,7 @@ const initialState = {
   token: "",
   mobile: "",
   error: null,
+  expirationTime:''
 };
 
 const AuthReducer = (state = initialState, action) => {
@@ -15,7 +16,8 @@ const AuthReducer = (state = initialState, action) => {
         isLoggedIn: !(!action.token),
         error: null,
         token:action.token,
-        mobile:action.mobile
+        mobile:action.mobile,
+        expirationTime:action.expirationTime
         
       };
     case actionTypes.LOGIN_FAILED:
@@ -32,7 +34,8 @@ const AuthReducer = (state = initialState, action) => {
         isLoggedIn: false,
         mobile: "",
         token: "",
-        error: ""
+        error: "",
+        expirationTime:''
       };
 
     default:

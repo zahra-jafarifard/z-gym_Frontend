@@ -65,7 +65,6 @@ class Members extends Component {
   static contextType = i18nContext;
 
   componentDidMount = () => {
-    console.log("commponent did member");
 
     const userData = JSON.parse(localStorage.getItem("userData"));
     fetch("http://localhost:5000/members/list", {
@@ -95,7 +94,7 @@ class Members extends Component {
         );
       })
       .catch((e) => {
-        console.log("catch", e.message);
+        console.log(e);
       });
   };
 
@@ -229,7 +228,7 @@ class Members extends Component {
                 <CCardHeader>
                   <CLink
                     className="card-header-action"
-                    onClick={() => this.props.onCollapsedToggle()}
+                    onClick={()=> this.props.onCollapsedToggle()}
                     // onClick={() => this.setState({collapsed:!this.state.collapsed}) }
                   >
                     <CIcon name="cil-search" />
@@ -238,7 +237,7 @@ class Members extends Component {
                   <div className="card-header-actions">
                     <CLink
                       className="card-header-action"
-                      onClick={() => this.props.onCollapsedToggle()}
+                      onClick={()=>this.props.onCollapsedToggle()}
                       // onClick={() => this.setState({collapsed:!this.state.collapsed}) }
                     >
                       <CIcon
@@ -493,7 +492,7 @@ class Members extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log('member state' , state)
+  // console.log('member state' , state)
   return {
     mobile: state.authReducer.mobile,
     isLoggedIn: state.authReducer.isLoggedIn,

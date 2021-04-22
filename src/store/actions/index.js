@@ -6,5 +6,6 @@ export {
 
 export {
     asyncLogin,
-    asyncLogout
+    asyncLogout,
+    authCheckState
 } from './authActions';

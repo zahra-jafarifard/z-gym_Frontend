@@ -74,7 +74,7 @@ class Status extends Component {
             statusState: result.statuses,
           },
           () => {
-            console.log(this.state.statusState);
+            // console.log(this.state.statusState);
           }
         );
       })
