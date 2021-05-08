@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router";
-import {BrowserRouter , Redirect} from 'react-router-dom'
+import { Redirect, useHistory } from "react-router";
+import {BrowserRouter} from 'react-router-dom'
 import { connect } from "react-redux";
 import { withTranslation } from "react-i18next";
 import * as authActions from "../store/actions/index";
@@ -55,6 +55,15 @@ const TheHeader = (props) => {
     dispatch({ type: "set", sidebarShow: val });
   };
 
+  const usersHandler = (e) => {
+    e.preventDefault()
+    history.push("/users");
+  };
+  const dashboardHandler = (e) => {
+    e.preventDefault()
+    history.push("/dashboard");
+  };
+
   const logOutHandler = () => {
     history.replace("/login");
     props.onLogOut();
@@ -100,11 +109,11 @@ const TheHeader = (props) => {
         )}
 
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/dashboard">Dashboard</CHeaderNavLink>
+          <CHeaderNavLink onClick={(e)=>dashboardHandler(e)} >Dashboard</CHeaderNavLink>
         </CHeaderNavItem>
 
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/users">Users</CHeaderNavLink>
+          <CHeaderNavLink onClick={(e)=>usersHandler(e)} >Users</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
           <CHeaderNavLink>Settings</CHeaderNavLink>
@@ -157,7 +166,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onLogOut: () => {
-      dispatch(authActions.asyncLogout());
+      dispatch(authActions.Logout());
     },
     onAuthCheckState: () => {
       dispatch(authActions.authCheckState());

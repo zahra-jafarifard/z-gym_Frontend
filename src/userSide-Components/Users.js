@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,useContext} from 'react'
 import { useHistory, useLocation } from 'react-router-dom';
 import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
-import i18nContext from "../../Shared-Component/i18n-Context";
+import i18nCtx from "../Shared-Component/i18n-Context";
 import {
   CBadge,
   CCard,
@@ -54,7 +54,7 @@ const Users = (props) => {
           }
         })
         .then((result) => {
-          setMembersState(result.members)
+            setMembersState(result.members)
         })
         .catch((e) => {
           console.log("catch", e.message);
@@ -64,6 +64,7 @@ const Users = (props) => {
   }, [currentPage, page])
   
   const { t, i18n } = props;
+  // const i18nContext = useContext(i18nCtx);
 
   return (
     <CRow style={{width:'100rem'}}>
@@ -91,11 +92,6 @@ const Users = (props) => {
               };
             })}
              fields ={  [
-              {
-                key: "id",
-                // label: t("Id"),
-                _style: { width: "1%" },
-              },
               {
                 key: "name",
                 // label: t("Name"),
@@ -156,17 +152,18 @@ const Users = (props) => {
                 )
             }}
           />
-          <CPagination
+          {/* <CPagination
             activePage={page}
             onActivePageChange={pageChange}
-            pages={5}
+            pages={}
             doubleArrows={false} 
             align="center"
-          />
+          /> */}
           </CCardBody>
         </CCard>
       </CCol>
     </CRow>
+  
   )
 }
 
@@ -191,4 +188,4 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps,
   null
-)(withTranslation("translations")(Users));
+)(withTranslation("translations")((Users)));

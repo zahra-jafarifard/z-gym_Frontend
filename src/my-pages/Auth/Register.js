@@ -12,6 +12,7 @@ import {
   CInputGroupPrepend,
   CInputGroupText,
   CLink,
+  CSelect,
   CRow,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
@@ -66,6 +67,7 @@ class Register extends Component {
       })
       .then((result) => {
         console.log("new member created...", result.user);
+        this.props.history.replace('/login');
       })
       .catch((e) => {
         console.log(e);
@@ -137,14 +139,23 @@ class Register extends Component {
                           <CIcon name="cil-group" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput
+                      {/* <CInput
                         type="text"
                         name="gender"
                         placeholder={t("Gender")}
                         onChange={this.changeHandler}
                         autoComplete="جنسیت"
-                      />
+                      /> */}
+                      <CSelect 
+                        name="gender"
+                        onChange={this.changeHandler}
+                      >
+                        <option value="">{t("Gender")}</option>
+                        <option value="زن"> زن</option>
+                        <option value="مرد"> مرد</option>
+                      </CSelect>
                     </CInputGroup>
+
                     <CInputGroup className="mb-3">
                       <CInputGroupPrepend>
                         <CInputGroupText>

@@ -115,6 +115,8 @@ class updateStatus extends Component {
       })
       .then((result) => {
         console.log(" group updated...", result.message);
+        this.props.history.push("/user_status/list");
+
       })
       .catch((e) => {
         console.log(e);

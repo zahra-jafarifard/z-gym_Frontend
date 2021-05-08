@@ -63,8 +63,8 @@ class Login extends Component {
     return (
       <React.Fragment>
         {this.props.isLoggedIn &&
-          this.props.token &&
           this.props.history.replace("/members/list")}
+          
         {this.props.error && alert(this.props.error)}
 
         <div className="c-app c-default-layout flex-row align-items-center">

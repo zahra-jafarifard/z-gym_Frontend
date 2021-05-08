@@ -1,0 +1,35 @@
+.card {
+  width: 125rem;
+  font-weight: bold;
+  font-family: sans-serif;
+  text-align: center;
+  font-size: large;
+  /* align-items: center; */
+  /* align-content: center; */
+  margin:10px  200px;
+}
+.label {
+  border: rgb(255, 255, 255) solid 4px;
+  border-radius: 6px;
+  text-align: center;
+  padding: 15px 25px;
+  background-color: rgb(160, 251, 157);
+  color: rgb(221, 152, 3);
+}
+.value {
+    width: 60rem;
+  margin: 5px;
+  text-align: center;
+  border: rgb(255, 255, 255) solid 4px;
+  border-radius: 6px;
+  padding: 15px 25px;
+  background-color: rgb(255, 221, 126);
+  color: rgb(221, 152, 3);
+  
+}
+
+.div {
+  margin: 25px;
+  /* border: rgb(139, 9, 9) solid 1px; */
+  padding: 15px;
+}

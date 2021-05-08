@@ -35,8 +35,10 @@ const newExercise = React.lazy(() => import('./my-pages/Exercise/New-Exercise'))
 const updateExercise = React.lazy(() => import('./my-pages/Exercise/Update-Exercise'));
 
 
-const Profile = React.lazy(() => import('./userSide-Components/Profile'));
+// const Profile = React.lazy(() => import('./userSide-Components/Profile'));
 
+const Users = React.lazy(() => import('./userSide-Components/Users'));
+const User = React.lazy(() => import('./userSide-Components/User'));
 
 
 
@@ -76,8 +78,8 @@ const Modals = React.lazy(() => import('./views/notifications/modals/Modals'));
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'));
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'));
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
-const Users = React.lazy(() => import('./views/users/Users'));
-const User = React.lazy(() => import('./views/users/User'));
+
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -115,9 +117,11 @@ const routes = [
   { path: '/exercise/create', name: 'newExercise', component: newExercise },
   { path: '/exercise/update', name: 'updateExercise', component: updateExercise },
   
+  { path: '/users', exact: true,  name: 'Users', component: Users },
   
-  { path: '/profile', name: 'profile', component: Profile },
+  // { path: '/profile', name: 'profile', component: Profile },
 
+  { path: '/users/:id', exact: true, name: 'User Details', component: User },
 
 
 
@@ -160,8 +164,7 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', component: Modals },
   { path: '/notifications/toaster', name: 'Toaster', component: Toaster },
   { path: '/widgets', name: 'Widgets', component: Widgets },
-  { path: '/users', exact: true,  name: 'Users', component: Users },
-  { path: '/users/:id', exact: true, name: 'User Details', component: User }
+ 
 ];
 
 export default routes;
