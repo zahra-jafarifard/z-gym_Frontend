@@ -16,6 +16,15 @@ export const loginFailed = (err) => {
   };
 };
 
+export const checkAuthTimeout = (expTime) => {
+  return (dispatch) => {
+    console.log('checkAuthTimeout' , new Date(expTime))
+    setTimeout(() => {
+      dispatch(Logout());
+    }, expTime * 1000);
+  };
+};
+
 export const asyncLogin = (mobile, password, rememberMe) => {
   return (dispatch) => {
     return fetch(process.env.REACT_APP_API_ADDRESS + "/login", {
@@ -46,7 +55,7 @@ export const asyncLogin = (mobile, password, rememberMe) => {
         }
       })
       .then((res) => {
-        const expirationTime = new Date(new Date().getTime() +36000000);
+        const expirationTime = new Date(new Date().getTime() +3600000);
         // const expirationTime = new Date(2021, 3, 26, 13, 33, 30, 0);
         console.log("expirationTime redux", expirationTime);
 
@@ -82,14 +91,6 @@ export const Logout = () => {
   };
 };
 
-export const checkAuthTimeout = (expTime) => {
-  return (dispatch) => {
-    console.log('checkAuthTimeout' , new Date(expTime))
-    setTimeout(() => {
-      dispatch(Logout());
-    }, expTime * 1000);
-  };
-};
 
 export const authCheckState = () => {
   return (dispatch) => {

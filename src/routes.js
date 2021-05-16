@@ -34,6 +34,18 @@ const Exercise = React.lazy(() => import('./my-pages/Exercise/Exercise'));
 const newExercise = React.lazy(() => import('./my-pages/Exercise/New-Exercise'));
 const updateExercise = React.lazy(() => import('./my-pages/Exercise/Update-Exercise'));
 
+const Gym = React.lazy(() => import('./my-pages/Gym/Gym'));
+const newGym = React.lazy(() => import('./my-pages/Gym/New-Gym'));
+const updateGym = React.lazy(() => import('./my-pages/Gym/Update-Gym'));
+
+const GymType = React.lazy(() => import('./my-pages/GymType/GymType'));
+const newGymType = React.lazy(() => import('./my-pages/GymType/New-GymType'));
+const updateGymType = React.lazy(() => import('./my-pages/GymType/Update-GymType'));
+
+const WorkOut = React.lazy(() => import('./my-pages/WorkOut/WorkOut'));
+const newWorkOut = React.lazy(() => import('./my-pages/WorkOut/New-WorkOut'));
+const updateWorkOut = React.lazy(() => import('./my-pages/WorkOut/Update-WorkOut'));
+
 
 // const Profile = React.lazy(() => import('./userSide-Components/Profile'));
 
@@ -116,6 +128,19 @@ const routes = [
   { path: '/exercise/list', name: 'Exercise', component: Exercise },
   { path: '/exercise/create', name: 'newExercise', component: newExercise },
   { path: '/exercise/update', name: 'updateExercise', component: updateExercise },
+  
+  
+  { path: '/gym/list', name: 'Gym', component: Gym },
+  { path: '/gym/create', name: 'newGym', component: newGym },
+  { path: '/gym/update', name: 'updateGym', component: updateGym },
+  
+  { path: '/gymType/list', name: 'GymType', component: GymType },
+  { path: '/gymType/create', name: 'newGymType', component: newGymType },
+  { path: '/gymType/update', name: 'updateGymType', component: updateGymType },
+  
+  { path: '/workOut/list', name: 'WorkOut', component: WorkOut },
+  { path: '/workOut/create', name: 'newWorkOut', component: newWorkOut },
+  { path: '/workOut/update', name: 'updateWorkOut', component: updateWorkOut },
   
   { path: '/users', exact: true,  name: 'Users', component: Users },
   

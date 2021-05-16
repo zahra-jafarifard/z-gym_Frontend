@@ -426,8 +426,8 @@ class Members extends Component {
                                 {t("Gender")}{" "}
                               </option>
                               {/* <option value="" selected disabled hidden> {t('Gender')} </option> */}
-                              <option value="زن"> زن</option>
-                              <option value="مرد"> مرد</option>
+                              <option value="0"> زن</option>
+                              <option value="1"> مرد</option>
                             </CSelect>
                           </CInputGroup>
                         </CFormGroup>

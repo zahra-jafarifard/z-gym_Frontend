@@ -151,8 +151,8 @@ class Register extends Component {
                         onChange={this.changeHandler}
                       >
                         <option value="">{t("Gender")}</option>
-                        <option value="زن"> زن</option>
-                        <option value="مرد"> مرد</option>
+                        <option value="0"> زن</option>
+                        <option value="1"> مرد</option>
                       </CSelect>
                     </CInputGroup>
 

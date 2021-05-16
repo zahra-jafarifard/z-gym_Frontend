@@ -19,11 +19,21 @@ i18n.use(LanguageDetector).init({
           "Search":"Search","Icon":"Icon","Category":"Category","Exercises":"Exercises","Login":"Login",
           "Dear friend, if you have not registered yet, Choose not registered yet?":
           "Dear friend, if you have not registered yet, Choose not registered yet?",
+          "Location":"Location", "Address":"Address", "Phone Number":"Phone Number","gender":"gender",
+          "manager":"manager","Gyms":"Gyms","gymsType":"gymsType","GymTypes":"GymTypes",
+          "CreatedBy":"CreatedBy","Start Date":"Start Date","End Date":"End Date" , "User":"User",
+          "WorkOuts":"WorkOuts"
+
+
           
       }
     },
     fa: {
       translations: {
+        "CreatedBy":"ایجاد شده توسط" ,"Start Date":"تاریخ شروع","End Date":"تاریخ پایان",
+        "User":"کاربر" ,"WorkOuts":"برنامه های ورزشی",
+         "manager":"مدیر" , "Gyms":"سالن های ورزشی","gymsType":"نوع باشگاه ها","GymTypes":"انواع سالن های ورزشی",
+        "Location":"موقعیت مکانی","Address":"آدرس","Phone Number":"شماره تلفن","gender":"جنسیت",
           "Add New":"اضافه کردن رکورد جدید","Members":"اعضا","Edit":"ویرایش", "Delete":"حذف",
           "Name":"نام","Back":"بازگشت","Insert":"اضافه کردن","Update":"به روز رسانی","Statuses":"وضعیت ها",
           "Last Name":"فامیلی","Password":"رمز عبور","Groups":"گروه ها","Description":"توضیحات",

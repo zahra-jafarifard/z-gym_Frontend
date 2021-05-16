@@ -22,73 +22,59 @@ import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import * as displayAction from "../../store/actions/index";
 
-class newMember extends Component {
+class updateGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      statusArray: [],
-      groupArray: [],
-
+      id: "",
       name: "",
-      lastName: "",
-      mobile: "",
-      password: "",
-      gender: "",
-      birthDay: "",
-      weight: "",
-      height: "",
+      location: "",
+      address: "",
       status: "",
-      group: "",
+      phoneNumber: "",
+      gender: "",
+      gymsType: "",
+      manager: "",
     };
   }
 
   componentDidMount = () => {
-    fetch(process.env.REACT_APP_API_ADDRESS + "/user_group/list", {
+    const idItem = this.props.location.state.idItem;
+
+    // console.log('iddd' , idItem)
+    fetch(process.env.REACT_APP_API_ADDRESS + "/gym/fetchForUpdate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + this.props.token,
       },
+      body: JSON.stringify({
+        id: idItem,
+      }),
     })
       .then((response) => {
         if (!response.ok) {
           return new Error(response.statusText, response.status);
+        } else {
+          return response.json();
         }
-        return response.json();
       })
       .then((result) => {
-        this.setState({ groupArray: result.groups }, () => {
-          console.log(this.state.groupArray);
-        });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-
-    //--------------------------
-
-    fetch(process.env.REACT_APP_API_ADDRESS + "/user_status/list", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.token,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return new Error(response.statusText, response.status);
-          // return console.log(response.statusText , response.status);
-        }
-        return response.json();
-      })
-      .then((result) => {
-        console.log("reeeeees", result.statuses);
+        console.log("frontend", result.data);
         this.setState(
           {
-            statusArray: result.statuses,
+            id: result.data.id,
+            name: result.data.name,
+            status: result.data.status,
+            address: result.data.address,
+            location: result.data.location,
+            gender: result.data.gender,
+            phoneNumber: result.data.phoneNumber,
+            manager: result.data.User.name + result.data.User.lastName,
+            gymsType:result.data.gymType.name,
           },
           () => {
-            console.log(this.state.statusArray);
+            console.log("cgyyyyyyyyym   state", this.state);
           }
         );
       })
@@ -104,47 +90,43 @@ class newMember extends Component {
   };
   goBackHandler = (e) => {
     e.preventDefault();
-    this.props.history.push("/members/list");
+    this.props.history.push("/gym/list");
   };
-
-  newMemberHandler = (e) => {
+  updateHandler = (e) => {
     e.preventDefault();
-    fetch(process.env.REACT_APP_API_ADDRESS + "/members/create", {
+    fetch(process.env.REACT_APP_API_ADDRESS + "/gym/update", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + this.props.token,
       },
       body: JSON.stringify({
+        id: this.state.id,
         name: this.state.name,
-        lastName: this.state.lastName,
-        mobile: this.state.mobile,
-        password: this.state.password,
-        birthDay: this.state.birthDay,
-        weight: this.state.weight,
-        height: this.state.height,
-        gender: this.state.gender,
         status: this.state.status,
-        group: this.state.group,
+        address: this.state.address,
+        gender: this.state.gender,
+        location: this.state.location,
+        phoneNumber: this.state.phoneNumber,
+        manager: this.state.manager,
+        gymsType: this.state.gymsType,
       }),
     })
       .then((response) => {
         if (!response.ok) {
           return new Error(response.statusText, response.status);
-          // return console.log(response.statusText , response.status);
+        } else {
+          return response.json();
         }
-        return response.json();
       })
       .then((result) => {
-        console.log(result);
-        this.props.history.push("/members/list");
-        
+        console.log(" group updated...", result.message);
+        this.props.history.push("/gym/list");
       })
       .catch((e) => {
         console.log(e);
       });
   };
-
   render() {
     const { t, i18n } = this.props;
 
@@ -154,7 +136,7 @@ class newMember extends Component {
           <CCard borderColor="info" style={{ width: "130%" }}>
             <CCardHeader>
               <CIcon name="cil-library-add" />
-              <span style={{ marginRight: "5px" }}> {t("Add New")} </span>
+              <span style={{ marginRight: "5px" }}> {t("Edit")} </span>
               <div className="card-header-actions">
                 <CLink
                   className="card-header-action"
@@ -184,7 +166,86 @@ class newMember extends Component {
                               </CInputGroupPrepend>
                               <CInput
                                 name="name"
-                                placeholder={t("Name")}
+                                value={this.state.name}
+                                onChange={this.changeHandler}
+                              />
+                            </CInputGroup>
+                          </CFormGroup>
+
+                          <CFormGroup>
+                            <CInputGroup>
+                              <CInputGroupPrepend>
+                                <CInputGroupText>
+                                  <CIcon name="cil-group" />
+                                </CInputGroupText>
+                              </CInputGroupPrepend>
+                              <CSelect
+                                name="status"
+                                onChange={this.changeHandler}
+                              >
+                                <option>Status</option>
+                                <option value="1"> فعال</option>
+                                <option value="0"> غیرفعال</option>
+                              </CSelect>
+                            </CInputGroup>
+                          </CFormGroup>
+
+                          <CInputGroup className="mb-3">
+                            <CInputGroupPrepend>
+                              <CInputGroupText>
+                                <CIcon name="cil-group" />
+                              </CInputGroupText>
+                            </CInputGroupPrepend>
+                            <CSelect
+                              name="gender"
+                              onChange={this.changeHandler}
+                            >
+                              <option value="">{t("Gender")}</option>
+                              <option value="0"> زنانه</option>
+                              <option value="1"> مردانه</option>
+                            </CSelect>
+                          </CInputGroup>
+
+                          <CFormGroup>
+                            <CInputGroup>
+                              <CInputGroupPrepend>
+                                <CInputGroupText>
+                                  <CIcon name="cil-user" />
+                                </CInputGroupText>
+                              </CInputGroupPrepend>
+                              <CInput
+                                name="address"
+                                value={this.state.address}
+                                onChange={this.changeHandler}
+                              />
+                            </CInputGroup>
+                          </CFormGroup>
+
+                          <CFormGroup>
+                            <CInputGroup>
+                              <CInputGroupPrepend>
+                                <CInputGroupText>
+                                  <CIcon name="cil-user" />
+                                </CInputGroupText>
+                              </CInputGroupPrepend>
+                              <CInput
+                                name="location"
+                                value={this.state.location}
+                                onChange={this.changeHandler}
+                              />
+                            </CInputGroup>
+                          </CFormGroup>
+
+                          <CFormGroup>
+                            <CInputGroup>
+                              <CInputGroupPrepend>
+                                <CInputGroupText>
+                                  <CIcon name="cil-user" />
+                                </CInputGroupText>
+                              </CInputGroupPrepend>
+                              <CInput
+                                name="phoneNumber"
+                                value={this.state.phoneNumber}
                                 onChange={this.changeHandler}
                               />
                             </CInputGroup>
@@ -197,10 +258,9 @@ class newMember extends Component {
                                 </CInputGroupText>
                               </CInputGroupPrepend>
                               <CInput
-                                name="lastName"
-                                placeholder={t("Last Name")}
+                                name="gymsType"
+                                value={this.state.gymsType}
                                 onChange={this.changeHandler}
-                                autoComplete="name"
                               />
                             </CInputGroup>
                           </CFormGroup>
@@ -208,152 +268,25 @@ class newMember extends Component {
                             <CInputGroup>
                               <CInputGroupPrepend>
                                 <CInputGroupText>
-                                  <CIcon name="cil-mobile" />
+                                  <CIcon name="cil-user" />
                                 </CInputGroupText>
                               </CInputGroupPrepend>
                               <CInput
-                                name="mobile"
-                                placeholder={t("Mobile")}
-                                autoComplete="username"
+                                name="manager"
+                                value={this.state.manager}
                                 onChange={this.changeHandler}
                               />
                             </CInputGroup>
                           </CFormGroup>
-                          <CFormGroup>
-                            <CInputGroup>
-                              <CInputGroupPrepend>
-                                <CInputGroupText>
-                                  <CIcon name="cil-lock-locked" />
-                                </CInputGroupText>
-                              </CInputGroupPrepend>
-                              <CInput
-                                name="password"
-                                placeholder={t("Password")}
-                                onChange={this.changeHandler}
-                              />
-                            </CInputGroup>
-                          </CFormGroup>
-                          <CFormGroup>
-                            <CInputGroup>
-                              <CInputGroupPrepend>
-                                <CInputGroupText>
-                                  <CIcon name="cil-group" />
-                                </CInputGroupText>
-                              </CInputGroupPrepend>
-                              <CSelect
-                                name="gender"
-                                onChange={this.changeHandler}
-                              >
-                                <option value="" selected disabled hidden>
-                                  {" "}
-                                  {t("Gender")}{" "}
-                                </option>
-                                <option value="0"> زن</option>
-                                <option value="1"> مرد</option>
-                              </CSelect>
-                            </CInputGroup>
-                          </CFormGroup>
-                          <CFormGroup>
-                            <CInputGroup>
-                              <CInputGroupPrepend>
-                                <CInputGroupText>
-                                  <CIcon name="cil-birthday-cake" />
-                                </CInputGroupText>
-                              </CInputGroupPrepend>
-                              <CInput
-                              type="date"
-                                name="birthDay"
-                                placeholder={t("BirthDay")}
-                                onChange={this.changeHandler}
-                              />
-                            </CInputGroup>
-                          </CFormGroup>
-                          <CFormGroup>
-                            <CInputGroup>
-                              <CInputGroupPrepend>
-                                <CInputGroupText>
-                                  <CIcon name="cil-chevron-double-left" />
-                                </CInputGroupText>
-                              </CInputGroupPrepend>
-                              <CInput
-                                name="weight"
-                                placeholder={t("Weight")}
-                                onChange={this.changeHandler}
-                              />
-                            </CInputGroup>
-                          </CFormGroup>
-                          <CFormGroup>
-                            <CInputGroup>
-                              <CInputGroupPrepend>
-                                <CInputGroupText>
-                                  <CIcon name="cil-chevron-double-left" />
-                                </CInputGroupText>
-                              </CInputGroupPrepend>
-                              <CInput
-                                name="height"
-                                placeholder={t("Height")}
-                                onChange={this.changeHandler}
-                              />
-                            </CInputGroup>
-                          </CFormGroup>
-                          <CFormGroup>
-                            <CInputGroup>
-                              <CInputGroupPrepend>
-                                <CInputGroupText>
-                                  <CIcon name="cil-chevron-double-left" />
-                                </CInputGroupText>
-                              </CInputGroupPrepend>
-                              <CSelect
-                                name="status"
-                                type="select"
-                                onChange={this.changeHandler}
-                              >
-                                <option value="" selected disabled hidden>
-                                  {t("Status")}
-                                </option>
-                                {this.state.statusArray.map((opt) => {
-                                  return (
-                                    <option key={opt.id} value={opt.id}>
-                                      {opt.status_name}
-                                    </option>
-                                  );
-                                })}
-                              </CSelect>
-                            </CInputGroup>
-                          </CFormGroup>
-                          <CFormGroup>
-                            <CInputGroup>
-                              <CInputGroupPrepend>
-                                <CInputGroupText>
-                                  <CIcon name="cil-group" />
-                                </CInputGroupText>
-                              </CInputGroupPrepend>
-                              <CSelect
-                                name="group"
-                                type="select"
-                                onChange={this.changeHandler}
-                              >
-                                <option value="" selected disabled hidden>
-                                  {t("User Group")}
-                                </option>
-                                {this.state.groupArray.map((opt, index) => {
-                                  return (
-                                    <option key={opt.id} value={opt.id}>
-                                      {opt.group_name}
-                                    </option>
-                                  );
-                                })}
-                              </CSelect>
-                            </CInputGroup>
-                          </CFormGroup>
+
                           <CFormGroup className="form-actions">
                             <CButton
+                              onClick={(e) => this.updateHandler(e)}
                               block
-                              onClick={(e) => this.newMemberHandler(e)}
                               size="md"
                               color="success"
                             >
-                              {t("Insert")}
+                              {t("Update")}
                             </CButton>
                           </CFormGroup>
                         </CForm>
@@ -379,5 +312,5 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(
-  withTranslation("translations")(newMember)
+  withTranslation("translations")(updateGroup)
 );

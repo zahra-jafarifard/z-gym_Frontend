@@ -299,8 +299,8 @@ class updateMember extends Component {
                                     {this.state.gender}{" "}
                                   </option>
                                 )}
-                                <option value="مرد"> مرد</option>
-                                <option value="زن"> زن</option>
+                                <option value="1"> مرد</option>
+                                <option value="0"> زن</option>
                               </CSelect>
                             </CInputGroup>
                           </CFormGroup>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import * as authActions from "../../store/actions/index";
+// import * as authActions from "../../store/actions/index";
 import {
   CButton,
   CCard,
@@ -31,7 +31,6 @@ class Login extends Component {
       rememberMe: false,
       mobile: "",
       password: "",
-      log: "",
     };
   }
   static contextType = i18nCtx;
@@ -59,11 +58,12 @@ class Login extends Component {
   };
   render() {
     const { t, i18n } = this.props;
+    {this.props.isLoggedIn &&
+      this.props.history.replace("/members/list")
+      }
 
     return (
       <React.Fragment>
-        {this.props.isLoggedIn &&
-          this.props.history.replace("/members/list")}
           
         {this.props.error && alert(this.props.error)}
 

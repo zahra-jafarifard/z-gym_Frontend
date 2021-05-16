@@ -74,6 +74,39 @@ const _nav =  [
     ]
   },
 
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['سالن ورزشی']
+  },
+  {
+    _tag: 'CSidebarNavDropdown',
+    name: 'باشگاه',
+    route: '/',
+    icon: 'cil-puzzle',
+    _children: [
+      
+      {
+        _tag: 'CSidebarNavItem',
+        name: ' برنامه ی ورزشی',
+        to: '/workOut/list',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'سالن های ورزشی',
+        to: '/gym/list',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'نوع سالن',
+        to: '/gymType/list',
+      },
+      
+    ],
+  },
+
+
+
+
 
 
 
