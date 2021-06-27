@@ -281,7 +281,7 @@ class newGym extends Component {
                               items={this.state.managerState.map((opt) => {
                                 return {
                                   id: opt.id,
-                                  name: opt.name + opt.lastName,
+                                  name: opt.name +' '+opt.lastName,
                                 };
                               })}
                               styling={{

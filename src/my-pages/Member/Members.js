@@ -229,7 +229,7 @@ class Members extends Component {
                       lastName: member.lastName,
                       mobile: member.mobile,
                       birthDay: (member.birthDay.split('T')[0]),
-                      gender: member.gender,
+                      gender: member.gender=== "1" ?'مرد':'زن',
                       height: member.height,
                       weight: member.weight,
                       group: (member.userGroup ? member.userGroup.group_name :'---'),

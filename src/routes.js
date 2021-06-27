@@ -46,6 +46,10 @@ const WorkOut = React.lazy(() => import('./my-pages/WorkOut/WorkOut'));
 const newWorkOut = React.lazy(() => import('./my-pages/WorkOut/New-WorkOut'));
 const updateWorkOut = React.lazy(() => import('./my-pages/WorkOut/Update-WorkOut'));
 
+const WorkOutDetails = React.lazy(() => import('./my-pages/WorkOutDetails/WorkOutDetails'));
+const newWorkOutDetails = React.lazy(() => import('./my-pages/WorkOutDetails/New-WorkOutDetails'));
+const updateWorkOutDetails = React.lazy(() => import('./my-pages/WorkOutDetails/Update-WorkOutDetails'));
+
 
 // const Profile = React.lazy(() => import('./userSide-Components/Profile'));
 
@@ -141,6 +145,10 @@ const routes = [
   { path: '/workOut/list', name: 'WorkOut', component: WorkOut },
   { path: '/workOut/create', name: 'newWorkOut', component: newWorkOut },
   { path: '/workOut/update', name: 'updateWorkOut', component: updateWorkOut },
+
+  { path: '/workOutDetails/list', name: 'WorkOutDetails', component: WorkOutDetails },
+  { path: '/workOutDetails/create', name: 'newWorkOutDetails', component: newWorkOutDetails },
+  { path: '/workOutDetails/update', name: 'updateWorkOutDetails', component: updateWorkOutDetails },
   
   { path: '/users', exact: true,  name: 'Users', component: Users },
   

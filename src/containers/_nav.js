@@ -92,6 +92,11 @@ const _nav =  [
       },
       {
         _tag: 'CSidebarNavItem',
+        name: 'جزییات برنامه ی ورزشی',
+        to: '/workOutDetails/list',
+      },
+      {
+        _tag: 'CSidebarNavItem',
         name: 'سالن های ورزشی',
         to: '/gym/list',
       },

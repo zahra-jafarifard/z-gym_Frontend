@@ -55,7 +55,7 @@ export const asyncLogin = (mobile, password, rememberMe) => {
         }
       })
       .then((res) => {
-        const expirationTime = new Date(new Date().getTime() +3600000);
+        const expirationTime = new Date(new Date().getTime() +360000000);
         // const expirationTime = new Date(2021, 3, 26, 13, 33, 30, 0);
         console.log("expirationTime redux", expirationTime);
 

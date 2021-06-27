@@ -84,7 +84,7 @@ const Users = (props) => {
                 lastName: member.lastName,
                 mobile: member.mobile,
                 birthDay: member.birthDay,
-                gender: member.gender,
+                gender: member.gender === "1"? "مردانه":"زنانه",
                 height: member.height,
                 weight: member.weight,
                 group: member.userGroup.group_name,

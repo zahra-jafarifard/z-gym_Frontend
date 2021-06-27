@@ -37,29 +37,23 @@ const getBadge = (status) => {
   }
 };
 
-class Gym extends Component {
+class workOutDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gymState: [],
       details: [],
 
-      managerState: [],
-      gymsTypsState:[],
+      workOutState: [],
 
       id: "",
-      name: "",
-      location: "",
-      address: "",
-      status: "",
-      phoneNumber: "",
-      gender: "",
-      manager: "",
-      gymsType: "",
+      reps: "",
+      set: "",
+      weight: "",
+      description: "",
     };
   }
   componentDidMount = () => {
-    fetch(process.env.REACT_APP_API_ADDRESS + "/members/list", {
+    fetch(process.env.REACT_APP_API_ADDRESS + "/workOutDetails/list", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,62 +68,10 @@ class Gym extends Component {
         }
       })
       .then((result) => {
-        // console.log("managerstate::", result.members);
-        this.setState({ managerState: result.members }, () => {
-          console.log("managerState::", this.state.managerState);
+        console.log("workOutStateresultresult::", result.workOutDetails);
+        this.setState({ workOutState: result.workOutDetails }, () => {
+          console.log("workOutState::", this.state.workOutState);
         });
-      });
-
-    ///////////gymsTypes
-    fetch(process.env.REACT_APP_API_ADDRESS + "/gymType/list", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.token,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return new Error(response.statusText, response.status);
-        } else {
-          return response.json();
-        }
-      })
-      .then((result) => {
-        console.log("gymtupestate:;", result.gymsTypes);
-        this.setState({ gymsTypsState: result.gymsTypes }, () => {
-          // console.log('gymsTypsState::',this.state.gymsTypsState);
-        });
-      });
-
-    /////////////////////////////
-    fetch(process.env.REACT_APP_API_ADDRESS + "/gym/list", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.token,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return new Error(response.statusText, response.status);
-        } else {
-          return response.json();
-        }
-      })
-      .then((result) => {
-        // console.log('resultgymState' , result.gyms)
-        this.setState(
-          {
-            gymState: result.gyms,
-          },
-          () => {
-            // console.log('gymState',this.state.gymState);
-          }
-        );
-      })
-      .catch((e) => {
-        console.log(e);
       });
   };
 
@@ -139,13 +81,13 @@ class Gym extends Component {
     this.setState({ [name]: value });
   };
   handleOnSelect = (item) => {
-    this.setState({ manager: item.id }, () => {
-      console.log("this.state.manager", this.state.manager);
+    this.setState({ user: item.id }, () => {
+      console.log("this.state.user", this.state.user);
     });
   };
-  handleOnSelectGym = (item) => {
-    this.setState({ gymsType: item.id }, () => {
-      console.log("this.state.gymsType", this.state.gymsType);
+  handleOnSelectCreatedBy = (item) => {
+    this.setState({ createdBy: item.id }, () => {
+      console.log("this.state.createdBy", this.state.createdBy);
     });
   };
   delHandler = (event, id) => {
@@ -156,21 +98,18 @@ class Gym extends Component {
 
   searchHandler = (e) => {
     e.preventDefault();
-    fetch(process.env.REACT_APP_API_ADDRESS + "/gym/search", {
+    fetch(process.env.REACT_APP_API_ADDRESS + "/workOutDetails/search", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + this.props.token,
       },
       body: JSON.stringify({
-        name: this.state.name,
-        status: this.state.status,
-        location: this.state.location,
-        gender: this.state.gender,
-        phoneNumber: this.state.phoneNumber,
-        address: this.state.address,
-        gymsType: this.state.gymsType,
-        manager: this.state.manager,
+        id: this.state.id,
+        description: this.state.description,
+        reps: this.state.reps,
+        set: this.state.set,
+        weight: this.state.weight,
       }),
     })
       .then((response) => {
@@ -181,8 +120,8 @@ class Gym extends Component {
         }
       })
       .then((result) => {
-        console.log("resultgymState", result.gyms);
-        this.setState({ gymState: result.gyms });
+        console.log("workOutStateseeearch", result.workOutDetails);
+        this.setState({ workOutState: result.workOutDetails });
         this.props.onCollapsedFalse();
       })
       .catch((e) => {
@@ -193,7 +132,7 @@ class Gym extends Component {
   editHandler = (event, item) => {
     event.preventDefault();
     this.props.history.push({
-      pathname: "/gym/update",
+      pathname: "/workOutDetails/update",
       state: { idItem: item.id },
     });
   };
@@ -203,36 +142,20 @@ class Gym extends Component {
 
     const fields = [
       {
-        key: "name",
-        label: t("Name"),
+        key: "reps",
+        label: t("Reps"),
       },
       {
-        key: "location",
-        label: t("Location"),
+        key: "set",
+        label: t("Set"),
       },
       {
-        key: "address",
-        label: t("Address"),
+        key: "weight",
+        label: t("Weight"),
       },
       {
-        key: "status",
-        label: t("Status"),
-      },
-      {
-        key: "phoneNumber",
-        label: t("Phone Number"),
-      },
-      {
-        key: "gender",
-        label: t("gender"),
-      },
-      {
-        key: "manager",
-        label: t("manager"),
-      },
-      {
-        key: "gymsType",
-        label: t("gymsType"),
+        key: "description",
+        label: t("Description"),
       },
       {
         key: "show_details",
@@ -259,10 +182,10 @@ class Gym extends Component {
           <Modal
             token={this.props.token}
             item={document.getElementById("hiddenId_" + this.state.id).value}
-            name="gym"
+            name="workOutDetails"
           />
         )}
-        <CLink to="/gym/create">
+        <CLink to="/workOutDetails/create">
           <CButton size="md" color="success">
             {t("Add New")}
           </CButton>
@@ -307,8 +230,8 @@ class Gym extends Component {
                             </CInputGroupText>
                           </CInputGroupPrepend>
                           <CInput
-                            name="name"
-                            placeholder={t("Name")}
+                            name="reps"
+                            placeholder={t("Reps")}
                             onChange={this.changeHandler}
                           />
                         </CInputGroup>
@@ -322,8 +245,8 @@ class Gym extends Component {
                             </CInputGroupText>
                           </CInputGroupPrepend>
                           <CInput
-                            name="location"
-                            placeholder={t("Location")}
+                            name="set"
+                            placeholder={t("Set")}
                             onChange={this.changeHandler}
                           />
                         </CInputGroup>
@@ -337,13 +260,12 @@ class Gym extends Component {
                             </CInputGroupText>
                           </CInputGroupPrepend>
                           <CInput
-                            name="address"
-                            placeholder={t("Address")}
+                            name="weight"
+                            placeholder={t("Weight")}
                             onChange={this.changeHandler}
                           />
                         </CInputGroup>
                       </CFormGroup>
-
                       <CFormGroup>
                         <CInputGroup>
                           <CInputGroupPrepend>
@@ -352,85 +274,12 @@ class Gym extends Component {
                             </CInputGroupText>
                           </CInputGroupPrepend>
                           <CInput
-                            name="status"
-                            placeholder={t("Status")}
+                            name="description"
+                            placeholder={t("Description")}
                             onChange={this.changeHandler}
                           />
                         </CInputGroup>
                       </CFormGroup>
-
-                      <CFormGroup>
-                        <CInputGroup>
-                          <CInputGroupPrepend>
-                            <CInputGroupText>
-                              <CIcon name="cil-user" />
-                            </CInputGroupText>
-                          </CInputGroupPrepend>
-                          <CInput
-                            name="phoneNumber"
-                            placeholder={t("Phone Number")}
-                            onChange={this.changeHandler}
-                          />
-                        </CInputGroup>
-                      </CFormGroup>
-                      <CFormGroup>
-                        <CInputGroup className="mb-3">
-                          <CInputGroupPrepend>
-                            <CInputGroupText>
-                              <CIcon name="cil-group" />
-                            </CInputGroupText>
-                          </CInputGroupPrepend>
-                          <CSelect name="gender" onChange={this.changeHandler}>
-                            <option value="">{t("Gender")}</option>
-                            <option value="0"> زنانه</option>
-                            <option value="1"> مردانه</option>
-                          </CSelect>
-                        </CInputGroup>
-                      </CFormGroup>
-
-                     
-                      <div style={{ marginBottom: "13px" }}>
-                            <ReactSearchAutocomplete
-                              items={this.state.gymsTypsState.map((opt) => {
-                                return {
-                                  id: opt.id,
-                                  name: opt.name,
-                                };
-                              })}
-                              styling={{
-                                height: "34px",
-                                borderRadius: "9px",
-                                fontSize: "13px",
-                              }}
-                              placeholder="**Type gym'sTyps**"
-                              name="gymsType"
-                              onSelect={this.handleOnSelectGym}
-                              value={this.state.gymsType}
-                            />
-                          </div>
-                          
-
-
-                      <div style={{ marginBottom: "13px" }}>
-                        <ReactSearchAutocomplete
-                          items={this.state.managerState.map((opt) => {
-                            return {
-                              id: opt.id,
-                              name: opt.name + opt.lastName,
-                            };
-                          })}
-                          styling={{
-                            height: "34px",
-                            borderRadius: "9px",
-                            fontSize: "13px",
-                            zIndex: "1200",
-                          }}
-                          placeholder="**Type Manager**"
-                          onSelect={this.handleOnSelect}
-                          value={this.state.manager}
-                          name="manager"
-                        />
-                      </div>
 
                       <CFormGroup className="form-actions">
                         <CButton
@@ -453,20 +302,16 @@ class Gym extends Component {
         <CRow style={{ width: "50rem" }}>
           <CCol>
             <CCard>
-              <CCardHeader>{t("Gyms")}</CCardHeader>
+              <CCardHeader>{t("WorkOutDetails")}</CCardHeader>
               <CCardBody>
                 <CDataTable
-                  items={this.state.gymState.map((gym) => {
+                  items={this.state.workOutState.map((work) => {
                     return {
-                      id: gym.id,
-                      name: gym.name,
-                      status: gym.status === true ? "فعال" : "غیرفعال",
-                      location: gym.location,
-                      phoneNumber: gym.phoneNumber,
-                      address: gym.address,
-                      gender: gym.gender === "0"? 'زنانه' : 'مردانه',
-                      manager: gym.User.name,
-                      gymsType: gym.gymType.name,
+                      id:work.id,
+                      weight: work.weight,
+                      reps: work.reps,
+                      set: work.set,
+                      description: work.description,
                     };
                   })}
                   fields={fields}
@@ -578,4 +423,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslation("translations")(Gym));
+)(withTranslation("translations")(workOutDetails));
