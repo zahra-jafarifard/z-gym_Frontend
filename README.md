@@ -1,2 +1,2 @@
 readme
-##### unfortunatly , I had no inspiration to finish the project and it remained half finished.
+##### Unfortunately, I had no motivation to finish the project and it was left unfinished...
